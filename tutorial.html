@@ -1,0 +1,620 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Tutorial &mdash; bmlingam 0.1.4 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="genindex.html"/>
+        <link rel="search" title="Search" href="search.html"/>
+    <link rel="top" title="bmlingam 0.1.4 documentation" href="index.html"/>
+        <link rel="next" title="Accuracy of BMLiNGAM on artificial dataset" href="accuracy.html"/>
+        <link rel="prev" title="Installation" href="installation.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> bmlingam
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Tutorial</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#data-format">Data format</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#causal-inference">Causal inference</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#bayesian-model-selection-for-causal-inference">Bayesian model selection for causal inference</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#posterior-distribution-of-regression-coefficient">Posterior distribution of regression coefficient</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="accuracy.html">Accuracy of BMLiNGAM on artificial dataset</a></li>
+<li class="toctree-l1"><a class="reference internal" href="model.html">Model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api.html">API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="citation.html">Citation</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="index.html">bmlingam</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+ 
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="index.html">Docs</a> &raquo;</li>
+      
+    <li>Tutorial</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/tutorial.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="tutorial">
+<h1>Tutorial<a class="headerlink" href="#tutorial" title="Permalink to this headline">¶</a></h1>
+<p>You can download history of the commands used in the following tutorial: <a class="reference download internal" href="_downloads/commands.txt" download=""><code class="xref download docutils literal"><span class="pre">commands.txt</span></code></a>. In the tutorial, you will create an artificial data <code class="code docutils literal"><span class="pre">sampledata.csv</span></code>. If you want to analyze your data, replace <code class="code docutils literal"><span class="pre">sampledata.csv</span></code> by the file name of your data in the arguments of the commands.</p>
+<div class="section" id="data-format">
+<h2>Data format<a class="headerlink" href="#data-format" title="Permalink to this headline">¶</a></h2>
+<p>BMLiNGAM accepts CSV files consisting of sample values, where each column corresponds to a variable. At least two columns should be contained in the given CSV file. If the file has three or more columns, BMLiNGAM analyzes all pairs in the file. The first row of the file is regarded as a header representing names of the variables.</p>
+<p>For testing purposes, you can create a sample data file:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> bmlingam-make-testdata
+</pre></div>
+</div>
+<p>This command creates <code class="code docutils literal"><span class="pre">sampledata.csv</span></code> in the current directory. The first few lines of the file are look like:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> head -6 sampledata.csv
+<span class="go">x1_src,x2_dst</span>
+<span class="go">4.90347111702,28.2435356416</span>
+<span class="go">4.64462948292,27.8093082005</span>
+<span class="go">-0.121317621386,10.0322904804</span>
+<span class="go">7.37865317396,34.1290637711</span>
+<span class="go">-1.65701750481,2.28515870729</span>
+</pre></div>
+</div>
+<p>&#8216;x1_src&#8217; and &#8216;x2_dst&#8217; are the names of the two variables. Since this data is artificially created, the source (cause) and destination (effect) of the causal relationship is known. To check the estimation result, &#8216;(src)&#8217; and &#8216;(dst)&#8217; are included in the variable names.</p>
+<p>When analyzing your own data, you should make your data as shown above.</p>
+</div>
+<div class="section" id="causal-inference">
+<h2>Causal inference<a class="headerlink" href="#causal-inference" title="Permalink to this headline">¶</a></h2>
+<p>To estimate causality for the data:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> bmlingam-causality sampledata.csv --result_dir<span class="o">=</span>result1
+</pre></div>
+</div>
+<p>You will get a message as follows:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> bmlingam-causality sampledata.csv --result_dir<span class="o">=</span>result1
+<span class="go">---- Algorithm parameters ----</span>
+<span class="go">Number of MC samples: 10000</span>
+<span class="go">Number of candidate models: 450</span>
+
+<span class="go">---- Data ----</span>
+<span class="go">Data loaded from sampledata.csv.</span>
+<span class="go">Data contains 100 samples.</span>
+<span class="go">Variable names: [&#39;x1_src&#39; &#39;x2_dst&#39;]</span>
+
+<span class="go">---- Inference for variables &quot;x1_src&quot; and &quot;x2_dst&quot; ----</span>
+<span class="go">Inferred  : x1_src -&gt; x2_dst (posterior prob: 0.274, loglikelihood: -278.632)</span>
+<span class="go">(best_rev): x2_dst -&gt; x1_src (posterior prob: 0.183, loglikelihood: -279.036)</span>
+
+<span class="go">Hyper parameters of the optimal model:</span>
+<span class="go">Causality      : var1 -&gt; var2</span>
+<span class="go">Standardize    : True</span>
+<span class="go">subtract_mu_reg: False</span>
+<span class="go">fix_mu_zero    : True</span>
+<span class="go">prior_var_mu   : auto</span>
+<span class="go">prior_indvdl   : t</span>
+<span class="go">v_indvdl_1     : 0.600000</span>
+<span class="go">v_indvdl_2     : 0.400000</span>
+<span class="go">df_indvdl      : 8.000000</span>
+<span class="go">L_cov12/21     : 0.900000</span>
+<span class="go">dist_noise     : laplace</span>
+
+<span class="go">Hyper parameters of the reverse optimal model:</span>
+<span class="go">Causality      : var2 -&gt; var1</span>
+<span class="go">Standardize    : True</span>
+<span class="go">subtract_mu_reg: False</span>
+<span class="go">fix_mu_zero    : True</span>
+<span class="go">prior_var_mu   : auto</span>
+<span class="go">prior_indvdl   : t</span>
+<span class="go">v_indvdl_1     : 0.400000</span>
+<span class="go">v_indvdl_2     : 0.600000</span>
+<span class="go">df_indvdl      : 8.000000</span>
+<span class="go">L_cov12/21     : 0.900000</span>
+<span class="go">dist_noise     : laplace</span>
+
+<span class="go">Inferred causality table was saved as result1/causality.csv.</span>
+<span class="go">Optimal model was saved as result1/x1_src_x2_dst.bmlm.pklz.</span>
+<span class="go">Program finished at Sun Mar  6 02:12:22 2016</span>
+<span class="go">Elapsed time: 46.7 [sec]</span>
+</pre></div>
+</div>
+<p>This message means that the estimated causal direction is x1_src -&gt; x2_dst with the posterior probability  (<span class="math">\(P({\cal M}_{*}|{\cal D})\)</span>, see <a class="reference internal" href="model.html#posterior-prob-model"><span class="std std-ref">Posterior probability of models</span></a> for its definition) 0.274. We will describe the interpretation of this probability later. You can also see the marginal log likelihood -278.632.</p>
+<p>The message also includes the posterior probability of the optimal reverse model, which has the highest posterior probability in the models with the reverse causal direction to the optimal model <span class="math">\({\cal M}_{*}\)</span>. In the above example, the posterior probability the optimal reverse model is almost 0 (see <code class="code docutils literal"><span class="pre">causality.csv</span></code> to know the accurate value, later).</p>
+<p>After posterior probabilities, hyper parameters of these (global and reverse) optimal models are shown. Here is a table describing about hyper parameters:</p>
+<ul>
+<li><p class="first"><code class="code docutils literal"><span class="pre">prior_indvdl</span></code>: Distribution of individual specific effects. <code class="code docutils literal"><span class="pre">'t'</span></code> or <code class="code docutils literal"><span class="pre">'gauss'</span></code>.</p>
+</li>
+<li><p class="first"><code class="code docutils literal"><span class="pre">v_indvdl_1/2</span></code>: Scale of individual specific effects. These values are used in the code as:</p>
+<blockquote>
+<div><div class="highlight-python"><div class="highlight"><pre><span></span><span class="c1"># in bmlingam_np.py</span>
+<span class="n">v_indvdl_1</span> <span class="o">=</span> <span class="p">(</span><span class="n">std_x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">hparams</span><span class="p">[</span><span class="s1">&#39;v_indvdl_1&#39;</span><span class="p">])</span><span class="o">**</span><span class="mi">2</span>
+<span class="n">v_indvdl_2</span> <span class="o">=</span> <span class="p">(</span><span class="n">std_x</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">hparams</span><span class="p">[</span><span class="s1">&#39;v_indvdl_2&#39;</span><span class="p">])</span><span class="o">**</span><span class="mi">2</span>
+<span class="n">mu1_</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">v_indvdl_1</span><span class="p">)</span> <span class="o">*</span> <span class="n">L_mu1</span>
+<span class="n">mu2_</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">v_indvdl_2</span><span class="p">)</span> <span class="o">*</span> <span class="n">L_mu2</span>
+</pre></div>
+</div>
+<p><code class="code docutils literal"><span class="pre">mu1_</span></code> and <code class="code docutils literal"><span class="pre">mu2_</span></code> correspond to the means of <span class="math">\(\tilde{\mu}_{1}^{(i)}\)</span> and <span class="math">\(\tilde{\mu}_{2}^{(i)}\)</span>, respectively, in the paper.</p>
+</div></blockquote>
+</li>
+<li><p class="first"><code class="code docutils literal"><span class="pre">L_cov12/21</span></code>: <span class="math">\(\sigma_{12}\)</span> in the paper.</p>
+</li>
+</ul>
+<p>If the given data file consists of three columns, all of combinations of the variables will be tested, thus the message will look like as below:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> bmlingam-causality sampledata_threecolumns.csv --n_mc_samples<span class="o">=</span><span class="m">1000</span> --result_dir<span class="o">=</span>result_threecol
+<span class="go">---- Algorithm parameters ----</span>
+<span class="go">Number of MC samples: 1000</span>
+<span class="go">Number of candidate models: 450</span>
+
+<span class="go">---- Data ----</span>
+<span class="go">Data loaded from sampledata_threecolumns.csv.</span>
+<span class="go">Data contains 100 samples.</span>
+<span class="go">Variable names: [&#39;v1&#39; &#39;v2&#39; &#39;v3&#39;]</span>
+
+<span class="go">---- Inference for variables &quot;v1&quot; and &quot;v2&quot; ----</span>
+<span class="go">Inferred  : v2 -&gt; v1 (posterior prob: 0.141, loglikelihood: -316.556)</span>
+<span class="go">(best_rev): v1 -&gt; v2 (posterior prob: 0.001, loglikelihood: -321.832)</span>
+
+<span class="go">Hyper parameters of the optimal model:</span>
+<span class="go">Causality      : var2 -&gt; var1</span>
+<span class="go">Standardize    : True</span>
+<span class="go">subtract_mu_reg: False</span>
+<span class="go">fix_mu_zero    : True</span>
+<span class="go">prior_var_mu   : auto</span>
+<span class="go">prior_indvdl   : t</span>
+<span class="go">v_indvdl_1     : 0.600000</span>
+<span class="go">v_indvdl_2     : 0.600000</span>
+<span class="go">df_indvdl      : 8.000000</span>
+<span class="go">L_cov12/21     : 0.700000</span>
+<span class="go">dist_noise     : laplace</span>
+
+<span class="go">Hyper parameters of the reverse optimal model:</span>
+<span class="go">Causality      : var1 -&gt; var2</span>
+<span class="go">Standardize    : True</span>
+<span class="go">subtract_mu_reg: False</span>
+<span class="go">fix_mu_zero    : True</span>
+<span class="go">prior_var_mu   : auto</span>
+<span class="go">prior_indvdl   : t</span>
+<span class="go">v_indvdl_1     : 0.800000</span>
+<span class="go">v_indvdl_2     : 0.000000</span>
+<span class="go">df_indvdl      : 8.000000</span>
+<span class="go">L_cov12/21     : -0.900000</span>
+<span class="go">dist_noise     : laplace</span>
+
+<span class="go">---- Inference for variables &quot;v1&quot; and &quot;v3&quot; ----</span>
+<span class="go">Inferred  : v3 -&gt; v1 (posterior prob: 0.324, loglikelihood: -311.764)</span>
+<span class="go">(best_rev): v1 -&gt; v3 (posterior prob: 0.000, loglikelihood: -318.510)</span>
+
+<span class="go">Hyper parameters of the optimal model:</span>
+<span class="go">Causality      : var2 -&gt; var1</span>
+<span class="go">Standardize    : True</span>
+<span class="go">subtract_mu_reg: False</span>
+<span class="go">fix_mu_zero    : True</span>
+<span class="go">prior_var_mu   : auto</span>
+<span class="go">prior_indvdl   : t</span>
+<span class="go">v_indvdl_1     : 0.600000</span>
+<span class="go">v_indvdl_2     : 0.600000</span>
+<span class="go">df_indvdl      : 8.000000</span>
+<span class="go">L_cov12/21     : 0.900000</span>
+<span class="go">dist_noise     : laplace</span>
+
+<span class="go">Hyper parameters of the reverse optimal model:</span>
+<span class="go">Causality      : var1 -&gt; var2</span>
+<span class="go">Standardize    : True</span>
+<span class="go">subtract_mu_reg: False</span>
+<span class="go">fix_mu_zero    : True</span>
+<span class="go">prior_var_mu   : auto</span>
+<span class="go">prior_indvdl   : t</span>
+<span class="go">v_indvdl_1     : 0.800000</span>
+<span class="go">v_indvdl_2     : 0.600000</span>
+<span class="go">df_indvdl      : 8.000000</span>
+<span class="go">L_cov12/21     : 0.900000</span>
+<span class="go">dist_noise     : laplace</span>
+
+<span class="go">---- Inference for variables &quot;v2&quot; and &quot;v3&quot; ----</span>
+<span class="go">Inferred  : v2 -&gt; v3 (posterior prob: 0.160, loglikelihood: -309.562)</span>
+<span class="go">(best_rev): v3 -&gt; v2 (posterior prob: 0.001, loglikelihood: -314.317)</span>
+
+<span class="go">Hyper parameters of the optimal model:</span>
+<span class="go">Causality      : var1 -&gt; var2</span>
+<span class="go">Standardize    : True</span>
+<span class="go">subtract_mu_reg: False</span>
+<span class="go">fix_mu_zero    : True</span>
+<span class="go">prior_var_mu   : auto</span>
+<span class="go">prior_indvdl   : t</span>
+<span class="go">v_indvdl_1     : 0.400000</span>
+<span class="go">v_indvdl_2     : 0.400000</span>
+<span class="go">df_indvdl      : 8.000000</span>
+<span class="go">L_cov12/21     : 0.900000</span>
+<span class="go">dist_noise     : laplace</span>
+
+<span class="go">Hyper parameters of the reverse optimal model:</span>
+<span class="go">Causality      : var2 -&gt; var1</span>
+<span class="go">Standardize    : True</span>
+<span class="go">subtract_mu_reg: False</span>
+<span class="go">fix_mu_zero    : True</span>
+<span class="go">prior_var_mu   : auto</span>
+<span class="go">prior_indvdl   : t</span>
+<span class="go">v_indvdl_1     : 0.400000</span>
+<span class="go">v_indvdl_2     : 0.600000</span>
+<span class="go">df_indvdl      : 8.000000</span>
+<span class="go">L_cov12/21     : 0.900000</span>
+<span class="go">dist_noise     : laplace</span>
+
+<span class="go">Inferred causality table was saved as result_threecol/causality.csv.</span>
+<span class="go">Optimal model was saved as result_threecol/v1_v2.bmlm.pklz.</span>
+<span class="go">Optimal model was saved as result_threecol/v1_v3.bmlm.pklz.</span>
+<span class="go">Optimal model was saved as result_threecol/v2_v3.bmlm.pklz.</span>
+<span class="go">Program finished at Sun Mar  6 02:13:18 2016</span>
+<span class="go">Elapsed time: 8.2 [sec]</span>
+</pre></div>
+</div>
+<p>Command <code class="code docutils literal"><span class="pre">bmlingam-causality</span></code> creates two types of files. One is <code class="code docutils literal"><span class="pre">causality.csv</span></code>, consisting of the estimated causality (direction) for every pairs of the variables. Another is referred to as <strong>model selection file</strong>  with extension &#8216;.bmlm.pklz&#8217;. A model selection file contains the result of Bayesian model selection, which was applied for causal inference. This file will be used later in estimation of the posterior distribution of the regression coefficient, which is relating the two variables.</p>
+<p>Model selection files will be created for every pairs of the all variables in the data. In the above first example, single file <code class="code docutils literal"><span class="pre">x1_src_x2_dst.bmlm.pklz</span></code> will be created, because <code class="code docutils literal"><span class="pre">sampledata.csv</span></code> has only two variables (two columns). The filename of each model selection file includes the names of the variables in each pair.</p>
+<p>Command line options of <code class="code docutils literal"><span class="pre">bmlingam-causality</span></code> are as follows:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> bmlingam-causality --help
+<span class="go">usage: bmlingam-causality [-h] [--result_dir RESULT_DIR] [--out_optmodelfile]</span>
+<span class="go">                          [--no_out_optmodelfile] [--col_names COL_NAMES]</span>
+<span class="go">                          [--seed SEED] [--standardize_on] [--standardize_off]</span>
+<span class="go">                          [--fix_mu_zero_on] [--fix_mu_zero_off]</span>
+<span class="go">                          [--max_c MAX_C] [--n_mc_samples N_MC_SAMPLES]</span>
+<span class="go">                          [--dist_noise DIST_NOISE] [--df_indvdl DF_INDVDL]</span>
+<span class="go">                          [--prior_scale PRIOR_SCALE]</span>
+<span class="go">                          [--prior_indvdls PRIOR_INDVDLS] [--cs CS]</span>
+<span class="go">                          [--L_cov_21s L_COV_21S]</span>
+<span class="go">                          [--betas_indvdl BETAS_INDVDL]</span>
+<span class="go">                          [--betas_noise BETAS_NOISE]</span>
+<span class="go">                          [--causalities CAUSALITIES]</span>
+<span class="go">                          [--sampling_mode SAMPLING_MODE]</span>
+<span class="go">                          csv_file</span>
+
+<span class="go">positional arguments:</span>
+<span class="go">  csv_file              CSV file of data.</span>
+
+<span class="go">optional arguments:</span>
+<span class="go">  -h, --help            show this help message and exit</span>
+<span class="go">  --result_dir RESULT_DIR</span>
+<span class="go">                        Directory where result files are saved. Default is</span>
+<span class="go">                        current directory.</span>
+<span class="go">  --out_optmodelfile    If this option is choosen (default), optimal model</span>
+<span class="go">                        files will be created.</span>
+<span class="go">  --no_out_optmodelfile</span>
+<span class="go">                        If this option is choosen, optimal model files will</span>
+<span class="go">                        not be created.</span>
+<span class="go">  --col_names COL_NAMES</span>
+<span class="go">                        Names of column, specified as &#39;name1,name2,...&#39; (space</span>
+<span class="go">                        not allowed). If set this value &#39;auto&#39;, column names</span>
+<span class="go">                        will be automatically determined as &#39;x0,x1,...&#39;. If</span>
+<span class="go">                        csv file have column names (the 1st row of the file),</span>
+<span class="go">                        they will be overwritten.</span>
+<span class="go">  --seed SEED           Specify the seed of random number generator used in MC</span>
+<span class="go">                        sampling. Default is 0.</span>
+<span class="go">  --standardize_on      If this option is choosen (default), data is</span>
+<span class="go">                        standardized to mean 0 and variance 1 before causal</span>
+<span class="go">                        inference.</span>
+<span class="go">  --standardize_off     If this option is choosen, data is not standardized.</span>
+<span class="go">  --fix_mu_zero_on      If this option is choosen (default), common</span>
+<span class="go">                        interception parameter mu_1,2 will be treated as 0</span>
+<span class="go">                        (constant), not estimated.</span>
+<span class="go">  --fix_mu_zero_off     If this option is choosen, common interception</span>
+<span class="go">                        parameter mu_1,2 will be included in models as</span>
+<span class="go">                        stochastic variables.</span>
+<span class="go">  --max_c MAX_C         Scale constant on tau_cmmn. Default is 1.0.</span>
+<span class="go">  --n_mc_samples N_MC_SAMPLES</span>
+<span class="go">                        The number of Monte Carlo sampling in calculation of</span>
+<span class="go">                        marginal likelihood values of models. Default is</span>
+<span class="go">                        10000.</span>
+<span class="go">  --dist_noise DIST_NOISE</span>
+<span class="go">                        Noise distribution. &#39;laplace&#39; or &#39;gg&#39; (Generalized</span>
+<span class="go">                        Gaussian). Default is laplace.</span>
+<span class="go">  --df_indvdl DF_INDVDL</span>
+<span class="go">                        Degrees of freedom of T distribution for the prior of</span>
+<span class="go">                        individual specific effects. Default is 8.0.</span>
+<span class="go">  --prior_scale PRIOR_SCALE</span>
+<span class="go">                        Prior distribution on noise variance. &#39;log_normal&#39; or</span>
+<span class="go">                        &#39;tr_normal&#39; (truncated normal distribution). Default</span>
+<span class="go">                        is log_normal.</span>
+<span class="go">  --prior_indvdls PRIOR_INDVDLS</span>
+<span class="go">                        Distribution of individual effects in the model. This</span>
+<span class="go">                        argument can be &#39;t&#39;, &#39;gauss&#39; or &#39;gg&#39;. If you want to</span>
+<span class="go">                        include multiple distributions, set this argument as</span>
+<span class="go">                        &#39;t,gauss&#39;, then the program will apply both of t and</span>
+<span class="go">                        Gaussian distributions to candidate models. Default is</span>
+<span class="go">                        t.</span>
+<span class="go">  --cs CS               Scales of stds of the individual specific effects.</span>
+<span class="go">                        Default is &#39;0,.2,.4,.6,.8&#39;.</span>
+<span class="go">  --L_cov_21s L_COV_21S</span>
+<span class="go">                        List of correlations of individual specific effects.</span>
+<span class="go">                        Default is &#39;-0.9,-0.7,-0.5,-0.3,0,.3,.5,.7,.9&#39;.</span>
+<span class="go">  --betas_indvdl BETAS_INDVDL</span>
+<span class="go">                        Shape parameter values of generalized Gaussian</span>
+<span class="go">                        distributions for individual specific effects. When</span>
+<span class="go">                        prior_indvdls includes &#39;gg&#39;, all of the beta values</span>
+<span class="go">                        will be tested. .5 and 1. correspond to Laplace and</span>
+<span class="go">                        Gaussian distributions, respectively. Default is</span>
+<span class="go">                        &#39;.25,.5,.75,1.&#39;.</span>
+<span class="go">  --betas_noise BETAS_NOISE</span>
+<span class="go">                        Shape parameter values of generalized Gaussian</span>
+<span class="go">                        distributions for observation noise. When dist_noise</span>
+<span class="go">                        includes &#39;gg&#39;, all of the beta values will be tested.</span>
+<span class="go">                        .5 and 1. correspond to Laplace and Gaussian</span>
+<span class="go">                        distributions, respectively. Default is</span>
+<span class="go">                        &#39;.25,.5,.75,1.&#39;.</span>
+<span class="go">  --causalities CAUSALITIES</span>
+<span class="go">                        Causalities to be tested. If set to &#39;x1-&gt;x2&#39; or</span>
+<span class="go">                        &#39;x2-&gt;x1&#39;, causality is not inferred and other</span>
+<span class="go">                        hyperparameters are searched. Default is &#39;x1-&gt;x2,</span>
+<span class="go">                        x2-&gt;x1&#39;.</span>
+<span class="go">  --sampling_mode SAMPLING_MODE</span>
+<span class="go">                        Specify sampling mode for numerical integration via</span>
+<span class="go">                        MC. Options are &#39;normal&#39;, &#39;cache&#39;, &#39;cache_mp2&#39;,</span>
+<span class="go">                        &#39;cache_mp4&#39; or &#39;cache_mp8&#39;. &#39;normal&#39; means naive MC</span>
+<span class="go">                        sampling: generate random values at each</span>
+<span class="go">                        hyperparameter set. When specified &#39;chache&#39;, random</span>
+<span class="go">                        values are generated only at the beginning of the</span>
+<span class="go">                        program and applied to marginal likelihood calculation</span>
+<span class="go">                        with difference hyperparameter sets. Multiprocessing</span>
+<span class="go">                        is supported with the option &#39;cache_mp[2, 4, 8]&#39;,</span>
+<span class="go">                        using 2, 4 or 8 cores.</span>
+</pre></div>
+</div>
+<p>For example, if you want to estimate causality for models Gaussian individual effects:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="go">bmlingam-causality --prior_indvdls=gauss sampledata.csv</span>
+</pre></div>
+</div>
+<p>Many of command line parameters are related to model selection procedure. See <a class="reference internal" href="model.html"><span class="doc">Model</span></a> in detail.</p>
+<div class="section" id="bayesian-model-selection-for-causal-inference">
+<h3>Bayesian model selection for causal inference<a class="headerlink" href="#bayesian-model-selection-for-causal-inference" title="Permalink to this headline">¶</a></h3>
+<p>BMLiNGAM estimates causality with Bayesian model selection (Shimizu and Bollen, 2014). Each Bayesian hierarchical model in candidates (denoted by <span class="math">\(\{{\cal M}_{r}\}_{r=1}^{R}\)</span>) for the model selection represents causality between two variables and its direction: <span class="math">\(x_{1}\rightarrow x_{2}\)</span> or <span class="math">\(x_{2}\rightarrow x_{1}\)</span>. The candidate models also differ in their hyperparameters, which specifies properties other than the causality: covariance of noise, confounders, and so on.</p>
+<p>The causality is inferred with the MAP model, i.e., <span class="math">\(r^{*}\equiv{\rm arg}\max_{r}P({\cal M}_{r}|{\cal D})\propto P({\cal M}_{r}, {\cal D})\)</span>, where <span class="math">\({\cal D}\)</span> denotes the data. If <span class="math">\({\cal M}_{r^{*}}\)</span> represents the causality <span class="math">\(x_{1}\rightarrow x_{2}\)</span>, it is the inference result of BMLiNGAM.</p>
+<p>The posterior probability of a model given the data is calculated by normalizing the full probability:</p>
+<div class="math">
+\[P({\cal M}_{r}|{\cal D})=
+\frac{P({\cal D}, {\cal M}_{r})}{P({\cal D})}=
+\frac{P({\cal D}|{\cal M}_{r})P({\cal M}_{r})}{P({\cal D})},\]</div>
+<p>where <span class="math">\(P({\cal D})=\sum_{r}P({\cal D}, {\cal M}_{r})\)</span>. Since we assume a uniform distribution on <span class="math">\(P({\cal M}_{r})\)</span>, the chance level of the probability with random selection of a model is the reciprocal of the number of the candidate models. In the above example, it is 1/450 <span class="math">\(\sim\)</span> 0.002, which is much smaller than the estimated posterior probability 0.274.</p>
+</div>
+</div>
+<div class="section" id="posterior-distribution-of-regression-coefficient">
+<h2>Posterior distribution of regression coefficient<a class="headerlink" href="#posterior-distribution-of-regression-coefficient" title="Permalink to this headline">¶</a></h2>
+<p>The posterior distribution of the regression coefficient can be estimated for the selected model:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="go">bmlingam-coeff x1_src_x2_dst.bmlm.pklz</span>
+</pre></div>
+</div>
+<p>A kernel density estimator is applied to the samples from the posterior distribution obtained with MCMC (Metropolis-Hastings algorithm). You will get messages as follows:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> bmlingam-coeff result1/x1_src_x2_dst.bmlm.pklz
+
+
+<span class="go">---- Variables x1_src and x2_dst ----</span>
+<span class="go">Inferred causality   : x1_src -&gt; x2_dst</span>
+<span class="go">Posterior mean       : 2.739616</span>
+<span class="go">95% Credible interval: (2.565356, 2.902799)</span>
+
+<span class="go">A figure of the distribution of the posterior sampleswas saved as result1/x1_src_x2_dst.bmlm.png.</span>
+<span class="go">Posterior samples was saved as result1/x1_src_x2_dst.bmlm.post.csv.</span>
+<span class="go">Program finished at Sun Mar  6 02:12:57 2016</span>
+<span class="go">Elapsed time: 31.5 [sec]</span>
+</pre></div>
+</div>
+<p>Following indicators shoing the progress of MCMC (including burn-in period), you can see the mean value and 95% credible interval of the MCMC posterior distribution of the regression coefficient.</p>
+<p>This command will also show a figure of the estimated posterior distribution like this:</p>
+<a class="reference internal image-reference" href="_images/example-posterior.png"><img alt="_images/example-posterior.png" class="align-center" src="_images/example-posterior.png" style="width: 50%;" /></a>
+<p>Dotted lines indicate 95% credible interval. The MCMC samples is saved in a CSV file with suffix <code class="code docutils literal"><span class="pre">.bmlm.post.csv</span></code>.</p>
+<p>Command line options of <code class="code docutils literal"><span class="pre">bmlingam-coeff</span></code> are as follows:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> bmlingam-coeff --help
+<span class="go">usage: bmlingam-coeff [-h] [--plot_figure] [--no_plot_figure] [--save_figure]</span>
+<span class="go">                      [--no_save_figure] [--save_posterior]</span>
+<span class="go">                      [--no_save_posterior] [--figtype {pdf,png}]</span>
+<span class="go">                      [--n_mcmc_samples N_MCMC_SAMPLES] [--n_burn N_BURN]</span>
+<span class="go">                      [--seed SEED] [--seed_burn SEED_BURN]</span>
+<span class="go">                      optmodel_file</span>
+
+<span class="go">positional arguments:</span>
+<span class="go">  optmodel_file         Optimal model file.</span>
+
+<span class="go">optional arguments:</span>
+<span class="go">  -h, --help            show this help message and exit</span>
+<span class="go">  --plot_figure         If this option is choosen, a plot of the posterior</span>
+<span class="go">                        samples will be plotted.</span>
+<span class="go">  --no_plot_figure      If this option is choosen (default), a plot of the</span>
+<span class="go">                        posterior samples will not be plotted.</span>
+<span class="go">  --save_figure         If this option is choosen (default), a plot of the</span>
+<span class="go">                        posterior samples will be saved into a file.</span>
+<span class="go">  --no_save_figure      If this option is choosen, a plot of the posterior</span>
+<span class="go">                        samples will not be saved.</span>
+<span class="go">  --save_posterior      If this option is choosen (default), the posterior</span>
+<span class="go">                        samples will be saved into a file.</span>
+<span class="go">  --no_save_posterior   If this option is choosen, the posterior samples will</span>
+<span class="go">                        not be saved.</span>
+<span class="go">  --figtype {pdf,png}   Figure file type (pdf or png). Default is png.</span>
+<span class="go">  --n_mcmc_samples N_MCMC_SAMPLES</span>
+<span class="go">                        The number of MCMC samples (after burn-in). Default is</span>
+<span class="go">                        10000.</span>
+<span class="go">  --n_burn N_BURN       The number of burn-in samples in MCMC. Default is</span>
+<span class="go">                        10000.</span>
+<span class="go">  --seed SEED           Specify the seed of random number generator used in</span>
+<span class="go">                        posterior sampling by MCMC. Default is 2.</span>
+<span class="go">  --seed_burn SEED_BURN</span>
+<span class="go">                        Specify the seed of random number generator used in</span>
+<span class="go">                        the burn-in period of posterior sampling. Default is</span>
+<span class="go">                        1.</span>
+</pre></div>
+</div>
+<p>If you want a png image:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="go">bmlingam-coeff --figtype=&#39;png&#39; x1_src_x2_dst.bmlm.pklz</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="accuracy.html" class="btn btn-neutral float-right" title="Accuracy of BMLiNGAM on artificial dataset" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="installation.html" class="btn btn-neutral" title="Installation" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2015, Taku Yoshioka and Shohei Shimizu.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'0.1.4',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

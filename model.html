@@ -1,0 +1,391 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Model &mdash; bmlingam 0.1.4 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="genindex.html"/>
+        <link rel="search" title="Search" href="search.html"/>
+    <link rel="top" title="bmlingam 0.1.4 documentation" href="index.html"/>
+        <link rel="next" title="License" href="license.html"/>
+        <link rel="prev" title="Accuracy of BMLiNGAM on artificial dataset" href="accuracy.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> bmlingam
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="accuracy.html">Accuracy of BMLiNGAM on artificial dataset</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Model</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#posterior-probability-of-models">Posterior probability of models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#standardization">Standardization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#prior-distributions">Prior distributions</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#scale-parameters">Scale parameters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#intercepts">Intercepts</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#regression-coefficient">Regression coefficient</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#scale-of-error-varaibles">Scale of error varaibles</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#error-variables">Error variables</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#individual-specific-effects">Individual specific effects</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#generalized-gaussian-distribution">Generalized Gaussian distribution</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api.html">API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="citation.html">Citation</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="index.html">bmlingam</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+ 
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="index.html">Docs</a> &raquo;</li>
+      
+    <li>Model</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/model.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="model">
+<h1><a class="toc-backref" href="#id2">Model</a><a class="headerlink" href="#model" title="Permalink to this headline">¶</a></h1>
+<div class="contents topic" id="contents">
+<p class="topic-title first">Contents</p>
+<ul class="simple">
+<li><a class="reference internal" href="#model" id="id2">Model</a><ul>
+<li><a class="reference internal" href="#posterior-probability-of-models" id="id3">Posterior probability of models</a></li>
+<li><a class="reference internal" href="#standardization" id="id4">Standardization</a></li>
+<li><a class="reference internal" href="#prior-distributions" id="id5">Prior distributions</a><ul>
+<li><a class="reference internal" href="#scale-parameters" id="id6">Scale parameters</a></li>
+<li><a class="reference internal" href="#intercepts" id="id7">Intercepts</a></li>
+<li><a class="reference internal" href="#regression-coefficient" id="id8">Regression coefficient</a></li>
+<li><a class="reference internal" href="#scale-of-error-varaibles" id="id9">Scale of error varaibles</a></li>
+<li><a class="reference internal" href="#error-variables" id="id10">Error variables</a></li>
+<li><a class="reference internal" href="#individual-specific-effects" id="id11">Individual specific effects</a></li>
+<li><a class="reference internal" href="#generalized-gaussian-distribution" id="id12">Generalized Gaussian distribution</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<p>Here, equations for the mixed LiNGAM are presented and corresponding command-line options are described.</p>
+<p>In the mixed LiNGAM for two random variables <span class="math">\(x_{1}\)</span> and <span class="math">\(x_{2}\)</span>, the relationship of these variables are modeled as:</p>
+<div class="math">
+\[\begin{split}x_{1}^{(i)} &amp;= \mu_{1} + \tilde{\mu}_{1}^{(i)} + e_{1}^{(i)} \\
+x_{2}^{(i)} &amp;= \mu_{2} + \tilde{\mu}_{2}^{(i)} +
+               b_{21}x_{1}^{(i)} + e_{2}^{(i)}\end{split}\]</div>
+<p>or</p>
+<div class="math">
+\[\begin{split}x_{1}^{(i)} &amp;= \mu_{1} + \tilde{\mu}_{1}^{(i)} +
+               b_{12}x_{2}^{(i)} + e_{1}^{(i)} \\
+x_{2}^{(i)} &amp;= \mu_{2} + \tilde{\mu}_{2}^{(i)} + e_{2}^{(i)}.\end{split}\]</div>
+<p>The former pair of equations, denoted by <span class="math">\({\cal M}_{1}\)</span>, models causation from <span class="math">\(x_{1}\)</span> to <span class="math">\(x_{2}\)</span>, while the latter one <span class="math">\({\cal M}_{2}\)</span> represents the opposite direction. Intercepts <span class="math">\(\mu_{1}\)</span> and <span class="math">\(\mu_{2}\)</span>, individual specific effects <span class="math">\(\tilde{\mu}_{1}^{(i)}\)</span> and <span class="math">\(\tilde{\mu}_{2}^{(i)}\)</span>, regression coefficients <span class="math">\(b_{21}\)</span> and <span class="math">\(b_{12}\)</span> and error variables <span class="math">\(e_{1}\)</span> and <span class="math">\(e_{2}^{(i)}\)</span> are unknown variables and should be estimated.</p>
+<p>Causal inference is to choose one of the above models based on observations <span class="math">\({\cal D}=\{(x_{1}^{(i)}, x_{2}^{(i)})\}_{i=1}^{n}\)</span>. To do this, we put prior distributions on the unknown variables and performe Bayesian model selection. The marginal likelihood of the above models are:</p>
+<div class="math">
+\[\begin{split}p({\cal D}|{\cal M}_{1}) &amp;= \int p({\cal D}|\mu, b_{21}, \tilde{\mu}, e,{\cal M}_{1})p(\mu)p(b_{21})p(\tilde{\mu})p(e)d\mu d b_{21} d\tilde{\mu} de \\
+p({\cal D}|{\cal M}_{2}) &amp;= \int p({\cal D}|\mu, b_{12}, \tilde{\mu}, e,{\cal M}_{2})p(\mu)p(b_{12})p(\tilde{\mu})p(e)d\mu d b_{12} d\tilde{\mu} de,\end{split}\]</div>
+<p>where <span class="math">\(\tilde{\mu}\equiv\{\tilde{\mu}_{1}^{(i)}, \tilde{\mu}_{2}^{(i)}\}_{i=1}^{n}\)</span> and <span class="math">\(e\equiv\{e_{1}^{(i)}, e_{2}^{(i)}\}_{i=1}^{n}\)</span>. In the BMLiNGAM software, the marginal likelihood is calculated by a naive Monte Carlo procedure.</p>
+<p>When a set of prior distributions on all of the unknown variables are fixed, we only need to compare these two quantities. However, appropriate prior distributions are difficult to determine a priori. Thus we apply various sets of prior distributions for <span class="math">\({\cal M}_{1}\)</span> and <span class="math">\({\cal M}_{2}\)</span> and choose the model with the maximum of the marginal likelihood.</p>
+<p>Specifically, the procedure taken in this software (and the original paper of the mixed LiNGAM) is as follows. For <span class="math">\(m\)</span> sets of prior distributions, let us denote the two models with the <span class="math">\(j\)</span>-th prior set (<span class="math">\(1\leq j\leq m\)</span>) as <span class="math">\({\cal M}_{1,j}\)</span> and <span class="math">\({\cal M}_{2,j}\)</span>. The optimal models for both causal directions are:</p>
+<div class="math">
+\[\begin{split}{\cal M}_{1*} &amp;= {\rm arg}\max_{{\cal M}_{1,j}}p({\cal D}|{\cal M}_{1,j}) \\
+{\cal M}_{2*} &amp;= {\rm arg}\max_{{\cal M}_{2,j}}p({\cal D}|{\cal M}_{2,j}).\end{split}\]</div>
+<p>Then, <span class="math">\(p({\cal D}|{\cal M}_{1*})\)</span> and <span class="math">\(p({\cal D}|{\cal M}_{2*})\)</span> are compared and finally choose the model</p>
+<div class="math">
+\[{\cal M}_{*}={\rm arg}\max_{{\cal M}_{1*},{\cal M}_{2*}}(p({\cal D}|{\cal M}_{1*}), p({\cal D}|{\cal M}_{2*})).\]</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Obviously, it holds that <span class="math">\({\cal M}_{*}={\rm arg}\max_{{\cal M}_{c,j} (c\in\{1,2\}, j=1,\cdots,m)}p({\cal D}|{\cal M}_{c,j})\)</span>.</p>
+</div>
+<p>When assuming parametrized family of prior distributions, as also in this software, this procedure is referred to as hyperparameter optimization.</p>
+<div class="section" id="posterior-probability-of-models">
+<span id="posterior-prob-model"></span><h2><a class="toc-backref" href="#id3">Posterior probability of models</a><a class="headerlink" href="#posterior-probability-of-models" title="Permalink to this headline">¶</a></h2>
+<p>The posterior probability of a model given the data is calculated by normalizing the full probability:</p>
+<div class="math">
+\[P({\cal M}_{c,j}|{\cal D})=
+\frac{P({\cal D}, {\cal M}_{c,j})}{P({\cal D})}=
+\frac{P({\cal D}|{\cal M}_{c,j})P({\cal M}_{c,j})}{P({\cal D})},\]</div>
+<p>where <span class="math">\(P({\cal D})=\sum_{c,j}P({\cal D}, {\cal M}_{c,j})\)</span>. Since we assume a uniform distribution on <span class="math">\(P({\cal M}_{c,j})\)</span>, the chance level of the probability with random selection of a model is the reciprocal of the number of the candidate models.</p>
+</div>
+<div class="section" id="standardization">
+<h2><a class="toc-backref" href="#id4">Standardization</a><a class="headerlink" href="#standardization" title="Permalink to this headline">¶</a></h2>
+<p>Before describing prior distributions, we should mention about standardization of the data. Given <code class="code docutils literal"><span class="pre">--standardize_on</span></code> to <code class="code docutils literal"><span class="pre">bmlingam-causality</span></code>, observations are standardized such that mean 0 and std 1. Although this preprocessing has not been employed in the paper, it is expected that, after standardization, causal inference does not depend on the scale of observed variables.</p>
+</div>
+<div class="section" id="prior-distributions">
+<h2><a class="toc-backref" href="#id5">Prior distributions</a><a class="headerlink" href="#prior-distributions" title="Permalink to this headline">¶</a></h2>
+<p>In the following subsections, we describe prior distributions and options of <code class="code docutils literal"><span class="pre">bmlingam-causality</span></code>, which defines possible hyperparameter values.</p>
+<div class="section" id="scale-parameters">
+<h3><a class="toc-backref" href="#id6">Scale parameters</a><a class="headerlink" href="#scale-parameters" title="Permalink to this headline">¶</a></h3>
+<p>There are two types of scale parameters. The one is common scale parameter <span class="math">\(\tau^{cmmn}_{1,2}\)</span>, which controls the variance of prior distributions on intercepts, regression coefficients, and error variables. We set <span class="math">\(\tau^{cmmn}_{1}=max_c\times\hat{\rm var}(x_{1})\)</span> and <span class="math">\(\tau^{cmmn}_{2}=max_c\times\hat{\rm var}(x_{2})\)</span>, where <span class="math">\(\hat{\rm var}(x)\)</span> denotes sample variance. <span class="math">\(max_{c}\)</span> is specified with the option <code class="code docutils literal"><span class="pre">max_c</span></code>.</p>
+<p>The other scale parameters, denoted by <span class="math">\(\tau^{indvdl}_{1}\)</span> and <span class="math">\(\tau^{indvdl}_{2}\)</span>, are used for the prior distribution on individual specific effects (described later). We set <span class="math">\(\tau^{indvdl}_{1}=c\times\hat{\rm var}(x_{1})\)</span> and <span class="math">\(\tau^{indvdl}_{2}=c\times\hat{\rm var}(x_{2})\)</span>, where <span class="math">\(c\)</span> is a hyperparameter specified with the option <code class="code docutils literal"><span class="pre">cs</span></code>. This option is a list of positive real values. Each of values in <code class="code docutils literal"><span class="pre">cs</span></code> will be tested. Default is <code class="code docutils literal"><span class="pre">0,</span> <span class="pre">.2,</span> <span class="pre">.4,</span> <span class="pre">.6,</span> <span class="pre">.8</span></code>.</p>
+</div>
+<div class="section" id="intercepts">
+<h3><a class="toc-backref" href="#id7">Intercepts</a><a class="headerlink" href="#intercepts" title="Permalink to this headline">¶</a></h3>
+<p>If <code class="code docutils literal"><span class="pre">--fix_mu_zero_on</span></code> is given to <code class="code docutils literal"><span class="pre">bmlingam-causality</span></code>, <span class="math">\(\mu_{1}=\mu_{2}=0\)</span> (constant). This option is reasonable when standardization is applied. Otherwise (<code class="code docutils literal"><span class="pre">--fix_mu_zero_off</span></code>), normal distributions are assumed as prior on <span class="math">\(\mu_{1,2}\)</span>:</p>
+<div class="math">
+\[\begin{split}\mu_{1} &amp;\sim N(0, \tau^{cmmn}_{1}) \\
+\mu_{2} &amp;\sim N(0, \tau^{cmmn}_{2}).\end{split}\]</div>
+</div>
+<div class="section" id="regression-coefficient">
+<h3><a class="toc-backref" href="#id8">Regression coefficient</a><a class="headerlink" href="#regression-coefficient" title="Permalink to this headline">¶</a></h3>
+<p>Prior on the regression coefficient <span class="math">\(b_{21}\)</span> or <span class="math">\(b_{12}\)</span> follows normal distribution:</p>
+<div class="math">
+\[\begin{split}b_{21} &amp;\sim N(0, \tau^{cmmn}_{2}) \\
+b_{12} &amp;\sim N(0, \tau^{cmmn}_{1}).\end{split}\]</div>
+</div>
+<div class="section" id="scale-of-error-varaibles">
+<h3><a class="toc-backref" href="#id9">Scale of error varaibles</a><a class="headerlink" href="#scale-of-error-varaibles" title="Permalink to this headline">¶</a></h3>
+<p>If <code class="code docutils literal"><span class="pre">prior_scale=tr_normal</span></code>, priors on the scale of error variables are:</p>
+<div class="math">
+\[\begin{split}\tilde{h_{1}} &amp;\sim N(0,\tau^{cmmn}_{1}) \\
+\tilde{h_{2}} &amp;\sim N(0,\tau^{cmmn}_{2}) \\
+h_{1} &amp;= |\tilde{h}_{1}| \\
+h_{2} &amp;= |\tilde{h}_{2}|.\end{split}\]</div>
+<p>If <code class="code docutils literal"><span class="pre">prior_scale=log_normal</span></code>,</p>
+<div class="math">
+\[\begin{split}\log h_{1} &amp;\sim N(0,\tau^{cmmn}_{1}) \\
+\log h_{2} &amp;\sim N(0,\tau^{cmmn}_{2}).\end{split}\]</div>
+</div>
+<div class="section" id="error-variables">
+<h3><a class="toc-backref" href="#id10">Error variables</a><a class="headerlink" href="#error-variables" title="Permalink to this headline">¶</a></h3>
+<p>If <code class="code docutils literal"><span class="pre">dist_noise=laplace</span></code>,</p>
+<div class="math">
+\[\begin{split}p(e_{1}) &amp;= Laplace(0, h_{1}/\sqrt{2}) \\
+p(e_{2}) &amp;= Laplace(0, h_{2}/\sqrt{2}) \\\end{split}\]</div>
+<p>If <code class="code docutils literal"><span class="pre">dist_noise=gg</span></code>,</p>
+<div class="math">
+\[\begin{split}p(e_{1}) &amp;= GG(1, m_{1}^{err}, \beta^{err}) \\
+p(e_{2}) &amp;= GG(1, m_{2}^{err}, \beta^{err}),\end{split}\]</div>
+<p>where <span class="math">\(GG\)</span> denotes generalized Gaussian distribution (see below). Possible values of the shape parameter <span class="math">\(\beta^{err}\)</span> are specified with option <code class="code docutils literal"><span class="pre">betas_noise</span></code>. Default is <code class="code docutils literal"><span class="pre">.25,.5,.75,1.</span></code> (comma-separated float values). The scale parameter <span class="math">\(m_{1}^{err}\)</span> (<span class="math">\(m_{2}^{err}\)</span>) is determined such that the variance of <span class="math">\(e_{1}\)</span> (<span class="math">\(e_{2}\)</span>) are <span class="math">\(h_{1}\)</span> (<span class="math">\(h_{1}\)</span>).</p>
+</div>
+<div class="section" id="individual-specific-effects">
+<h3><a class="toc-backref" href="#id11">Individual specific effects</a><a class="headerlink" href="#individual-specific-effects" title="Permalink to this headline">¶</a></h3>
+<p>Individual specific effects implicitly model correlation of observed variables. To do this, a correlation matrix <span class="math">\(L\)</span> is introduced, where <span class="math">\(L_{pp}=1\)</span> (<span class="math">\(p=1,2\)</span>) and <span class="math">\(L_{12}=L_{21}=\sigma_{12}\)</span>. <span class="math">\(\sigma_{12}\)</span> determine the strength of correlation. For hyperparameter optimization, <span class="math">\(\sigma_{21}\)</span> is varied as <span class="math">\(-0.9,-0.7,-0.5,-0.3,0,.3,.5,.7,.9\)</span>, which is specified by <code class="code docutils literal"><span class="pre">--L_cov_21s</span></code>.</p>
+<p>The prior distribution on <span class="math">\([\tilde{\mu}_{1}^{(i)}, \tilde{\mu}_{2}^{(i)}]\)</span> are chosen from the followings:</p>
+<ul>
+<li><p class="first">T distribution (default, <code class="code docutils literal"><span class="pre">--prior_indvdls=t</span></code>):</p>
+<blockquote>
+<div><div class="math">
+\[\left[
+    \tilde{\mu}_{1}^{(i)}/\sqrt{\tau_{1}^{indvdl}},
+    \tilde{\mu}_{2}^{(i)}/\sqrt{\tau_{2}^{indvdl}}
+\right] &amp;\sim T_{\nu}(0, L_{t(\nu)}),\]</div>
+<p>where <span class="math">\(\nu\)</span> is the degrees of freedom of the distribution. Default is <span class="math">\(\nu=8\)</span>. <span class="math">\(L_{t(\nu)}\)</span> is proportional to <span class="math">\(L\)</span> and scaled such that <span class="math">\({\rm var}(\tilde{\mu}_{1, 2}^{(i)}/\sqrt{\tau_{1, 2}^{indvdl}})=1\)</span>. Thus, the standard deviation of <span class="math">\(\tilde{\mu}_{1}^{(i)}\)</span> (<span class="math">\(\tilde{\mu}_{2}^{(i)}\)</span>) is <span class="math">\(\sqrt{\tau}_{1}^{indvdl}\)</span> (<span class="math">\(\sqrt{\tau}_{2}^{indvdl}\)</span>).</p>
+</div></blockquote>
+</li>
+<li><p class="first">Normal distribution (<code class="code docutils literal"><span class="pre">--prior_indvdls=gauss</span></code>):</p>
+<blockquote>
+<div><div class="math">
+\[\left[
+    \tilde{\mu}_{1}^{(i)}/\sqrt{\tau_{1}^{indvdl}},
+    \tilde{\mu}_{2}^{(i)}/\sqrt{\tau_{2}^{indvdl}}
+\right] &amp;\sim N(0, L).\]</div>
+</div></blockquote>
+</li>
+<li><p class="first">Generalized Gaussian distribution (<code class="code docutils literal"><span class="pre">--prior_indvdls=gg</span></code>):</p>
+<blockquote>
+<div><div class="math">
+\[\left[
+    \tilde{\mu}_{1}^{(i)}/\sqrt{\tau_{1}^{indvdl}},
+    \tilde{\mu}_{2}^{(i)}/\sqrt{\tau_{2}^{indvdl}}
+\right] &amp;\sim GG(L, m^{indvdl}, \beta^{indvdl}),\]</div>
+<p>where <span class="math">\(m^{indvdl}\)</span> is determined such that <span class="math">\({\rm var}(\tilde{\mu}_{1, 2}^{(i)}/\sqrt{\tau_{1, 2}^{indvdl}})=1\)</span> to variance 1. <span class="math">\(\beta^{indvdl}\)</span> varies during hyperparameter optimization and possible values are set with <code class="code docutils literal"><span class="pre">betas_coeff</span></code> (default to <code class="code docutils literal"><span class="pre">.25,.5,.75,1.</span></code>).</p>
+</div></blockquote>
+</li>
+</ul>
+</div>
+<div class="section" id="generalized-gaussian-distribution">
+<h3><a class="toc-backref" href="#id12">Generalized Gaussian distribution</a><a class="headerlink" href="#generalized-gaussian-distribution" title="Permalink to this headline">¶</a></h3>
+<p>The density function of <span class="math">\(p\)</span>-dimensional Generalized Gaussian distribution with mean 0 is defined as <a class="reference internal" href="#fljy2013" id="id1">[FLJY2013]</a>:</p>
+<div class="math">
+\[\begin{split}GG(M,m,\beta) &amp;= p(x|M,m,\beta) \\
+              &amp;= \frac{1}{|M|^{1/2}}h_{m,\beta}(x'M^{-1}x) \\
+h_{m,\beta}(y) &amp;=
+    \frac{\beta\Gamma(n/2)}{\pi^{n/2}\Gamma(n/(2\beta))2^{n/(2\beta)}}
+    \frac{1}{m^{n/2}}
+    \exp\left(-\frac{y^{\beta}}{2m^{\beta}}\right),\end{split}\]</div>
+<p>where <span class="math">\(M\)</span> is the normalized scaling matrix such that <span class="math">\({\rm diag}(M)=p\)</span>, <span class="math">\(m\)</span> is the scale parameter, and <span class="math">\(\beta\)</span> is the shape parameter.</p>
+<table class="docutils citation" frame="void" id="fljy2013" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id1">[FLJY2013]</a></td><td>Frédéric Pascal, Lionel Bombrun, Jean-Yves Tourneret and Yannick Berthoumieu. Parameter Estimation For Multivariate Generalized Gaussian Distributions. IEEE Transactions on Signal Processing 23, 2013.</td></tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="license.html" class="btn btn-neutral float-right" title="License" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="accuracy.html" class="btn btn-neutral" title="Accuracy of BMLiNGAM on artificial dataset" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2015, Taku Yoshioka and Shohei Shimizu.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'0.1.4',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>
