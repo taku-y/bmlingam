@@ -17,6 +17,6 @@ pip install tqdm
 pip install --no-deps numdifftools
 pip install git+https://github.com/Theano/Theano.git
 pip install git+https://github.com/mahmoudimus/nose-timer.git
-pip install pymc3
+pip install pymc3 parse
 
 python setup.py build_ext --inplace
