@@ -14,13 +14,16 @@ from bmlingam.utils import standardize_samples
 class MCMCParams(object):
     """Parameters for MCMC to estimate regression coefficient.
 
-    :param int n_burn: Samples in burn-in period.
-    :param int n_mcmc_samples: Samples in MCMC (after burn-in). 
-    :param int seed_burn: Random seed for burn-in period. 
-    :param int seed: Random seed for MCMC. 
-    :param int verbose: Verbose level.
+    :param int n_burn: Samples in burn-in period. 
+        The default value is :code:`10000`.
+    :param int n_mcmc_samples: Samples in MCMC (after burn-in).
+        The default value is :code:`10000`.
+    :param int seed_burn: Random seed for burn-in period.
+        The default value is :code:`1`.
+    :param int seed: Random seed for MCMC.
+        The default value is :code:`2`.
+    :param int verbose: Verbose level. The default value is 0 (silent).
     """
-    # ---- Default setting start (comment for autodoc) ----
     def __init__(
         self, 
         n_burn=10000, 
@@ -36,7 +39,6 @@ class MCMCParams(object):
         self._seed = seed
         self._verbose = verbose
         self._nanguard = nanguard
-        # ---- Default setting end (comment for autodoc) ----
 
     @property
     def n_burn(self):
@@ -92,7 +94,7 @@ def do_mcmc_bmlingam(xs, hparams, mcmc_params):
     :type xs: numpy.ndarray, shape=(n_samples, 2)
 
     :code:`hparams` is a dict including hyperparameters. 
-    See :py:func:`bmlingam.hparam.define_hparam_searchspace`. 
+    See :func:`bmlingam.hparam.define_hparam_searchspace`. 
 
     :param hparams: Set of hyperparameters.
     :type hparams: dict
@@ -100,7 +102,7 @@ def do_mcmc_bmlingam(xs, hparams, mcmc_params):
     :code:`mcmc_params` includes parameters for MCMC. 
 
     :param mcmc_params: Parameters for MCMC. 
-    :type mcmc_params: :py:class:`bmlingam.bmlingam_pm3.MCMCParams`
+    :type mcmc_params: :class:`bmlingam.MCMCParams`
     """
     assert(type(mcmc_params) == MCMCParams)
 

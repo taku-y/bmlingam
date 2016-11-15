@@ -34,7 +34,9 @@ extensions = [
     'sphinx.ext.todo',
     'sphinx.ext.mathjax', 
     'sphinx.ext.graphviz', 
-    'sphinx.ext.autodoc'
+    'sphinx.ext.autodoc',
+    'numpydoc',
+    'nbsphinx'
 ]
 
 todo_include_todos=True

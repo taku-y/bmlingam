@@ -16,7 +16,7 @@ This document describes installation, usage of this sofrware, and the interpreta
 
     installation
     tutorial
-    accuracy
+    notebook/expr/20160915/20160822-eval-bml.ipynb
     model
     license
     api

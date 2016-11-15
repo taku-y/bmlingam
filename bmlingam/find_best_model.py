@@ -15,15 +15,16 @@ def find_best_model(xs, hparamss, sampling_mode='normal'):
     """Find the optimal and reverse-optimal models.
 
     This function calculates marginal likelihoods for the models specified with
-    hyperparameter sets included in :code:`hparamss`. The optimal model is 
-    the one whose marginal likelihood on data :code:`xs` is the maximum. 
-    Reverse-optimal is the one with the maximum marginal likelihood across 
-    models whose causations are opposite to the optimal model. 
+    hyperparameter sets included in :code:`hparamss`. The optimal model is
+    the one whose marginal likelihood on data :code:`xs` is the maximum.
+    Reverse-optimal is the one with the maximum marginal likelihood across
+    models whose causations are opposite to the optimal model.
 
-    :param xs: Pairs of observed values. 
+    :param xs: Pairs of observed values.
     :type xs: numpy.ndarray, shape=(n_samples, 2)
-    :param hparamss: List of model parameters which defines search space. 
-    :type hparamss: list of bmlingam.hparam.InferParams
+    :param hparamss: List of model parameters which defines search space.
+        This is created with :func:`bmlingam.define_hparam_searchspace`.
+    :type hparamss: list of dict
     :param sampling_mode: Specify the way to perform Monte Carlo sampling. 
     :type sampling_mode: str
     """

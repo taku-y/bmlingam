@@ -11,44 +11,66 @@ import numpy as np
 """
 
 class InferParams(object):
-    """Parameters for definition of set of hyperparameters. 
+    """Parameters for causal inference with the bayesian mixed LiNGAM.
 
-    For fixed hyperparameters:
+    The fields of this class are grouped into two sets. The one is the set
+    of parameters that define the candidates of models, i.e., possible value
+    of hyperparameters. 
 
-    :param int seed: Seed of random number generator.
-    :param bool standardize: If true, samples are standardized. 
-    :param bool subtract_mu_reg: Specify regression variable. 
-    :param bool fix_mu_zero: If true, common interceptions are fixed to 0. 
-    :param prior_var_mu: Set prior variance of common interceptions. 
+    :param prior_indvdls: Distributions of individual specific effects.
+        Possible values are :code:`['t']`, :code:`['gauss']`, :code:`['gg']`, 
+        :code:`['t', 'gauss']`, or :code:`['t', 'gg']`. The default value is
+        :code:`['t']`. :code:`gg` means generalized Gaussian distribution.
+    :type prior_indvdls: list of string
+    :param cs: Scales of the standard deviations of the individual specific 
+        effects. The default value is :code:`[0, 0.2, 0.4, 0.6, 0.8, 1.0]`.
+    :type cs: list of float
+    :param L_cov_21s: Correlation coefficients of individual specific effects. 
+        The default value is :code:`[-.9, -.7, -.5, -.3, 0, .3, .5, .7, .9]`.
+    :type L_cov_21s: list of float
+    :param betas_indvdl: Beta values of generalized Gaussian distributions
+        for individual specific effects. The default value is
+        :code:`[0.25, 0.5, 0.75, 1.]`.
+    :param betas_noise: Beta values of generalized Gaussian distributions
+        for noise. The default value is :code:`[0.25, 0.5, 0.75, 1.]`.
+    :param causalities: Causal directions to be tested.
+        The default value is :code:`x1->x2, x2->x1`.
+
+    The other includes parameters applied to all candidate models.
+
+    :param int seed: Seed of random number generator. The default value is 0.
+    :param bool standardize: If true (default), samples are standardized. 
+    :param bool subtract_mu_reg: Specify regression variable.
+        The default value is :code:`False`.
+    :param bool fix_mu_zero: If :code:`True` (default), the common interception
+        is fixed to 0.
+    :param prior_var_mu: Set prior variance of common interceptions.
+        The default value is :code:`auto`.
     :type prior_var_mu: 'auto' (str literal) or float
-    :param float max_c: Scale constant on tau_cmmn. 
+    :param float max_c: Scale constant on tau_cmmn.
+        The default value is :code:`1.0`.
     :param int n_mc_samples: Number of Monte Carlo samples.
-    :param float P_M1: Prior probability selecting model M1. 
+        The default value is :code:`10000`.
+    :param float P_M1: Prior probability selecting model M1.
+        The default value is :code:`0.5`.
     :param float P_M2: Prior probability selecting model M2. 
-    :param dist_noise: Noise distribution. 
-    :type dist_noise: str, 'laplace' of 'gg'. 
+        The default value is :code:`0.5`.
+    :param dist_noise: Noise distribution. The default vaule is :code:`gg`.
+    :type dist_noise: str, :code:`'laplace'` or :code:`'gg'`. 
     :param float df_indvdl: Degrees of freedom of T distibution. 
     :param prior_scale': Prior distribution of scale variable.
-    :type prior_scale: str, 'tr_normal' or 'log_normal'. 
+    :type prior_scale: str, :code:`'tr_normal'` or :code:`'log_normal'`
+        The default value is :code:`log_normal`.
     :param float scale_coeff': Scale of prior std of regression coefficient.
-
-    For variable hyperparameters:
-
-    :param prior_indvdls: ['t'], ['gauss'], ['gg'], ['t', 'gauss'], or ['t', 'gg']
-    :type prior_indvdls: List of string. 
-    :param cs: Scales of stds of the individual specific effects. 
-    :param L_cov_21s: Correlation of individual specific effects. 
-    :param betas_indvdl: Beta values for GG on prior_indvdls.
-    :param betas_noise: Beta values for GG on noise. 
-    :param causalities: Causal directions to be tested. 
-
-    For execution of the program:
-
-    :param str sampling_mode: Sampling mode for MC integration. 
-
-    See bmlingam/test_find_best_model.py for options of sampling_mode. 
+        The default value is :code:`1.0`.
+    :param str sampling_mode: Sampling mode for MC integration.
+        The default value is :code:`normal`, in which random numbers are 
+        generated for each candidate models. If :code:`cache[_mp(2, 4, 8)]`,
+        random numbers are cached and reused for evaluation of each candidate
+        models. This mode is faster than :code:`normal`. :code:`_mp(2, 4, 8)`
+        means using multiprocesses (2, 4 or 8 processes) for evaluation of 
+        candidate models in parallel.
     """
-    # ---- Default setting start (comment for autodoc) ----
     def __init__(
         self, 
         seed=0, 
@@ -71,7 +93,6 @@ class InferParams(object):
         betas_noise=[0.25, 0.5, 0.75, 1.], 
         causalities='x1->x2, x2->x1', 
         sampling_mode='normal'):
-        # ---- Default setting end (comment for autodoc) ----
 
         if causalities == 'x1->x2':
             causalities = [[1, 2]]
@@ -230,12 +251,17 @@ class InferParams(object):
         self._sampling_mode = value
 
 def define_hparam_searchspace(infer_params):
-    """Return set of hyperparameters. 
+    """Returns a list of hyperparameter sets. 
 
-    Search space is defined by input arguments :code:`prior_indvdls`, 
-    :code:`cs`, :code:`L_cov_21s`, and :code:`dist_noise`. For generalized 
-    Gaussian distribution, :code:`betas_indvdl` and :code:`betas_noise` are 
-    also involved to be searched. Others are treated as constants.  
+    Search space is defined by the following fields in :code:`infer_params`:
+
+    - :code:`prior_indvdls`
+    - :code:`cs`
+    - :code:`L_cov_21s`
+    - :code:`betas_indvdl`
+    - :code:`betas_noise`
+
+    Other fields are treated as constants.  
 
     All of the returned values, i.e. hyperparameters, are used to calculate 
     log marginal probabilities and the maximal value is taken. 
@@ -272,15 +298,15 @@ def define_hparam_searchspace(infer_params):
                 'beta_coeff': beta_coeff, 
                 'beta_noise': beta_noise
             }
-        for prior_indvdl in prior_indvdls
-        for v_indvdl_1 in v_indvdls_1 
-        for v_indvdl_2 in v_indvdls_2 
-        for L_cov in L_covs
-        for causality in causalities
-        for beta_coeff in (betas_indvdl if prior_indvdl == 'gg' else [None])
-        for beta_noise in (betas_noise if dist_noise == 'gg' else [None])]
+            for prior_indvdl in prior_indvdls
+            for v_indvdl_1 in cs
+            for v_indvdl_2 in cs
+            for L_cov in L_covs
+            for causality in causalities
+            for beta_coeff in (betas_indvdl if prior_indvdl == 'gg' else [None])
+            for beta_noise in (betas_noise if dist_noise == 'gg' else [None])]
 
-    :return: Set of hyperparameters. 
+    :return: List of hyperparameter sets. 
     :rtype: list of dicts
     """
     assert(type(infer_params) == InferParams)
