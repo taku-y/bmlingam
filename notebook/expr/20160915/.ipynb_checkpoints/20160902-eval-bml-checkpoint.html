@@ -1,0 +1,1157 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>因果の効果が小さい場合のベイズファクター &mdash; bmlingam 0.1.4 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="../../../../genindex.html"/>
+        <link rel="search" title="Search" href="../../../../search.html"/>
+    <link rel="top" title="bmlingam 0.1.4 documentation" href="../../../../index.html"/> 
+
+  
+  <script src="../../../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../../../index.html" class="icon icon-home"> bmlingam
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tutorial.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../20160822-eval-bml.html">Accuracy of BMLiNGAM</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../model.html">Model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../license.html">License</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../api.html">API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../citation.html">Citation</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../../../../index.html">bmlingam</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+ 
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../../../index.html">Docs</a> &raquo;</li>
+      
+    <li>因果の効果が小さい場合のベイズファクター</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../../../../_sources/notebook/expr/20160915/.ipynb_checkpoints/20160902-eval-bml-checkpoint.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  
+<style>
+/* CSS for nbsphinx extension */
+
+/* remove conflicting styling from Sphinx themes */
+div.nbinput,
+div.nbinput > div,
+div.nbinput div[class^=highlight],
+div.nbinput div[class^=highlight] pre,
+div.nboutput,
+div.nboutput > div,
+div.nboutput div[class^=highlight],
+div.nboutput div[class^=highlight] pre {
+    background: none;
+    border: none;
+    padding: 0 0;
+    margin: 0;
+    box-shadow: none;
+}
+
+/* avoid gaps between output lines */
+div.nboutput div[class^=highlight] pre {
+    line-height: normal;
+}
+
+/* input/output containers */
+div.nbinput,
+div.nboutput {
+    display: -webkit-flex;
+    display: flex;
+    align-items: flex-start;
+    margin: 0;
+}
+
+/* input container */
+div.nbinput {
+    padding-top: 5px;
+}
+
+/* last container */
+div.nblast {
+    padding-bottom: 5px;
+}
+
+/* input prompt */
+div.nbinput > :first-child pre {
+    color: #303F9F;
+}
+
+/* output prompt */
+div.nboutput > :first-child pre {
+    color: #D84315;
+}
+
+/* all prompts */
+div.nbinput > :first-child[class^=highlight],
+div.nboutput > :first-child[class^=highlight],
+div.nboutput > :first-child {
+    min-width: 9ex;
+    padding-top: 0.4em;
+    padding-right: 0.4em;
+    text-align: right;
+    flex: 0;
+}
+
+/* input/output area */
+div.nbinput > :nth-child(2)[class^=highlight],
+div.nboutput > :nth-child(2),
+div.nboutput > :nth-child(2)[class^=highlight] {
+    padding: 0.4em;
+    -webkit-flex: 1;
+    flex: 1;
+    overflow: auto;
+}
+
+/* input area */
+div.nbinput > :nth-child(2)[class^=highlight] {
+    border: 1px solid #cfcfcf;
+    border-radius: 2px;
+    background: #f7f7f7;
+}
+
+/* override MathJax center alignment in output cells */
+div.nboutput div[class*=MathJax] {
+    text-align: left !important;
+}
+
+/* override sphinx.ext.pngmath center alignment in output cells */
+div.nboutput div.math p {
+    text-align: left;
+}
+
+/* standard error */
+div.nboutput  > :nth-child(2).stderr {
+    background: #fdd;
+}
+
+/* ANSI colors */
+.ansi-black-fg { color: #3E424D; }
+.ansi-black-bg { background-color: #3E424D; }
+.ansi-black-intense-fg { color: #282C36; }
+.ansi-black-intense-bg { background-color: #282C36; }
+.ansi-red-fg { color: #E75C58; }
+.ansi-red-bg { background-color: #E75C58; }
+.ansi-red-intense-fg { color: #B22B31; }
+.ansi-red-intense-bg { background-color: #B22B31; }
+.ansi-green-fg { color: #00A250; }
+.ansi-green-bg { background-color: #00A250; }
+.ansi-green-intense-fg { color: #007427; }
+.ansi-green-intense-bg { background-color: #007427; }
+.ansi-yellow-fg { color: #DDB62B; }
+.ansi-yellow-bg { background-color: #DDB62B; }
+.ansi-yellow-intense-fg { color: #B27D12; }
+.ansi-yellow-intense-bg { background-color: #B27D12; }
+.ansi-blue-fg { color: #208FFB; }
+.ansi-blue-bg { background-color: #208FFB; }
+.ansi-blue-intense-fg { color: #0065CA; }
+.ansi-blue-intense-bg { background-color: #0065CA; }
+.ansi-magenta-fg { color: #D160C4; }
+.ansi-magenta-bg { background-color: #D160C4; }
+.ansi-magenta-intense-fg { color: #A03196; }
+.ansi-magenta-intense-bg { background-color: #A03196; }
+.ansi-cyan-fg { color: #60C6C8; }
+.ansi-cyan-bg { background-color: #60C6C8; }
+.ansi-cyan-intense-fg { color: #258F8F; }
+.ansi-cyan-intense-bg { background-color: #258F8F; }
+.ansi-white-fg { color: #C5C1B4; }
+.ansi-white-bg { background-color: #C5C1B4; }
+.ansi-white-intense-fg { color: #A1A6B2; }
+.ansi-white-intense-bg { background-color: #A1A6B2; }
+
+.ansi-bold { font-weight: bold; }
+
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast,
+.nboutput.nblast {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast + .nbinput {
+    margin-top: -19px;
+}
+
+/* nice headers on first paragraph of info/warning boxes */
+.admonition .first {
+    margin: -12px;
+    padding: 6px 12px;
+    margin-bottom: 12px;
+    color: #fff;
+    line-height: 1;
+    display: block;
+}
+.admonition.warning .first {
+    background: #f0b37e;
+}
+.admonition.note .first {
+    background: #6ab0de;
+}
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+</style>
+<div class="section" id="因果の効果が小さい場合のベイズファクター">
+<h1>因果の効果が小さい場合のベイズファクター<a class="headerlink" href="#因果の効果が小さい場合のベイズファクター" title="Permalink to this headline">¶</a></h1>
+<p>このノートブックでは, 回帰係数が一様分布U(-1.5,
+1.5)から生成される場合に,
+ベイズファクターによって因果の効果が小さい場合を判断できるかどうかを確認します.</p>
+<div class="nbinput container">
+<div class="highlight-none"><div class="highlight"><pre>
+<span></span>In [1]:
+</pre></div>
+</div>
+<div class="highlight-ipython3"><div class="highlight"><pre>
+<span></span><span class="o">%</span><span class="k">matplotlib</span> inline
+<span class="o">%</span><span class="k">autosave</span> 0
+<span class="kn">import</span> <span class="nn">sys</span><span class="o">,</span> <span class="nn">os</span>
+<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">expanduser</span><span class="p">(</span><span class="s1">&#39;~/work/tmp/20160915-bmlingam/bmlingam&#39;</span><span class="p">))</span>
+
+<span class="kn">from</span> <span class="nn">copy</span> <span class="k">import</span> <span class="n">deepcopy</span>
+<span class="kn">import</span> <span class="nn">hashlib</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+<span class="kn">import</span> <span class="nn">time</span>
+
+<span class="kn">from</span> <span class="nn">bmlingam</span> <span class="k">import</span> <span class="n">do_mcmc_bmlingam</span><span class="p">,</span> <span class="n">InferParams</span><span class="p">,</span> <span class="n">MCMCParams</span><span class="p">,</span> <span class="n">save_pklz</span><span class="p">,</span> <span class="n">load_pklz</span><span class="p">,</span> <span class="n">define_hparam_searchspace</span><span class="p">,</span> <span class="n">find_best_model</span>
+<span class="kn">from</span> <span class="nn">bmlingam.utils.gendata</span> <span class="k">import</span> <span class="n">GenDataParams</span><span class="p">,</span> <span class="n">gen_artificial_data</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput container">
+<div class="container">
+</div>
+<div class="container">
+<div class="admonition warning">
+Data type cannot be displayed: application/javascript</div>
+</div>
+</div>
+<div class="nboutput nblast container">
+<div class="container">
+</div>
+<div class="container">
+<div class="highlight"><pre>
+Autosave disabled
+</pre></div></div>
+</div>
+<div class="section" id="実験条件">
+<h2>実験条件<a class="headerlink" href="#実験条件" title="Permalink to this headline">¶</a></h2>
+<p>実験条件は以下の通りです.</p>
+<ul class="simple">
+<li>人工データパラメータ<ul>
+<li>サンプル数 (<code class="docutils literal"><span class="pre">n_samples</span></code>): <code class="docutils literal"><span class="pre">[100]</span></code></li>
+<li>総ノイズスケール: <span class="math">\(c=0.5, 1.0\)</span>.</li>
+<li>交絡因子のスケール: <span class="math">\(c/\sqrt{Q}\)</span></li>
+<li>データ観測ノイズ分布 (<code class="docutils literal"><span class="pre">data_noise_type</span></code>):
+<code class="docutils literal"><span class="pre">['laplace',</span> <span class="pre">'uniform']</span></code></li>
+<li>交絡因子数 (<code class="docutils literal"><span class="pre">n_confs</span></code> or <span class="math">\(Q\)</span>): <code class="docutils literal"><span class="pre">[10]</span></code></li>
+<li>観測データノイズスケール: 3に固定</li>
+<li>回帰係数の分布 <code class="docutils literal"><span class="pre">uniform(-1.5,</span> <span class="pre">1.5)</span></code></li>
+</ul>
+</li>
+<li>推定ハイパーパラメータ<ul>
+<li>交絡因子相関係数 (<code class="docutils literal"><span class="pre">L_cov_21s</span></code>):
+<code class="docutils literal"><span class="pre">[[-.9,</span> <span class="pre">-.7,</span> <span class="pre">-.5,</span> <span class="pre">-.3,</span> <span class="pre">0,</span> <span class="pre">.3,</span> <span class="pre">.5,</span> <span class="pre">.7,</span> <span class="pre">.9]]</span></code></li>
+<li>モデル観測ノイズ分布 (<code class="docutils literal"><span class="pre">model_noise_type</span></code>): <code class="docutils literal"><span class="pre">['gg']</span></code></li>
+</ul>
+</li>
+</ul>
+<div class="nbinput container">
+<div class="highlight-none"><div class="highlight"><pre>
+<span></span>In [2]:
+</pre></div>
+</div>
+<div class="highlight-ipython3"><div class="highlight"><pre>
+<span></span><span class="n">conds</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="p">{</span>
+            <span class="s1">&#39;totalnoise&#39;</span><span class="p">:</span> <span class="n">totalnoise</span><span class="p">,</span>
+            <span class="s1">&#39;L_cov_21s&#39;</span><span class="p">:</span> <span class="n">L_cov_21s</span><span class="p">,</span>
+            <span class="s1">&#39;n_samples&#39;</span><span class="p">:</span> <span class="n">n_samples</span><span class="p">,</span>
+            <span class="s1">&#39;n_confs&#39;</span><span class="p">:</span> <span class="n">n_confs</span><span class="p">,</span>
+            <span class="s1">&#39;data_noise_type&#39;</span><span class="p">:</span> <span class="n">data_noise_type</span><span class="p">,</span>
+            <span class="s1">&#39;model_noise_type&#39;</span><span class="p">:</span> <span class="n">model_noise_type</span><span class="p">,</span>
+            <span class="s1">&#39;b21_dist&#39;</span><span class="p">:</span> <span class="n">b21_dist</span>
+        <span class="p">}</span>
+        <span class="k">for</span> <span class="n">totalnoise</span> <span class="ow">in</span> <span class="p">[</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">L_cov_21s</span> <span class="ow">in</span> <span class="p">[[</span><span class="o">-.</span><span class="mi">9</span><span class="p">,</span> <span class="o">-.</span><span class="mi">7</span><span class="p">,</span> <span class="o">-.</span><span class="mi">5</span><span class="p">,</span> <span class="o">-.</span><span class="mi">3</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">.</span><span class="mi">3</span><span class="p">,</span> <span class="o">.</span><span class="mi">5</span><span class="p">,</span> <span class="o">.</span><span class="mi">7</span><span class="p">,</span> <span class="o">.</span><span class="mi">9</span><span class="p">]]</span>
+        <span class="k">for</span> <span class="n">n_samples</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">100</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">n_confs</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">10</span><span class="p">]</span> <span class="c1"># [1, 3, 5, 10]</span>
+        <span class="k">for</span> <span class="n">data_noise_type</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;laplace&#39;</span><span class="p">,</span> <span class="s1">&#39;uniform&#39;</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">model_noise_type</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;gg&#39;</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">b21_dist</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;uniform(-1.5, 1.5)&#39;</span><span class="p">]</span>
+    <span class="p">]</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1"> conditions&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">conds</span><span class="p">)))</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast container">
+<div class="container">
+</div>
+<div class="container">
+<div class="highlight"><pre>
+4 conditions
+</pre></div></div>
+</div>
+<div class="section" id="人工データの生成">
+<h3>人工データの生成<a class="headerlink" href="#人工データの生成" title="Permalink to this headline">¶</a></h3>
+<p>実験条件に基づいて人工データを生成する関数を定義します.</p>
+<div class="nbinput nblast container">
+<div class="highlight-none"><div class="highlight"><pre>
+<span></span>In [3]:
+</pre></div>
+</div>
+<div class="highlight-ipython3"><div class="highlight"><pre>
+<span></span><span class="k">def</span> <span class="nf">gen_artificial_data_given_cond</span><span class="p">(</span><span class="n">ix_trial</span><span class="p">,</span> <span class="n">cond</span><span class="p">):</span>
+    <span class="c1"># 実験条件に基づく人工データ生成パラメータの設定</span>
+    <span class="n">n_confs</span> <span class="o">=</span> <span class="n">cond</span><span class="p">[</span><span class="s1">&#39;n_confs&#39;</span><span class="p">]</span>
+    <span class="n">gen_data_params</span> <span class="o">=</span> <span class="n">deepcopy</span><span class="p">(</span><span class="n">gen_data_params_default</span><span class="p">)</span>
+    <span class="n">gen_data_params</span><span class="o">.</span><span class="n">n_samples</span> <span class="o">=</span> <span class="n">cond</span><span class="p">[</span><span class="s1">&#39;n_samples&#39;</span><span class="p">]</span>
+    <span class="n">gen_data_params</span><span class="o">.</span><span class="n">conf_dist</span> <span class="o">=</span> <span class="p">[[</span><span class="s1">&#39;all&#39;</span><span class="p">]</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_confs</span><span class="p">)]</span>
+    <span class="n">gen_data_params</span><span class="o">.</span><span class="n">e1_dist</span> <span class="o">=</span> <span class="p">[</span><span class="n">cond</span><span class="p">[</span><span class="s1">&#39;data_noise_type&#39;</span><span class="p">]]</span>
+    <span class="n">gen_data_params</span><span class="o">.</span><span class="n">e2_dist</span> <span class="o">=</span> <span class="p">[</span><span class="n">cond</span><span class="p">[</span><span class="s1">&#39;data_noise_type&#39;</span><span class="p">]]</span>
+    <span class="n">gen_data_params</span><span class="o">.</span><span class="n">b21_dist</span> <span class="o">=</span> <span class="n">cond</span><span class="p">[</span><span class="s1">&#39;b21_dist&#39;</span><span class="p">]</span>
+
+    <span class="n">noise_scale</span> <span class="o">=</span> <span class="n">cond</span><span class="p">[</span><span class="s1">&#39;totalnoise&#39;</span><span class="p">]</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">n_confs</span><span class="p">)</span>
+    <span class="n">gen_data_params</span><span class="o">.</span><span class="n">f1_coef</span> <span class="o">=</span> <span class="p">[</span><span class="n">noise_scale</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_confs</span><span class="p">)]</span>
+    <span class="n">gen_data_params</span><span class="o">.</span><span class="n">f2_coef</span> <span class="o">=</span> <span class="p">[</span><span class="n">noise_scale</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_confs</span><span class="p">)]</span>
+
+    <span class="c1"># 人工データ生成</span>
+    <span class="n">gen_data_params</span><span class="o">.</span><span class="n">seed</span> <span class="o">=</span> <span class="n">ix_trial</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">gen_artificial_data</span><span class="p">(</span><span class="n">gen_data_params</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">data</span>
+
+<span class="c1"># 人工データ生成パラメータの基準値</span>
+<span class="n">gen_data_params_default</span> <span class="o">=</span> <span class="n">GenDataParams</span><span class="p">(</span>
+    <span class="n">n_samples</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
+    <span class="n">b21_dist</span><span class="o">=</span><span class="s1">&#39;r2intervals&#39;</span><span class="p">,</span>
+    <span class="n">mu1_dist</span><span class="o">=</span><span class="s1">&#39;randn&#39;</span><span class="p">,</span>
+    <span class="n">mu2_dist</span><span class="o">=</span><span class="s1">&#39;randn&#39;</span><span class="p">,</span>
+    <span class="n">f1_scale</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
+    <span class="n">f2_scale</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
+    <span class="n">f1_coef</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;r2intervals&#39;</span><span class="p">,</span> <span class="s1">&#39;r2intervals&#39;</span><span class="p">,</span> <span class="s1">&#39;r2intervals&#39;</span><span class="p">],</span>
+    <span class="n">f2_coef</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;r2intervals&#39;</span><span class="p">,</span> <span class="s1">&#39;r2intervals&#39;</span><span class="p">,</span> <span class="s1">&#39;r2intervals&#39;</span><span class="p">],</span>
+    <span class="n">conf_dist</span><span class="o">=</span><span class="p">[[</span><span class="s1">&#39;all&#39;</span><span class="p">],</span> <span class="p">[</span><span class="s1">&#39;all&#39;</span><span class="p">],</span> <span class="p">[</span><span class="s1">&#39;all&#39;</span><span class="p">]],</span>
+    <span class="n">e1_std</span><span class="o">=</span><span class="mf">3.0</span><span class="p">,</span>
+    <span class="n">e2_std</span><span class="o">=</span><span class="mf">3.0</span><span class="p">,</span>
+    <span class="n">e1_dist</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;laplace&#39;</span><span class="p">],</span>
+    <span class="n">e2_dist</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;laplace&#39;</span><span class="p">],</span>
+    <span class="n">seed</span><span class="o">=</span><span class="mi">0</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<p>実行例です.</p>
+<div class="nbinput container">
+<div class="highlight-none"><div class="highlight"><pre>
+<span></span>In [4]:
+</pre></div>
+</div>
+<div class="highlight-ipython3"><div class="highlight"><pre>
+<span></span><span class="n">data</span> <span class="o">=</span> <span class="n">gen_artificial_data_given_cond</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">conds</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="n">xs</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;xs&#39;</span><span class="p">]</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">xs</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">xs</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput container">
+<div class="highlight-none"><div class="highlight"><pre>
+<span></span>Out[4]:
+</pre></div>
+</div>
+<div class="highlight-none"><div class="highlight"><pre>
+<span></span>&lt;matplotlib.collections.PathCollection at 0x7f18299a3828&gt;
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast container">
+<div class="container">
+</div>
+<div class="container">
+<img alt="../../../../_images/notebook_expr_20160915_.ipynb_checkpoints_20160902-eval-bml-checkpoint_7_1.png" src="../../../../_images/notebook_expr_20160915_.ipynb_checkpoints_20160902-eval-bml-checkpoint_7_1.png" />
+</div>
+</div>
+<div class="nbinput container">
+<div class="highlight-none"><div class="highlight"><pre>
+<span></span>In [5]:
+</pre></div>
+</div>
+<div class="highlight-ipython3"><div class="highlight"><pre>
+<span></span><span class="n">data</span> <span class="o">=</span> <span class="n">gen_artificial_data_given_cond</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span>
+    <span class="p">{</span>
+        <span class="s1">&#39;totalnoise&#39;</span><span class="p">:</span> <span class="mi">3</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span>
+        <span class="s1">&#39;n_samples&#39;</span><span class="p">:</span> <span class="mi">10000</span><span class="p">,</span>
+        <span class="s1">&#39;n_confs&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="s1">&#39;data_noise_type&#39;</span><span class="p">:</span> <span class="s1">&#39;laplace&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;b21_dist&#39;</span><span class="p">:</span> <span class="s1">&#39;uniform(-1.5, 1.5)&#39;</span>
+    <span class="p">}</span>
+<span class="p">)</span>
+<span class="n">xs</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;xs&#39;</span><span class="p">]</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">xs</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">xs</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput container">
+<div class="highlight-none"><div class="highlight"><pre>
+<span></span>Out[5]:
+</pre></div>
+</div>
+<div class="highlight-none"><div class="highlight"><pre>
+<span></span>&lt;matplotlib.collections.PathCollection at 0x7f18260d2160&gt;
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast container">
+<div class="container">
+</div>
+<div class="container">
+<img alt="../../../../_images/notebook_expr_20160915_.ipynb_checkpoints_20160902-eval-bml-checkpoint_8_1.png" src="../../../../_images/notebook_expr_20160915_.ipynb_checkpoints_20160902-eval-bml-checkpoint_8_1.png" />
+</div>
+</div>
+</div>
+<div class="section" id="トライアルの定義">
+<h3>トライアルの定義<a class="headerlink" href="#トライアルの定義" title="Permalink to this headline">¶</a></h3>
+<p>トライアルとは,
+生成された1つの人工データに対する因果推論と精度評価の処理を指します.</p>
+<p>一つの実験条件に対し, トライアルを100回実行します.</p>
+<div class="nbinput nblast container">
+<div class="highlight-none"><div class="highlight"><pre>
+<span></span>In [6]:
+</pre></div>
+</div>
+<div class="highlight-ipython3"><div class="highlight"><pre>
+<span></span><span class="n">n_trials_per_cond</span> <span class="o">=</span> <span class="mi">100</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="実験条件パラメータの基準値">
+<h3>実験条件パラメータの基準値<a class="headerlink" href="#実験条件パラメータの基準値" title="Permalink to this headline">¶</a></h3>
+<div class="nbinput nblast container">
+<div class="highlight-none"><div class="highlight"><pre>
+<span></span>In [7]:
+</pre></div>
+</div>
+<div class="highlight-ipython3"><div class="highlight"><pre>
+<span></span><span class="c1"># 因果推論パラメータ</span>
+<span class="n">infer_params</span> <span class="o">=</span> <span class="n">InferParams</span><span class="p">(</span>
+    <span class="n">seed</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+    <span class="n">standardize</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">subtract_mu_reg</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">fix_mu_zero</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">prior_var_mu</span><span class="o">=</span><span class="s1">&#39;auto&#39;</span><span class="p">,</span>
+    <span class="n">prior_scale</span><span class="o">=</span><span class="s1">&#39;uniform&#39;</span><span class="p">,</span>
+    <span class="n">max_c</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
+    <span class="n">n_mc_samples</span><span class="o">=</span><span class="mi">10000</span><span class="p">,</span>
+    <span class="n">dist_noise</span><span class="o">=</span><span class="s1">&#39;laplace&#39;</span><span class="p">,</span>
+    <span class="n">df_indvdl</span><span class="o">=</span><span class="mf">8.0</span><span class="p">,</span>
+    <span class="n">prior_indvdls</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;t&#39;</span><span class="p">],</span>
+    <span class="n">cs</span><span class="o">=</span><span class="p">[</span><span class="mf">0.4</span><span class="p">,</span> <span class="mf">0.6</span><span class="p">,</span> <span class="mf">0.8</span><span class="p">],</span>
+    <span class="n">scale_coeff</span><span class="o">=</span><span class="mf">2.</span> <span class="o">/</span> <span class="mf">3.</span><span class="p">,</span>
+    <span class="n">L_cov_21s</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mf">0.8</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.6</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.4</span><span class="p">,</span> <span class="mf">0.4</span><span class="p">,</span> <span class="mf">0.6</span><span class="p">,</span> <span class="mf">0.8</span><span class="p">],</span>
+    <span class="n">betas_indvdl</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="c1"># [0.25, 0.5, 0.75, 1.],</span>
+    <span class="n">betas_noise</span><span class="o">=</span><span class="p">[</span><span class="mf">0.25</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">],</span>
+    <span class="n">causalities</span><span class="o">=</span><span class="p">[[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">]],</span>
+    <span class="n">sampling_mode</span><span class="o">=</span><span class="s1">&#39;cache_mp4&#39;</span>
+<span class="p">)</span>
+
+<span class="c1"># 回帰係数推定パラメータ</span>
+<span class="n">mcmc_params</span> <span class="o">=</span> <span class="n">MCMCParams</span><span class="p">(</span>
+    <span class="n">n_burn</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span>
+    <span class="n">n_mcmc_samples</span><span class="o">=</span><span class="mi">1000</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="プログラム">
+<h2>プログラム<a class="headerlink" href="#プログラム" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="トライアル識別子の生成">
+<h3>トライアル識別子の生成<a class="headerlink" href="#トライアル識別子の生成" title="Permalink to this headline">¶</a></h3>
+<p>以下の情報からトライアルに対する識別子を生成します.</p>
+<ul class="simple">
+<li>トライアルインデックス (<code class="docutils literal"><span class="pre">ix_trial</span></code>)</li>
+<li>サンプル数 (<code class="docutils literal"><span class="pre">n_samples</span></code>)</li>
+<li>交絡因子数 (<code class="docutils literal"><span class="pre">n_confs</span></code>)</li>
+<li>人工データ観測ノイズの種類 (<code class="docutils literal"><span class="pre">data_noise_type</span></code>)</li>
+<li>予測モデル観測ノイズの種類 (<code class="docutils literal"><span class="pre">model_noise_type</span></code>)</li>
+<li>交絡因子相関係数 (<code class="docutils literal"><span class="pre">L_cov_21s</span></code>)</li>
+<li>総ノイズスケール (<code class="docutils literal"><span class="pre">totalnoise</span></code>)</li>
+<li>回帰係数分布 (<code class="docutils literal"><span class="pre">b21_dist</span></code>)</li>
+</ul>
+<p>トライアル識別子は推定結果をデータフレームに格納するときに使用されます.</p>
+<div class="nbinput container">
+<div class="highlight-none"><div class="highlight"><pre>
+<span></span>In [8]:
+</pre></div>
+</div>
+<div class="highlight-ipython3"><div class="highlight"><pre>
+<span></span><span class="k">def</span> <span class="nf">make_id</span><span class="p">(</span><span class="n">ix_trial</span><span class="p">,</span> <span class="n">n_samples</span><span class="p">,</span> <span class="n">n_confs</span><span class="p">,</span> <span class="n">data_noise_type</span><span class="p">,</span> <span class="n">model_noise_type</span><span class="p">,</span> <span class="n">L_cov_21s</span><span class="p">,</span> <span class="n">totalnoise</span><span class="p">,</span> <span class="n">b21_dist</span><span class="p">):</span>
+    <span class="n">L_cov_21s_</span> <span class="o">=</span> <span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="nb">str</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">L_cov_21s</span><span class="p">])</span>
+
+    <span class="k">return</span> <span class="n">hashlib</span><span class="o">.</span><span class="n">md5</span><span class="p">(</span>
+        <span class="nb">str</span><span class="p">((</span><span class="n">L_cov_21s_</span><span class="p">,</span> <span class="n">ix_trial</span><span class="p">,</span> <span class="n">n_samples</span><span class="p">,</span> <span class="n">n_confs</span><span class="p">,</span> <span class="n">data_noise_type</span><span class="p">,</span> <span class="n">model_noise_type</span><span class="p">,</span> <span class="n">totalnoise</span><span class="p">,</span> <span class="n">b21_dist</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)))</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span>
+    <span class="p">)</span><span class="o">.</span><span class="n">hexdigest</span><span class="p">()</span>
+
+<span class="c1"># テスト</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">make_id</span><span class="p">(</span><span class="mi">55</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="s1">&#39;all&#39;</span><span class="p">,</span> <span class="s1">&#39;gg&#39;</span><span class="p">,</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="mf">0.3</span><span class="p">,</span> <span class="s1">&#39;uniform(-1.5, 1.5)&#39;</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">make_id</span><span class="p">(</span><span class="mi">55</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="s1">&#39;all&#39;</span><span class="p">,</span> <span class="s1">&#39;gg&#39;</span><span class="p">,</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="mf">0.3</span><span class="p">,</span> <span class="s1">&#39;uniform(-1.5,    1.5)&#39;</span><span class="p">))</span> <span class="c1"># 空白を無視します</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast container">
+<div class="container">
+</div>
+<div class="container">
+<div class="highlight"><pre>
+d26da9a587adc5cfd064ab8cb23940d2
+d26da9a587adc5cfd064ab8cb23940d2
+</pre></div></div>
+</div>
+</div>
+<div class="section" id="トライアル結果のデータフレームへの追加">
+<h3>トライアル結果のデータフレームへの追加<a class="headerlink" href="#トライアル結果のデータフレームへの追加" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>トライアル結果をデータフレームに追加します.</li>
+<li>引数<code class="docutils literal"><span class="pre">df</span></code>が<code class="docutils literal"><span class="pre">None</span></code>の場合, 新たにデータフレームを作成します.</li>
+</ul>
+<div class="nbinput container">
+<div class="highlight-none"><div class="highlight"><pre>
+<span></span>In [9]:
+</pre></div>
+</div>
+<div class="highlight-ipython3"><div class="highlight"><pre>
+<span></span><span class="k">def</span> <span class="nf">add_result_to_df</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">result</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">df</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="n">k</span><span class="p">:</span> <span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">result</span><span class="o">.</span><span class="n">items</span><span class="p">()})</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">df</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">ignore_index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="c1"># テスト</span>
+<span class="n">result1</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;col1&#39;</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span> <span class="s1">&#39;col2&#39;</span><span class="p">:</span> <span class="mi">20</span><span class="p">}</span>
+<span class="n">result2</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;col1&#39;</span><span class="p">:</span> <span class="mi">30</span><span class="p">,</span> <span class="s1">&#39;col2&#39;</span><span class="p">:</span> <span class="o">-</span><span class="mi">10</span><span class="p">}</span>
+<span class="n">df1</span> <span class="o">=</span> <span class="n">add_result_to_df</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">result1</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;--- df1 ---&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">df1</span><span class="p">)</span>
+<span class="n">df2</span> <span class="o">=</span> <span class="n">add_result_to_df</span><span class="p">(</span><span class="n">df1</span><span class="p">,</span> <span class="n">result2</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;--- df2 ---&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">df2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast container">
+<div class="container">
+</div>
+<div class="container">
+<div class="highlight"><pre>
+--- df1 ---
+   col1  col2
+0    10    20
+--- df2 ---
+   col1  col2
+0    10    20
+1    30   -10
+</pre></div></div>
+</div>
+</div>
+<div class="section" id="データフレーム内のトライアル識別子の確認">
+<h3>データフレーム内のトライアル識別子の確認<a class="headerlink" href="#データフレーム内のトライアル識別子の確認" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>計算済みの結果に対して再計算しないために使用します.</li>
+</ul>
+<div class="nbinput nblast container">
+<div class="highlight-none"><div class="highlight"><pre>
+<span></span>In [10]:
+</pre></div>
+</div>
+<div class="highlight-ipython3"><div class="highlight"><pre>
+<span></span><span class="k">def</span> <span class="nf">df_exist_result_id</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">result_id</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">df</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">result_id</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;result_id&#39;</span><span class="p">])</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="kc">False</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="データフレームの取得">
+<h3>データフレームの取得<a class="headerlink" href="#データフレームの取得" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>データフレームをセーブ・ロードする関数を定義します.</li>
+<li>ファイルが存在しなければ<code class="docutils literal"><span class="pre">None</span></code>を返します.</li>
+</ul>
+<div class="nbinput nblast container">
+<div class="highlight-none"><div class="highlight"><pre>
+<span></span>In [11]:
+</pre></div>
+</div>
+<div class="highlight-ipython3"><div class="highlight"><pre>
+<span></span><span class="k">def</span> <span class="nf">load_df</span><span class="p">(</span><span class="n">df_file</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">df_file</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">load_pklz</span><span class="p">(</span><span class="n">df_file</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">None</span>
+
+<span class="k">def</span> <span class="nf">save_df</span><span class="p">(</span><span class="n">df_file</span><span class="p">,</span> <span class="n">df</span><span class="p">):</span>
+    <span class="n">save_pklz</span><span class="p">(</span><span class="n">df_file</span><span class="p">,</span> <span class="n">df</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="トライアル実行">
+<h3>トライアル実行<a class="headerlink" href="#トライアル実行" title="Permalink to this headline">¶</a></h3>
+<p>トライアルインデックスと実験条件を引数としてトライアルを実行し,
+推定結果を返します.</p>
+<div class="nbinput nblast container">
+<div class="highlight-none"><div class="highlight"><pre>
+<span></span>In [12]:
+</pre></div>
+</div>
+<div class="highlight-ipython3"><div class="highlight"><pre>
+<span></span><span class="k">def</span> <span class="nf">_estimate_hparams</span><span class="p">(</span><span class="n">xs</span><span class="p">,</span> <span class="n">infer_params</span><span class="p">):</span>
+    <span class="k">assert</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">infer_params</span><span class="p">)</span> <span class="o">==</span> <span class="n">InferParams</span><span class="p">)</span>
+
+    <span class="n">sampling_mode</span> <span class="o">=</span> <span class="n">infer_params</span><span class="o">.</span><span class="n">sampling_mode</span>
+    <span class="n">hparamss</span> <span class="o">=</span> <span class="n">define_hparam_searchspace</span><span class="p">(</span><span class="n">infer_params</span><span class="p">)</span>
+    <span class="n">results</span> <span class="o">=</span> <span class="n">find_best_model</span><span class="p">(</span><span class="n">xs</span><span class="p">,</span> <span class="n">hparamss</span><span class="p">,</span> <span class="n">sampling_mode</span><span class="p">)</span>
+    <span class="n">hparams_best</span> <span class="o">=</span> <span class="n">results</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">bf</span> <span class="o">=</span> <span class="n">results</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">-</span> <span class="n">results</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span> <span class="c1"># Bayes factor</span>
+
+    <span class="k">return</span> <span class="n">hparams_best</span><span class="p">,</span> <span class="n">bf</span>
+
+<span class="k">def</span> <span class="nf">run_trial</span><span class="p">(</span><span class="n">ix_trial</span><span class="p">,</span> <span class="n">cond</span><span class="p">):</span>
+    <span class="c1"># 人工データ生成</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">gen_artificial_data_given_cond</span><span class="p">(</span><span class="n">ix_trial</span><span class="p">,</span> <span class="n">cond</span><span class="p">)</span>
+    <span class="n">b_true</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;b&#39;</span><span class="p">]</span>
+    <span class="n">causality_true</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;causality_true&#39;</span><span class="p">]</span>
+
+    <span class="c1"># 因果推論</span>
+    <span class="n">t</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+    <span class="n">infer_params</span><span class="o">.</span><span class="n">L_cov_21s</span> <span class="o">=</span> <span class="n">cond</span><span class="p">[</span><span class="s1">&#39;L_cov_21s&#39;</span><span class="p">]</span>
+    <span class="n">infer_params</span><span class="o">.</span><span class="n">dist_noise</span> <span class="o">=</span> <span class="n">cond</span><span class="p">[</span><span class="s1">&#39;model_noise_type&#39;</span><span class="p">]</span>
+    <span class="n">hparams</span><span class="p">,</span> <span class="n">bf</span> <span class="o">=</span> <span class="n">_estimate_hparams</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;xs&#39;</span><span class="p">],</span> <span class="n">infer_params</span><span class="p">)</span>
+    <span class="n">causality_est</span> <span class="o">=</span> <span class="n">hparams</span><span class="p">[</span><span class="s1">&#39;causality&#39;</span><span class="p">]</span>
+    <span class="n">time_causal_inference</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">t</span>
+
+    <span class="c1"># 回帰係数推定</span>
+    <span class="n">t</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+    <span class="n">trace</span> <span class="o">=</span> <span class="n">do_mcmc_bmlingam</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;xs&#39;</span><span class="p">],</span> <span class="n">hparams</span><span class="p">,</span> <span class="n">mcmc_params</span><span class="p">)</span>
+    <span class="n">b_post</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">trace</span><span class="p">[</span><span class="s1">&#39;b&#39;</span><span class="p">])</span>
+    <span class="n">time_posterior_inference</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">t</span>
+
+    <span class="k">return</span> <span class="p">{</span>
+        <span class="s1">&#39;causality_true&#39;</span><span class="p">:</span> <span class="n">causality_true</span><span class="p">,</span>
+        <span class="s1">&#39;regcoef_true&#39;</span><span class="p">:</span> <span class="n">b_true</span><span class="p">,</span>
+        <span class="s1">&#39;n_samples&#39;</span><span class="p">:</span> <span class="n">cond</span><span class="p">[</span><span class="s1">&#39;n_samples&#39;</span><span class="p">],</span>
+        <span class="s1">&#39;n_confs&#39;</span><span class="p">:</span> <span class="n">cond</span><span class="p">[</span><span class="s1">&#39;n_confs&#39;</span><span class="p">],</span>
+        <span class="s1">&#39;data_noise_type&#39;</span><span class="p">:</span> <span class="n">cond</span><span class="p">[</span><span class="s1">&#39;data_noise_type&#39;</span><span class="p">],</span>
+        <span class="s1">&#39;model_noise_type&#39;</span><span class="p">:</span> <span class="n">cond</span><span class="p">[</span><span class="s1">&#39;model_noise_type&#39;</span><span class="p">],</span>
+        <span class="s1">&#39;causality_est&#39;</span><span class="p">:</span> <span class="n">causality_est</span><span class="p">,</span>
+        <span class="s1">&#39;correct_rate&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mf">1.0</span> <span class="k">if</span> <span class="n">causality_est</span> <span class="o">==</span> <span class="n">causality_true</span> <span class="k">else</span> <span class="mf">0.0</span><span class="p">),</span>
+        <span class="s1">&#39;error_reg_coef&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">b_post</span> <span class="o">-</span> <span class="n">b_true</span><span class="p">),</span>
+        <span class="s1">&#39;regcoef_est&#39;</span><span class="p">:</span> <span class="n">b_post</span><span class="p">,</span>
+        <span class="s1">&#39;log_bf&#39;</span><span class="p">:</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">bf</span><span class="p">,</span> <span class="c1"># 2log(p(M) / p(M_rev))なので常に正の値となります.</span>
+        <span class="s1">&#39;time_causal_inference&#39;</span><span class="p">:</span> <span class="n">time_causal_inference</span><span class="p">,</span>
+        <span class="s1">&#39;time_posterior_inference&#39;</span><span class="p">:</span> <span class="n">time_posterior_inference</span><span class="p">,</span>
+        <span class="s1">&#39;L_cov_21s&#39;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">cond</span><span class="p">[</span><span class="s1">&#39;L_cov_21s&#39;</span><span class="p">]),</span>
+        <span class="s1">&#39;n_mc_samples&#39;</span><span class="p">:</span> <span class="n">infer_params</span><span class="o">.</span><span class="n">n_mc_samples</span><span class="p">,</span>
+        <span class="s1">&#39;confs_absmean&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;confs&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">ravel</span><span class="p">())),</span>
+        <span class="s1">&#39;totalnoise&#39;</span><span class="p">:</span> <span class="n">cond</span><span class="p">[</span><span class="s1">&#39;totalnoise&#39;</span><span class="p">]</span>
+    <span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="メインプログラム">
+<h3>メインプログラム<a class="headerlink" href="#メインプログラム" title="Permalink to this headline">¶</a></h3>
+<div class="nbinput nblast container">
+<div class="highlight-none"><div class="highlight"><pre>
+<span></span>In [13]:
+</pre></div>
+</div>
+<div class="highlight-ipython3"><div class="highlight"><pre>
+<span></span><span class="k">def</span> <span class="nf">run_expr</span><span class="p">(</span><span class="n">conds</span><span class="p">):</span>
+    <span class="c1"># データフレームファイル名</span>
+    <span class="n">data_dir</span> <span class="o">=</span> <span class="s1">&#39;.&#39;</span>
+    <span class="n">df_file</span> <span class="o">=</span> <span class="n">data_dir</span> <span class="o">+</span> <span class="s1">&#39;/20160902-eval-bml-results.pklz&#39;</span>
+
+    <span class="c1"># ファイルが存在すれば以前の続きから実行します.</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">load_df</span><span class="p">(</span><span class="n">df_file</span><span class="p">)</span>
+
+    <span class="c1"># 実験条件に渡るループ</span>
+    <span class="n">n_skip</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="k">for</span> <span class="n">cond</span> <span class="ow">in</span> <span class="n">conds</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">cond</span><span class="p">)</span>
+
+        <span class="c1"># トライアルに渡るループ</span>
+        <span class="k">for</span> <span class="n">ix_trial</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_trials_per_cond</span><span class="p">):</span>
+            <span class="c1"># 識別子</span>
+            <span class="n">result_id</span> <span class="o">=</span> <span class="n">make_id</span><span class="p">(</span><span class="n">ix_trial</span><span class="p">,</span> <span class="o">**</span><span class="n">cond</span><span class="p">)</span>
+
+            <span class="c1"># データフレームに結果が保存済みかどうかチェックします.</span>
+            <span class="k">if</span> <span class="n">df_exist_result_id</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">result_id</span><span class="p">):</span>
+                <span class="n">n_skip</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="c1"># resultはトライアルの結果が含まれるdictです.</span>
+                <span class="c1"># トライアルインデックスix_trialは乱数シードとして使用されます.</span>
+                <span class="n">result</span> <span class="o">=</span> <span class="n">run_trial</span><span class="p">(</span><span class="n">ix_trial</span><span class="p">,</span> <span class="n">cond</span><span class="p">)</span>
+                <span class="n">result</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s1">&#39;result_id&#39;</span><span class="p">:</span> <span class="n">result_id</span><span class="p">})</span>
+
+                <span class="n">df</span> <span class="o">=</span> <span class="n">add_result_to_df</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">result</span><span class="p">)</span>
+                <span class="n">save_df</span><span class="p">(</span><span class="n">df_file</span><span class="p">,</span> <span class="n">df</span><span class="p">)</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Number of skipped trials = </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">n_skip</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">df</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="メインプログラムの実行">
+<h2>メインプログラムの実行<a class="headerlink" href="#メインプログラムの実行" title="Permalink to this headline">¶</a></h2>
+<div class="nbinput container">
+<div class="highlight-none"><div class="highlight"><pre>
+<span></span>In [14]:
+</pre></div>
+</div>
+<div class="highlight-ipython3"><div class="highlight"><pre>
+<span></span><span class="n">df</span> <span class="o">=</span> <span class="n">run_expr</span><span class="p">(</span><span class="n">conds</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast container">
+<div class="container">
+</div>
+<div class="container">
+<div class="highlight"><pre>
+{&#39;data_noise_type&#39;: &#39;laplace&#39;, &#39;L_cov_21s&#39;: [-0.9, -0.7, -0.5, -0.3, 0, 0.3, 0.5, 0.7, 0.9], &#39;totalnoise&#39;: 0.5, &#39;b21_dist&#39;: &#39;uniform(-1.5, 1.5)&#39;, &#39;model_noise_type&#39;: &#39;gg&#39;, &#39;n_confs&#39;: 10, &#39;n_samples&#39;: 100}
+{&#39;data_noise_type&#39;: &#39;uniform&#39;, &#39;L_cov_21s&#39;: [-0.9, -0.7, -0.5, -0.3, 0, 0.3, 0.5, 0.7, 0.9], &#39;totalnoise&#39;: 0.5, &#39;b21_dist&#39;: &#39;uniform(-1.5, 1.5)&#39;, &#39;model_noise_type&#39;: &#39;gg&#39;, &#39;n_confs&#39;: 10, &#39;n_samples&#39;: 100}
+{&#39;data_noise_type&#39;: &#39;laplace&#39;, &#39;L_cov_21s&#39;: [-0.9, -0.7, -0.5, -0.3, 0, 0.3, 0.5, 0.7, 0.9], &#39;totalnoise&#39;: 1.0, &#39;b21_dist&#39;: &#39;uniform(-1.5, 1.5)&#39;, &#39;model_noise_type&#39;: &#39;gg&#39;, &#39;n_confs&#39;: 10, &#39;n_samples&#39;: 100}
+{&#39;data_noise_type&#39;: &#39;uniform&#39;, &#39;L_cov_21s&#39;: [-0.9, -0.7, -0.5, -0.3, 0, 0.3, 0.5, 0.7, 0.9], &#39;totalnoise&#39;: 1.0, &#39;b21_dist&#39;: &#39;uniform(-1.5, 1.5)&#39;, &#39;model_noise_type&#39;: &#39;gg&#39;, &#39;n_confs&#39;: 10, &#39;n_samples&#39;: 100}
+Number of skipped trials = 0
+</pre></div></div>
+</div>
+</div>
+<div class="section" id="結果の確認">
+<h2>結果の確認<a class="headerlink" href="#結果の確認" title="Permalink to this headline">¶</a></h2>
+<div class="nbinput container">
+<div class="highlight-none"><div class="highlight"><pre>
+<span></span>In [15]:
+</pre></div>
+</div>
+<div class="highlight-ipython3"><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+
+<span class="c1"># データフレームファイル名</span>
+<span class="n">data_dir</span> <span class="o">=</span> <span class="s1">&#39;.&#39;</span>
+<span class="n">df_file</span> <span class="o">=</span> <span class="n">data_dir</span> <span class="o">+</span> <span class="s1">&#39;/20160902-eval-bml-results.pklz&#39;</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">load_pklz</span><span class="p">(</span><span class="n">df_file</span><span class="p">)</span>
+
+<span class="n">sg</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s1">&#39;model_noise_type&#39;</span><span class="p">,</span> <span class="s1">&#39;data_noise_type&#39;</span><span class="p">,</span> <span class="s1">&#39;n_confs&#39;</span><span class="p">,</span> <span class="s1">&#39;totalnoise&#39;</span><span class="p">])</span>
+<span class="n">sg1</span> <span class="o">=</span> <span class="n">sg</span><span class="p">[</span><span class="s1">&#39;correct_rate&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+<span class="n">sg2</span> <span class="o">=</span> <span class="n">sg</span><span class="p">[</span><span class="s1">&#39;correct_rate&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">count</span><span class="p">()</span>
+<span class="n">sg3</span> <span class="o">=</span> <span class="n">sg</span><span class="p">[</span><span class="s1">&#39;time_causal_inference&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+
+<span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span>
+    <span class="p">{</span>
+        <span class="s1">&#39;correct_rate&#39;</span><span class="p">:</span> <span class="n">sg1</span><span class="p">,</span>
+        <span class="s1">&#39;count&#39;</span><span class="p">:</span> <span class="n">sg2</span><span class="p">,</span>
+        <span class="s1">&#39;time&#39;</span><span class="p">:</span> <span class="n">sg3</span><span class="p">,</span>
+    <span class="p">},</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast container">
+<div class="highlight-none"><div class="highlight"><pre>
+<span></span>Out[15]:
+</pre></div>
+</div>
+<div class="container">
+<div>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th>correct_rate</th>
+      <th>count</th>
+      <th>time</th>
+    </tr>
+    <tr>
+      <th>model_noise_type</th>
+      <th>data_noise_type</th>
+      <th>n_confs</th>
+      <th>totalnoise</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th rowspan="4" valign="top">gg</th>
+      <th rowspan="2" valign="top">laplace</th>
+      <th rowspan="2" valign="top">10</th>
+      <th>0.5</th>
+      <td>0.78</td>
+      <td>100</td>
+      <td>69.391621</td>
+    </tr>
+    <tr>
+      <th>1.0</th>
+      <td>0.72</td>
+      <td>100</td>
+      <td>78.410007</td>
+    </tr>
+    <tr>
+      <th rowspan="2" valign="top">uniform</th>
+      <th rowspan="2" valign="top">10</th>
+      <th>0.5</th>
+      <td>0.81</td>
+      <td>100</td>
+      <td>71.408814</td>
+    </tr>
+    <tr>
+      <th>1.0</th>
+      <td>0.69</td>
+      <td>100</td>
+      <td>80.622005</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+</div>
+<div class="section" id="回帰係数の大きさとBayesFactor">
+<h2>回帰係数の大きさとBayesFactor<a class="headerlink" href="#回帰係数の大きさとBayesFactor" title="Permalink to this headline">¶</a></h2>
+<p><span class="math">\(2\log(BF)\)</span>を横軸,
+<span class="math">\(|b_{21}|\)</span>（または<span class="math">\(|b_{12}|\)</span>）を縦軸に取りプロットしました.
+<span class="math">\(2\log(BF)\)</span>が10以上だと真の回帰係数（の絶対値）が大きく因果効果があると言えるのですが,
+<span class="math">\(2\log(BF)\)</span>がそれ以下だと,
+回帰係数が大きい場合も小さい場合もあり,
+BFで因果効果の有無を判断するのは難しいと言えそうです.
+因果効果があるモデルと無いモデルとの比較も必要なのでしょう.</p>
+<div class="nbinput container">
+<div class="highlight-none"><div class="highlight"><pre>
+<span></span>In [16]:
+</pre></div>
+</div>
+<div class="highlight-ipython3"><div class="highlight"><pre>
+<span></span><span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">df</span><span class="p">[[</span><span class="s1">&#39;regcoef_true&#39;</span><span class="p">,</span> <span class="s1">&#39;log_bf&#39;</span><span class="p">,</span> <span class="s1">&#39;totalnoise&#39;</span><span class="p">,</span> <span class="s1">&#39;correct_rate&#39;</span><span class="p">]])</span>
+<span class="n">ixs1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">data</span><span class="p">[:,</span> <span class="mi">3</span><span class="p">]</span> <span class="o">==</span> <span class="mf">1.0</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">ixs2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">data</span><span class="p">[:,</span> <span class="mi">3</span><span class="p">]</span> <span class="o">==</span> <span class="mf">0.0</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">ixs1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">ixs1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]),</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;o&#39;</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;r&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Success&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">ixs2</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">ixs2</span><span class="p">,</span> <span class="mi">0</span><span class="p">]),</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;*&#39;</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">70</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Failure&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;|b|&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;2 * log(bayes_factor)&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">fontsize</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">shadow</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">frameon</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">framealpha</span><span class="o">=</span><span class="mf">1.0</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput container">
+<div class="highlight-none"><div class="highlight"><pre>
+<span></span>Out[16]:
+</pre></div>
+</div>
+<div class="highlight-none"><div class="highlight"><pre>
+<span></span>&lt;matplotlib.legend.Legend at 0x7f1737208b38&gt;
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast container">
+<div class="container">
+</div>
+<div class="container">
+<img alt="../../../../_images/notebook_expr_20160915_.ipynb_checkpoints_20160902-eval-bml-checkpoint_31_1.png" src="../../../../_images/notebook_expr_20160915_.ipynb_checkpoints_20160902-eval-bml-checkpoint_31_1.png" />
+</div>
+</div>
+</div>
+<div class="section" id="回帰系数の予測精度">
+<h2>回帰系数の予測精度<a class="headerlink" href="#回帰系数の予測精度" title="Permalink to this headline">¶</a></h2>
+<p>人工データの回帰係数をU(-1.5, 1.5)で生成した実験で,
+回帰系数の真値を横軸, 事後分布平均を縦軸に取りプロットしました.
+真値が小さい場合は因果方向予測の正解（赤）と不正解（青）に関わらず事後分布平均が小さくなっています.
+一方, 正解の場合には回帰係数が小さく,
+不正解の場合には回帰係数が小さく推定される傾向があるようです.</p>
+<div class="nbinput container">
+<div class="highlight-none"><div class="highlight"><pre>
+<span></span>In [17]:
+</pre></div>
+</div>
+<div class="highlight-ipython3"><div class="highlight"><pre>
+<span></span><span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">df</span><span class="p">[[</span><span class="s1">&#39;regcoef_true&#39;</span><span class="p">,</span> <span class="s1">&#39;regcoef_est&#39;</span><span class="p">,</span> <span class="s1">&#39;correct_rate&#39;</span><span class="p">]])</span>
+<span class="n">ixs1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">data</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">ixs2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">data</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+<span class="k">assert</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">ixs1</span><span class="p">)</span> <span class="o">+</span> <span class="nb">len</span><span class="p">(</span><span class="n">ixs2</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">))</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">ixs1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">data</span><span class="p">[</span><span class="n">ixs1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;r&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Correct&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">ixs2</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">data</span><span class="p">[</span><span class="n">ixs2</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Incorrect&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="o">-</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="p">[</span><span class="o">-</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">(</span><span class="o">-</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="o">-</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span><span class="o">.</span><span class="n">set_aspect</span><span class="p">(</span><span class="s1">&#39;equal&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Reg coef (true)&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Reg coef (posterior mean)&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput container">
+<div class="highlight-none"><div class="highlight"><pre>
+<span></span>Out[17]:
+</pre></div>
+</div>
+<div class="highlight-none"><div class="highlight"><pre>
+<span></span>&lt;matplotlib.text.Text at 0x7f1737616470&gt;
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast container">
+<div class="container">
+</div>
+<div class="container">
+<img alt="../../../../_images/notebook_expr_20160915_.ipynb_checkpoints_20160902-eval-bml-checkpoint_33_1.png" src="../../../../_images/notebook_expr_20160915_.ipynb_checkpoints_20160902-eval-bml-checkpoint_33_1.png" />
+</div>
+</div>
+<div class="section" id="EPSで出力">
+<h3>EPSで出力<a class="headerlink" href="#EPSで出力" title="Permalink to this headline">¶</a></h3>
+<div class="nbinput container">
+<div class="highlight-none"><div class="highlight"><pre>
+<span></span>In [18]:
+</pre></div>
+</div>
+<div class="highlight-ipython3"><div class="highlight"><pre>
+<span></span><span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">df</span><span class="p">[[</span><span class="s1">&#39;regcoef_true&#39;</span><span class="p">,</span> <span class="s1">&#39;regcoef_est&#39;</span><span class="p">,</span> <span class="s1">&#39;correct_rate&#39;</span><span class="p">]])</span>
+<span class="n">ixs1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">data</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">ixs2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">data</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+<span class="k">assert</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">ixs1</span><span class="p">)</span> <span class="o">+</span> <span class="nb">len</span><span class="p">(</span><span class="n">ixs2</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">))</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">ixs1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">data</span><span class="p">[</span><span class="n">ixs1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;r&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Correct&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="o">-</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="p">[</span><span class="o">-</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">(</span><span class="o">-</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="o">-</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span><span class="o">.</span><span class="n">set_aspect</span><span class="p">(</span><span class="s1">&#39;equal&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Reg coef (true)&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Reg coef (posterior mean)&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Correct inference&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s1">&#39;20160905-eval-bml-correct.eps&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast container">
+<div class="container">
+</div>
+<div class="container">
+<img alt="../../../../_images/notebook_expr_20160915_.ipynb_checkpoints_20160902-eval-bml-checkpoint_35_0.png" src="../../../../_images/notebook_expr_20160915_.ipynb_checkpoints_20160902-eval-bml-checkpoint_35_0.png" />
+</div>
+</div>
+<div class="nbinput container">
+<div class="highlight-none"><div class="highlight"><pre>
+<span></span>In [19]:
+</pre></div>
+</div>
+<div class="highlight-ipython3"><div class="highlight"><pre>
+<span></span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">ixs2</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">data</span><span class="p">[</span><span class="n">ixs2</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Incorrect&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="o">-</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="p">[</span><span class="o">-</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">(</span><span class="o">-</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="o">-</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span><span class="o">.</span><span class="n">set_aspect</span><span class="p">(</span><span class="s1">&#39;equal&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Reg coef (true)&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Reg coef (posterior mean)&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Incorrect inference&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s1">&#39;20160905-eval-bml-incorrect.eps&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast container">
+<div class="container">
+</div>
+<div class="container">
+<img alt="../../../../_images/notebook_expr_20160915_.ipynb_checkpoints_20160902-eval-bml-checkpoint_36_0.png" src="../../../../_images/notebook_expr_20160915_.ipynb_checkpoints_20160902-eval-bml-checkpoint_36_0.png" />
+</div>
+</div>
+</div>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016, Taku Yoshioka and Shohei Shimizu.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../../../',
+            VERSION:'0.1.4',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../../../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../../../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

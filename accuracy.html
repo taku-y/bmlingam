@@ -33,9 +33,7 @@
         <link rel="index" title="Index"
               href="genindex.html"/>
         <link rel="search" title="Search" href="search.html"/>
-    <link rel="top" title="bmlingam 0.1.4 documentation" href="index.html"/>
-        <link rel="next" title="Model" href="model.html"/>
-        <link rel="prev" title="Tutorial" href="tutorial.html"/> 
+    <link rel="top" title="bmlingam 0.1.4 documentation" href="index.html"/> 
 
   
   <script src="_static/js/modernizr.min.js"></script>
@@ -84,10 +82,10 @@
           
             
             
-                <ul class="current">
+                <ul>
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tutorial.html">Tutorial</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Accuracy of BMLiNGAM on artificial dataset</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notebook/expr/20160915/20160822-eval-bml.html">Accuracy of BMLiNGAM</a></li>
 <li class="toctree-l1"><a class="reference internal" href="model.html">Model</a></li>
 <li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
 <li class="toctree-l1"><a class="reference internal" href="api.html">API</a></li>
@@ -136,7 +134,41 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="accuracy-of-bmlingam-on-artificial-dataset">
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast,
+.nboutput.nblast {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast + .nbinput {
+    margin-top: -19px;
+}
+
+/* nice headers on first paragraph of info/warning boxes */
+.admonition .first {
+    margin: -12px;
+    padding: 6px 12px;
+    margin-bottom: 12px;
+    color: #fff;
+    line-height: 1;
+    display: block;
+}
+.admonition.warning .first {
+    background: #f0b37e;
+}
+.admonition.note .first {
+    background: #6ab0de;
+}
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+</style>
+<div class="section" id="accuracy-of-bmlingam-on-artificial-dataset">
 <h1>Accuracy of BMLiNGAM on artificial dataset<a class="headerlink" href="#accuracy-of-bmlingam-on-artificial-dataset" title="Permalink to this headline">¶</a></h1>
 <p>We have tested estimation accuracy of BMLiNGAM on artificial datasets with 100 observations. The accuracy of the causal inference  (<span class="math">\(x_{1}\rightarrow x_{2}\)</span> or vice versa) was over 80%. The datasets were created in the same manner as (Shimizu and Bollen, 2014).</p>
 <p>To qualitatively check the accuracy of the estimation of posterior distribution of the regression coefficient, we plotted posterior means of the coefficients versus the true value. As show in the below figure, the sign of the regression coefficient was reasonably estimated, although its amplitude was not very accurate.</p>
@@ -154,21 +186,12 @@
           </div>
           <footer>
   
-    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-      
-        <a href="model.html" class="btn btn-neutral float-right" title="Model" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
-      
-      
-        <a href="tutorial.html" class="btn btn-neutral" title="Tutorial" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
-      
-    </div>
-  
 
   <hr/>
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2015, Taku Yoshioka and Shohei Shimizu.
+        &copy; Copyright 2016, Taku Yoshioka and Shohei Shimizu.
 
     </p>
   </div>

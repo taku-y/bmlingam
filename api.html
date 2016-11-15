@@ -87,10 +87,21 @@
                 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tutorial.html">Tutorial</a></li>
-<li class="toctree-l1"><a class="reference internal" href="accuracy.html">Accuracy of BMLiNGAM on artificial dataset</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notebook/expr/20160915/20160822-eval-bml.html">Accuracy of BMLiNGAM</a></li>
 <li class="toctree-l1"><a class="reference internal" href="model.html">Model</a></li>
 <li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">API</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#causal-inference">Causal inference</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#bmlingam-inferparams">bmlingam.InferParams</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#bmlingam-define-hparam-searchspace">bmlingam.define_hparam_searchspace</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#bmlingam-find-best-model">bmlingam.find_best_model</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#estimation-of-regression-coefficient">Estimation of regression coefficient</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#bmlingam-mcmcparams">bmlingam.MCMCParams</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#bmlingam-do-mcmc-samples">bmlingam.do_mcmc_samples</a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="#artificial-data">Artificial data</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#bmlingam-utils-gendata-gendataparams">bmlingam.utils.gendata.GenDataParams</a></li>
 </ul>
@@ -142,21 +153,469 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="api">
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast,
+.nboutput.nblast {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast + .nbinput {
+    margin-top: -19px;
+}
+
+/* nice headers on first paragraph of info/warning boxes */
+.admonition .first {
+    margin: -12px;
+    padding: 6px 12px;
+    margin-bottom: 12px;
+    color: #fff;
+    line-height: 1;
+    display: block;
+}
+.admonition.warning .first {
+    background: #f0b37e;
+}
+.admonition.note .first {
+    background: #6ab0de;
+}
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+</style>
+<div class="section" id="api">
 <h1><a class="toc-backref" href="#id1">API</a><a class="headerlink" href="#api" title="Permalink to this headline">¶</a></h1>
 <div class="contents topic" id="contents">
 <p class="topic-title first">Contents</p>
 <ul class="simple">
 <li><a class="reference internal" href="#api" id="id1">API</a><ul>
-<li><a class="reference internal" href="#artificial-data" id="id2">Artificial data</a></li>
+<li><a class="reference internal" href="#causal-inference" id="id2">Causal inference</a></li>
+<li><a class="reference internal" href="#estimation-of-regression-coefficient" id="id3">Estimation of regression coefficient</a></li>
+<li><a class="reference internal" href="#artificial-data" id="id4">Artificial data</a></li>
 </ul>
 </li>
 </ul>
 </div>
+<div class="section" id="causal-inference">
+<h2><a class="toc-backref" href="#id2">Causal inference</a><a class="headerlink" href="#causal-inference" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="bmlingam-inferparams">
+<h3>bmlingam.InferParams<a class="headerlink" href="#bmlingam-inferparams" title="Permalink to this headline">¶</a></h3>
+<dl class="class">
+<dt id="bmlingam.InferParams">
+<em class="property">class </em><code class="descclassname">bmlingam.</code><code class="descname">InferParams</code><span class="sig-paren">(</span><em>seed=0, standardize=True, subtract_mu_reg=False, fix_mu_zero=True, prior_var_mu='auto', max_c=1.0, n_mc_samples=10000, P_M1=0.5, P_M2=0.5, dist_noise='gg', df_indvdl=8.0, prior_scale='log_normal', scale_coeff=1.0, prior_indvdls=['t'], cs=array([ 0. ,  0.2,  0.4,  0.6,  0.8,  1. ]), L_cov_21s=[-0.9, -0.7, -0.5, -0.3, 0, 0.3, 0.5, 0.7, 0.9], betas_indvdl=[0.25, 0.5, 0.75, 1.0], betas_noise=[0.25, 0.5, 0.75, 1.0], causalities='x1-&gt;x2, x2-&gt;x1', sampling_mode='normal'</em><span class="sig-paren">)</span><a class="headerlink" href="#bmlingam.InferParams" title="Permalink to this definition">¶</a></dt>
+<dd><p>Parameters for causal inference with the bayesian mixed LiNGAM.</p>
+<p>The fields of this class are grouped into two sets. The one is the set
+of parameters that define the candidates of models, i.e., possible value
+of hyperparameters.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>prior_indvdls</strong> (<em>list of string</em>) &#8211; Distributions of individual specific effects.
+Possible values are <code class="code docutils literal"><span class="pre">['t']</span></code>, <code class="code docutils literal"><span class="pre">['gauss']</span></code>, <code class="code docutils literal"><span class="pre">['gg']</span></code>, 
+<code class="code docutils literal"><span class="pre">['t',</span> <span class="pre">'gauss']</span></code>, or <code class="code docutils literal"><span class="pre">['t',</span> <span class="pre">'gg']</span></code>. The default value is
+<code class="code docutils literal"><span class="pre">['t']</span></code>. <code class="code docutils literal"><span class="pre">gg</span></code> means generalized Gaussian distribution.</li>
+<li><strong>cs</strong> (<em>list of float</em>) &#8211; Scales of the standard deviations of the individual specific 
+effects. The default value is <code class="code docutils literal"><span class="pre">[0,</span> <span class="pre">0.2,</span> <span class="pre">0.4,</span> <span class="pre">0.6,</span> <span class="pre">0.8,</span> <span class="pre">1.0]</span></code>.</li>
+<li><strong>L_cov_21s</strong> (<em>list of float</em>) &#8211; Correlation coefficients of individual specific effects. 
+The default value is <code class="code docutils literal"><span class="pre">[-.9,</span> <span class="pre">-.7,</span> <span class="pre">-.5,</span> <span class="pre">-.3,</span> <span class="pre">0,</span> <span class="pre">.3,</span> <span class="pre">.5,</span> <span class="pre">.7,</span> <span class="pre">.9]</span></code>.</li>
+<li><strong>betas_indvdl</strong> &#8211; Beta values of generalized Gaussian distributions
+for individual specific effects. The default value is
+<code class="code docutils literal"><span class="pre">[0.25,</span> <span class="pre">0.5,</span> <span class="pre">0.75,</span> <span class="pre">1.]</span></code>.</li>
+<li><strong>betas_noise</strong> &#8211; Beta values of generalized Gaussian distributions
+for noise. The default value is <code class="code docutils literal"><span class="pre">[0.25,</span> <span class="pre">0.5,</span> <span class="pre">0.75,</span> <span class="pre">1.]</span></code>.</li>
+<li><strong>causalities</strong> &#8211; Causal directions to be tested.
+The default value is <code class="code docutils literal"><span class="pre">x1-&gt;x2,</span> <span class="pre">x2-&gt;x1</span></code>.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>The other includes parameters applied to all candidate models.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>seed</strong> (<em>int</em>) &#8211; Seed of random number generator. The default value is 0.</li>
+<li><strong>standardize</strong> (<em>bool</em>) &#8211; If true (default), samples are standardized.</li>
+<li><strong>subtract_mu_reg</strong> (<em>bool</em>) &#8211; Specify regression variable.
+The default value is <code class="code docutils literal"><span class="pre">False</span></code>.</li>
+<li><strong>fix_mu_zero</strong> (<em>bool</em>) &#8211; If <code class="code docutils literal"><span class="pre">True</span></code> (default), the common interception
+is fixed to 0.</li>
+<li><strong>prior_var_mu</strong> (<em>'auto' (str literal) or float</em>) &#8211; Set prior variance of common interceptions.
+The default value is <code class="code docutils literal"><span class="pre">auto</span></code>.</li>
+<li><strong>max_c</strong> (<em>float</em>) &#8211; Scale constant on tau_cmmn.
+The default value is <code class="code docutils literal"><span class="pre">1.0</span></code>.</li>
+<li><strong>n_mc_samples</strong> (<em>int</em>) &#8211; Number of Monte Carlo samples.
+The default value is <code class="code docutils literal"><span class="pre">10000</span></code>.</li>
+<li><strong>P_M1</strong> (<em>float</em>) &#8211; Prior probability selecting model M1.
+The default value is <code class="code docutils literal"><span class="pre">0.5</span></code>.</li>
+<li><strong>P_M2</strong> (<em>float</em>) &#8211; Prior probability selecting model M2. 
+The default value is <code class="code docutils literal"><span class="pre">0.5</span></code>.</li>
+<li><strong>dist_noise</strong> (str, <code class="code docutils literal"><span class="pre">'laplace'</span></code> or <code class="code docutils literal"><span class="pre">'gg'</span></code>.) &#8211; Noise distribution. The default vaule is <code class="code docutils literal"><span class="pre">gg</span></code>.</li>
+<li><strong>df_indvdl</strong> (<em>float</em>) &#8211; Degrees of freedom of T distibution.</li>
+<li><strong>prior_scale'</strong> &#8211; Prior distribution of scale variable.</li>
+<li><strong>scale_coeff'</strong> (<em>float</em>) &#8211; Scale of prior std of regression coefficient.
+The default value is <code class="code docutils literal"><span class="pre">1.0</span></code>.</li>
+<li><strong>sampling_mode</strong> (<em>str</em>) &#8211; Sampling mode for MC integration.
+The default value is <code class="code docutils literal"><span class="pre">normal</span></code>, in which random numbers are 
+generated for each candidate models. If <code class="code docutils literal"><span class="pre">cache[_mp(2,</span> <span class="pre">4,</span> <span class="pre">8)]</span></code>,
+random numbers are cached and reused for evaluation of each candidate
+models. This mode is faster than <code class="code docutils literal"><span class="pre">normal</span></code>. <code class="code docutils literal"><span class="pre">_mp(2,</span> <span class="pre">4,</span> <span class="pre">8)</span></code>
+means using multiprocesses (2, 4 or 8 processes) for evaluation of 
+candidate models in parallel.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Attributes</p>
+</dd></dl>
+
+</div>
+<div class="section" id="bmlingam-define-hparam-searchspace">
+<h3>bmlingam.define_hparam_searchspace<a class="headerlink" href="#bmlingam-define-hparam-searchspace" title="Permalink to this headline">¶</a></h3>
+<dl class="function">
+<dt id="bmlingam.define_hparam_searchspace">
+<code class="descclassname">bmlingam.</code><code class="descname">define_hparam_searchspace</code><span class="sig-paren">(</span><em>infer_params</em><span class="sig-paren">)</span><a class="headerlink" href="#bmlingam.define_hparam_searchspace" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a list of hyperparameter sets.</p>
+<p>Search space is defined by the following fields in <code class="code docutils literal"><span class="pre">infer_params</span></code>:</p>
+<ul class="simple">
+<li><code class="code docutils literal"><span class="pre">prior_indvdls</span></code></li>
+<li><code class="code docutils literal"><span class="pre">cs</span></code></li>
+<li><code class="code docutils literal"><span class="pre">L_cov_21s</span></code></li>
+<li><code class="code docutils literal"><span class="pre">betas_indvdl</span></code></li>
+<li><code class="code docutils literal"><span class="pre">betas_noise</span></code></li>
+</ul>
+<p>Other fields are treated as constants.</p>
+<p>All of the returned values, i.e. hyperparameters, are used to calculate 
+log marginal probabilities and the maximal value is taken.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>infer_params</strong> (<a class="reference internal" href="#bmlingam.InferParams" title="bmlingam.InferParams"><em>InferParams</em></a>) &#8211; Parameters defining hyperparameter set.</td>
+</tr>
+</tbody>
+</table>
+<p>Returned value is a list of dicts, each of that is a set of 
+hyperparameters. It is created by the following code:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">hparamss</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">{</span>
+        <span class="c1"># Fixed hyperparameters</span>
+        <span class="s1">&#39;seed&#39;</span><span class="p">:</span> <span class="n">seed</span><span class="p">,</span> 
+        <span class="s1">&#39;standardize&#39;</span><span class="p">:</span> <span class="n">standardize</span><span class="p">,</span> 
+        <span class="s1">&#39;subtract_mu_reg&#39;</span><span class="p">:</span> <span class="n">subtract_mu_reg</span><span class="p">,</span> 
+        <span class="s1">&#39;fix_mu_zero&#39;</span><span class="p">:</span> <span class="n">fix_mu_zero</span><span class="p">,</span> 
+        <span class="s1">&#39;prior_var_mu&#39;</span><span class="p">:</span> <span class="n">prior_var_mu</span><span class="p">,</span> 
+        <span class="s1">&#39;max_c&#39;</span><span class="p">:</span> <span class="n">max_c</span><span class="p">,</span> 
+        <span class="s1">&#39;n_mc_samples&#39;</span><span class="p">:</span> <span class="n">n_mc_samples</span><span class="p">,</span> 
+        <span class="s1">&#39;P_M1&#39;</span><span class="p">:</span> <span class="n">P_M1</span><span class="p">,</span> 
+        <span class="s1">&#39;P_M2&#39;</span><span class="p">:</span> <span class="n">P_M2</span><span class="p">,</span> 
+        <span class="s1">&#39;dist_noise&#39;</span><span class="p">:</span> <span class="n">dist_noise</span><span class="p">,</span> 
+        <span class="s1">&#39;df_indvdl&#39;</span><span class="p">:</span> <span class="n">df_indvdl</span><span class="p">,</span> 
+        <span class="s1">&#39;prior_scale&#39;</span><span class="p">:</span> <span class="n">prior_scale</span><span class="p">,</span> 
+
+        <span class="c1"># Varied hyperparameters</span>
+        <span class="s1">&#39;causality&#39;</span><span class="p">:</span> <span class="n">causality</span><span class="p">,</span> 
+        <span class="s1">&#39;prior_indvdl&#39;</span><span class="p">:</span> <span class="n">prior_indvdl</span><span class="p">,</span> 
+        <span class="s1">&#39;v_indvdl_1&#39;</span><span class="p">:</span> <span class="n">v_indvdl_1</span><span class="p">,</span> 
+        <span class="s1">&#39;v_indvdl_2&#39;</span><span class="p">:</span> <span class="n">v_indvdl_2</span><span class="p">,</span> 
+        <span class="s1">&#39;L_cov&#39;</span><span class="p">:</span> <span class="n">L_cov</span><span class="p">,</span> 
+        <span class="s1">&#39;beta_coeff&#39;</span><span class="p">:</span> <span class="n">beta_coeff</span><span class="p">,</span> 
+        <span class="s1">&#39;beta_noise&#39;</span><span class="p">:</span> <span class="n">beta_noise</span>
+    <span class="p">}</span>
+    <span class="k">for</span> <span class="n">prior_indvdl</span> <span class="ow">in</span> <span class="n">prior_indvdls</span>
+    <span class="k">for</span> <span class="n">v_indvdl_1</span> <span class="ow">in</span> <span class="n">cs</span>
+    <span class="k">for</span> <span class="n">v_indvdl_2</span> <span class="ow">in</span> <span class="n">cs</span>
+    <span class="k">for</span> <span class="n">L_cov</span> <span class="ow">in</span> <span class="n">L_covs</span>
+    <span class="k">for</span> <span class="n">causality</span> <span class="ow">in</span> <span class="n">causalities</span>
+    <span class="k">for</span> <span class="n">beta_coeff</span> <span class="ow">in</span> <span class="p">(</span><span class="n">betas_indvdl</span> <span class="k">if</span> <span class="n">prior_indvdl</span> <span class="o">==</span> <span class="s1">&#39;gg&#39;</span> <span class="k">else</span> <span class="p">[</span><span class="bp">None</span><span class="p">])</span>
+    <span class="k">for</span> <span class="n">beta_noise</span> <span class="ow">in</span> <span class="p">(</span><span class="n">betas_noise</span> <span class="k">if</span> <span class="n">dist_noise</span> <span class="o">==</span> <span class="s1">&#39;gg&#39;</span> <span class="k">else</span> <span class="p">[</span><span class="bp">None</span><span class="p">])]</span>
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">List of hyperparameter sets.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">list of dicts</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="bmlingam-find-best-model">
+<h3>bmlingam.find_best_model<a class="headerlink" href="#bmlingam-find-best-model" title="Permalink to this headline">¶</a></h3>
+<dl class="function">
+<dt id="bmlingam.find_best_model">
+<code class="descclassname">bmlingam.</code><code class="descname">find_best_model</code><span class="sig-paren">(</span><em>xs</em>, <em>hparamss</em>, <em>sampling_mode='normal'</em><span class="sig-paren">)</span><a class="headerlink" href="#bmlingam.find_best_model" title="Permalink to this definition">¶</a></dt>
+<dd><p>Find the optimal and reverse-optimal models.</p>
+<p>This function calculates marginal likelihoods for the models specified with
+hyperparameter sets included in <code class="code docutils literal"><span class="pre">hparamss</span></code>. The optimal model is
+the one whose marginal likelihood on data <code class="code docutils literal"><span class="pre">xs</span></code> is the maximum.
+Reverse-optimal is the one with the maximum marginal likelihood across
+models whose causations are opposite to the optimal model.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>xs</strong> (<em>numpy.ndarray, shape=(n_samples, 2)</em>) &#8211; Pairs of observed values.</li>
+<li><strong>hparamss</strong> (<em>list of dict</em>) &#8211; List of model parameters which defines search space.
+This is created with <a class="reference internal" href="#bmlingam.define_hparam_searchspace" title="bmlingam.define_hparam_searchspace"><code class="xref py py-func docutils literal"><span class="pre">bmlingam.define_hparam_searchspace()</span></code></a>.</li>
+<li><strong>sampling_mode</strong> (<em>str</em>) &#8211; Specify the way to perform Monte Carlo sampling.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+</div>
+<div class="section" id="estimation-of-regression-coefficient">
+<h2><a class="toc-backref" href="#id3">Estimation of regression coefficient</a><a class="headerlink" href="#estimation-of-regression-coefficient" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="bmlingam-mcmcparams">
+<h3>bmlingam.MCMCParams<a class="headerlink" href="#bmlingam-mcmcparams" title="Permalink to this headline">¶</a></h3>
+<dl class="class">
+<dt id="bmlingam.MCMCParams">
+<em class="property">class </em><code class="descclassname">bmlingam.</code><code class="descname">MCMCParams</code><span class="sig-paren">(</span><em>n_burn=10000</em>, <em>n_mcmc_samples=10000</em>, <em>seed_burn=1</em>, <em>seed=2</em>, <em>verbose=0</em>, <em>nanguard=False</em><span class="sig-paren">)</span><a class="headerlink" href="#bmlingam.MCMCParams" title="Permalink to this definition">¶</a></dt>
+<dd><p>Parameters for MCMC to estimate regression coefficient.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>n_burn</strong> (<em>int</em>) &#8211; Samples in burn-in period. 
+The default value is <code class="code docutils literal"><span class="pre">10000</span></code>.</li>
+<li><strong>n_mcmc_samples</strong> (<em>int</em>) &#8211; Samples in MCMC (after burn-in).
+The default value is <code class="code docutils literal"><span class="pre">10000</span></code>.</li>
+<li><strong>seed_burn</strong> (<em>int</em>) &#8211; Random seed for burn-in period.
+The default value is <code class="code docutils literal"><span class="pre">1</span></code>.</li>
+<li><strong>seed</strong> (<em>int</em>) &#8211; Random seed for MCMC.
+The default value is <code class="code docutils literal"><span class="pre">2</span></code>.</li>
+<li><strong>verbose</strong> (<em>int</em>) &#8211; Verbose level. The default value is 0 (silent).</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Attributes</p>
+</dd></dl>
+
+</div>
+<div class="section" id="bmlingam-do-mcmc-samples">
+<h3>bmlingam.do_mcmc_samples<a class="headerlink" href="#bmlingam-do-mcmc-samples" title="Permalink to this headline">¶</a></h3>
+<dl class="function">
+<dt id="bmlingam.do_mcmc_bmlingam">
+<code class="descclassname">bmlingam.</code><code class="descname">do_mcmc_bmlingam</code><span class="sig-paren">(</span><em>xs</em>, <em>hparams</em>, <em>mcmc_params</em><span class="sig-paren">)</span><a class="headerlink" href="#bmlingam.do_mcmc_bmlingam" title="Permalink to this definition">¶</a></dt>
+<dd><p>Do MCMC for sampling posterior of bmlingam coefficient.</p>
+<p>Example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">mcmc_params</span> <span class="o">=</span> <span class="n">MCMCParams</span><span class="p">(</span>
+    <span class="n">n_burn</span><span class="o">=</span><span class="mi">10000</span><span class="p">,</span>     <span class="c1"># Samples in burn-in period</span>
+    <span class="n">n_mcmc_samples</span><span class="o">=</span><span class="mi">10000</span><span class="p">,</span> <span class="c1"># Samples in MCMC (after burn-in)</span>
+    <span class="n">seed_burn</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="c1"># Random seed for burn-in period</span>
+    <span class="n">seed</span><span class="o">=</span><span class="mi">2</span> <span class="c1"># Random seed for MCMC</span>
+<span class="p">)</span> 
+<span class="n">trace</span> <span class="o">=</span> <span class="n">do_mcmc_bmlingam</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;xs&#39;</span><span class="p">],</span> <span class="n">hparams</span><span class="p">,</span> <span class="n">mcmc_params</span><span class="p">)</span>
+<span class="n">b_post</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">trace</span><span class="p">[</span><span class="s1">&#39;b&#39;</span><span class="p">])</span>
+</pre></div>
+</div>
+<p><code class="code docutils literal"><span class="pre">xs</span></code> is the numpy.ndarray containing samples.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>xs</strong> (<em>numpy.ndarray, shape=(n_samples, 2)</em>) &#8211; Data array.</td>
+</tr>
+</tbody>
+</table>
+<p><code class="code docutils literal"><span class="pre">hparams</span></code> is a dict including hyperparameters. 
+See <code class="xref py py-func docutils literal"><span class="pre">bmlingam.hparam.define_hparam_searchspace()</span></code>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>hparams</strong> (<em>dict</em>) &#8211; Set of hyperparameters.</td>
+</tr>
+</tbody>
+</table>
+<p><code class="code docutils literal"><span class="pre">mcmc_params</span></code> includes parameters for MCMC.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>mcmc_params</strong> (<a class="reference internal" href="#bmlingam.MCMCParams" title="bmlingam.MCMCParams"><code class="xref py py-class docutils literal"><span class="pre">bmlingam.MCMCParams</span></code></a>) &#8211; Parameters for MCMC.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+</div>
 <div class="section" id="artificial-data">
-<h2><a class="toc-backref" href="#id2">Artificial data</a><a class="headerlink" href="#artificial-data" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id4">Artificial data</a><a class="headerlink" href="#artificial-data" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="bmlingam-utils-gendata-gendataparams">
 <h3>bmlingam.utils.gendata.GenDataParams<a class="headerlink" href="#bmlingam-utils-gendata-gendataparams" title="Permalink to this headline">¶</a></h3>
+<dl class="class">
+<dt id="bmlingam.utils.gendata.GenDataParams">
+<em class="property">class </em><code class="descclassname">bmlingam.utils.gendata.</code><code class="descname">GenDataParams</code><span class="sig-paren">(</span><em>n_samples=100, b21_dist='r2intervals', mu1_dist=5.0, mu2_dist=10.0, f1_scale=1.0, f2_scale=1.0, f1_coef=['r2intervals', 'r2intervals', 'r2intervals'], f2_coef=['r2intervals', 'r2intervals', 'r2intervals'], conf_dist=[['all'], ['all'], ['all']], e1_std=3.0, e2_std=3.0, e1_dist=['laplace'], e2_dist=['laplace'], fix_causality=False, seed=0</em><span class="sig-paren">)</span><a class="headerlink" href="#bmlingam.utils.gendata.GenDataParams" title="Permalink to this definition">¶</a></dt>
+<dd><p>Parameters for generating artificial data.</p>
+<p>This parameter object is an argument of function <code class="code docutils literal"><span class="pre">gen_artificial_data()</span></code>. 
+The number of samples in the data is specified with a parameter.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>n_samples</strong> (<em>int</em>) &#8211; Number of samples in the data.</td>
+</tr>
+</tbody>
+</table>
+<p>The data generated by this function has two random variables 
+<span class="math">\(x_{1}^{(i)}\)</span> and <span class="math">\(x_{2}^{(i)}\)</span>, where <span class="math">\(i\)</span> denotes the 
+sample index. The generative model of data is given as follows:</p>
+<div class="math">
+\[\begin{split}x_{1}^{(i)} &amp;= \mu_{1} + s_{1}\sum_{q=1}^{Q}\lambda_{1}^{q}f_{q}^{(i)} + e_{1}^{(i)} \\
+x_{2}^{(i)} &amp;= \mu_{2} + s_{2}\sum_{q=1}^{Q}\lambda_{2}^{q}f_{q}^{(i)} + b_{21}x_{1}^{(i)} + e_{2}^{(i)}. \end{split}\]</div>
+<p>All of the above quantities in the RHS are random variables. This equation 
+corresponds to causal direction from <span class="math">\(x_{1}\)</span> to <span class="math">\(x_{2}\)</span>. The 
+function randomly flips the causality with 50% probability, i.e., 
+<span class="math">\(x_{2}\)</span> to <span class="math">\(x_{1}\)</span>. For testing purpose, however, one might want 
+to fix causal direction. The randomness could be controlled by parameter 
+<code class="code docutils literal"><span class="pre">fix_causality</span></code>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>fix_causality</strong> (<em>bool</em>) &#8211; Randomness of causal direction. If this 
+parameter is set to <code class="code docutils literal"><span class="pre">True</span></code>, the causal 
+direction of the generative model is determined 
+with 50% probability. Otherwise, the causal 
+direction isfixed to <span class="math">\(x_{1}\)</span> to <span class="math">\(x_{2}\)</span>. 
+Default is <code class="code docutils literal"><span class="pre">False</span></code>.</td>
+</tr>
+</tbody>
+</table>
+<p><span class="math">\(b_{21}\)</span> is the regression coefficient, corresponding to strength of 
+the causal effect. <span class="math">\(\mu_{r} (r=1,2)\)</span> is the bias term. These random 
+variables are drawn only once for a dataset. Probability distributions for 
+these random variables are specified with the following parameters.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>b21_dist</strong> (<em>str or float</em>) &#8211; Distribution of <span class="math">\(b_{21}\)</span>. If <code class="code docutils literal"><span class="pre">b21_dist</span></code> is 
+<code class="code docutils literal"><span class="pre">'r2interval'</span></code>, <span class="math">\(b21\)</span> is drawn from a mixture 
+of two uniform distributions <span class="math">\([-1.5, -0.5]\)</span> and 
+<span class="math">\([0.5, 1.5]\)</span>, as appeared in the paper. If a float 
+value is given, <span class="math">\(b_{21}\)</span> is set to that value.</li>
+<li><strong>mu1_dist</strong> (<em>str or float</em>) &#8211; Distribution of <span class="math">\(\mu_{1}\)</span>. If <code class="code docutils literal"><span class="pre">randn</span></code>, 
+<span class="math">\(mu_{1}\)</span> is drawn from the standard normal 
+distribution. If a float value is given, <span class="math">\(\mu_{1}\)</span> 
+is set to that value.</li>
+<li><strong>mu2_dist</strong> (<em>str or float</em>) &#8211; Same with <code class="code docutils literal"><span class="pre">mu1_dist</span></code>.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p><span class="math">\(s_{r}\sum_{q=1}^{Q}\lambda_{r,q}f_{q}^{(i)} (r=1,2)\)</span> is a 
+weighted sum of confounders. <span class="math">\(s_{r}\)</span> is just a scaling constant. 
+The weights <span class="math">\(\lambda_{r,q}\)</span> (<span class="math">\(q=1,\cdots, Q\)</span>) are dependent on 
+confounders and could be random variables or constants. Random variables 
+<span class="math">\(f_{q}^{(i)}\)</span> are dependent on both of confounders and samples. 
+The parameters related to the confounders are as below.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>f1_scale</strong> (<em>float</em>) &#8211; Scaling constant for the confound term in <code class="code docutils literal"><span class="pre">x_{1}</span></code>. 
+<code class="code docutils literal"><span class="pre">f1_coef=[1,</span> <span class="pre">1,</span> <span class="pre">1],</span> <span class="pre">f1_scale=1/3.0</span></code> is equivalent to
+<code class="code docutils literal"><span class="pre">f1_coef=[1/3.0,</span> <span class="pre">1/3.0,</span> <span class="pre">1/3.0],</span> <span class="pre">f1_scale=1</span></code>.</li>
+<li><strong>f1_coef</strong> (<em>list of (str or float)</em>) &#8211; List of distributions or constants of weights of 
+confounders. The length of the list is the number of 
+confounders in the weighted sum. If <code class="code docutils literal"><span class="pre">f1_coef[q]</span></code> is 
+<code class="code docutils literal"><span class="pre">r2intervals</span></code>, the uniform mixture distribution, 
+used for <span class="math">\(b_{21}\)</span>, is also used to draw a value of 
+the <span class="math">\(q\)</span>-th weight. If a float value is given, the 
+weight is set to that value.</li>
+<li><strong>conf_dist</strong> (<em>list of (list of strs)</em>) &#8211; List of possible distributions for confound factors. 
+The length of the list, <code class="code docutils literal"><span class="pre">len(conf_dist)</span></code>, is equal 
+to the number of confounders. For example, if 
+<code class="code docutils literal"><span class="pre">conf_dist</span> <span class="pre">=</span> <span class="pre">[['laplace'],</span> <span class="pre">['exp',</span> <span class="pre">'uniform</span></code>]]`, 
+the 1st confounder is distributed according to the 
+standard Laplace distribution and the 2nd confounder is 
+drawn from either the exponential or uniform distributions 
+with 50% probability. <code class="code docutils literal"><span class="pre">'all'</span></code> denotes that all 
+distributions in <code class="code docutils literal"><span class="pre">usr_distrib()</span></code> are possible.</li>
+<li><strong>f2_scale</strong> (<em>float</em>) &#8211; Same with <code class="code docutils literal"><span class="pre">f1_scale</span></code>.</li>
+<li><strong>f2_coef</strong> (<em>list of (str or float)</em>) &#8211; Same with <code class="code docutils literal"><span class="pre">f1_coef</span></code>.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p><span class="math">\(e_{r}^{(i)}\)</span> is a noise term. Its distribution and standard 
+deviation are specified by the following parameters.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>e1_dist</strong> (<em>List of strs</em>) &#8211; Possible distributions of noise.</li>
+<li><strong>e1_std</strong> (<em>float</em>) &#8211; Standard deviation of the noise.</li>
+<li><strong>e2_dist</strong> (<em>List of strs</em>) &#8211; Same with <code class="code docutils literal"><span class="pre">e1_dist</span></code>.</li>
+<li><strong>e2_std</strong> (<em>float</em>) &#8211; Same with <code class="code docutils literal"><span class="pre">e1_std</span></code>.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>The seed of random number generator needs to be set.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>seed</strong> &#8211; Seed of random number generator.</td>
+</tr>
+</tbody>
+</table>
+<p>Here is the list of distributions in <code class="code docutils literal"><span class="pre">usr_distrib()</span></code>.</p>
+<ul class="simple">
+<li>&#8216;gmm4_symm_mul&#8217;: mixture of 4 Gaussians, symmetric and multimodal</li>
+<li>&#8216;gmm4_symm_trn&#8217;: mixture of 4 Gaussians, symmetric and transitional</li>
+<li>&#8216;gmm4_symm_uni&#8217;: mixture of 4 Gaussians, symmetric and unimodal</li>
+<li>&#8216;gmm4_asym_mul&#8217;: mixture of 4 Gaussians, nonsymmetric and multimodal</li>
+<li>&#8216;gmm4_asym_trn&#8217;: mixture of 4 Gaussians, nonsymmetric and transitional</li>
+<li>&#8216;gmm4_asym_uni&#8217;: mixture of 4 Gaussians, nonsymmetric and unimodal</li>
+<li>&#8216;t5df&#8217;: Student T with 3 degrees of freedom</li>
+<li>&#8216;t5df&#8217;: Student T with 5 degrees of freedom</li>
+<li>&#8216;exp&#8217;: Simple exponential</li>
+<li>&#8216;laplace&#8217;: Double exponential (Laplace)</li>
+<li>&#8216;uniform&#8217;: Uniform</li>
+<li>&#8216;dexp2&#8217;: mixtures of 2 double exponential</li>
+<li>&#8216;gmm2_symm_mul&#8217;: mixture of 2 Gaussians, symmetric and multimodal</li>
+<li>&#8216;gmm2_symm_trn&#8217;: mixture of 2 Gaussians, symmetric and transitional</li>
+<li>&#8216;gmm2_symm_uni&#8217;: mixture of 2 Gaussians, symmetric and unimodal</li>
+<li>&#8216;gmm2_asym_mul&#8217;: mixture of 2 Gaussians, nonsymmetric and multimodal</li>
+<li>&#8216;gmm2_asym_trn&#8217;: mixture of 2 Gaussians, nonsymmetric and transitional</li>
+<li>&#8216;gmm2_asym_uni&#8217;: mixture of 2 Gaussians, nonsymmetric and unimodal</li>
+<li>&#8216;all&#8217;: All distributions above</li>
+</ul>
+<p class="rubric">Attributes</p>
+</dd></dl>
+
 </div>
 </div>
 </div>
@@ -180,7 +639,7 @@
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2015, Taku Yoshioka and Shohei Shimizu.
+        &copy; Copyright 2016, Taku Yoshioka and Shohei Shimizu.
 
     </p>
   </div>

@@ -1,0 +1,1121 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Accuracy of BMLiNGAM &mdash; bmlingam 0.1.4 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="../../../../genindex.html"/>
+        <link rel="search" title="Search" href="../../../../search.html"/>
+    <link rel="top" title="bmlingam 0.1.4 documentation" href="../../../../index.html"/> 
+
+  
+  <script src="../../../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../../../index.html" class="icon icon-home"> bmlingam
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tutorial.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../20160822-eval-bml.html">Accuracy of BMLiNGAM</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../model.html">Model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../license.html">License</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../api.html">API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../citation.html">Citation</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../../../../index.html">bmlingam</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+ 
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../../../index.html">Docs</a> &raquo;</li>
+      
+    <li>Accuracy of BMLiNGAM</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../../../../_sources/notebook/expr/20160915/.ipynb_checkpoints/20160822-eval-bml-checkpoint.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  
+<style>
+/* CSS for nbsphinx extension */
+
+/* remove conflicting styling from Sphinx themes */
+div.nbinput,
+div.nbinput > div,
+div.nbinput div[class^=highlight],
+div.nbinput div[class^=highlight] pre,
+div.nboutput,
+div.nboutput > div,
+div.nboutput div[class^=highlight],
+div.nboutput div[class^=highlight] pre {
+    background: none;
+    border: none;
+    padding: 0 0;
+    margin: 0;
+    box-shadow: none;
+}
+
+/* avoid gaps between output lines */
+div.nboutput div[class^=highlight] pre {
+    line-height: normal;
+}
+
+/* input/output containers */
+div.nbinput,
+div.nboutput {
+    display: -webkit-flex;
+    display: flex;
+    align-items: flex-start;
+    margin: 0;
+}
+
+/* input container */
+div.nbinput {
+    padding-top: 5px;
+}
+
+/* last container */
+div.nblast {
+    padding-bottom: 5px;
+}
+
+/* input prompt */
+div.nbinput > :first-child pre {
+    color: #303F9F;
+}
+
+/* output prompt */
+div.nboutput > :first-child pre {
+    color: #D84315;
+}
+
+/* all prompts */
+div.nbinput > :first-child[class^=highlight],
+div.nboutput > :first-child[class^=highlight],
+div.nboutput > :first-child {
+    min-width: 9ex;
+    padding-top: 0.4em;
+    padding-right: 0.4em;
+    text-align: right;
+    flex: 0;
+}
+
+/* input/output area */
+div.nbinput > :nth-child(2)[class^=highlight],
+div.nboutput > :nth-child(2),
+div.nboutput > :nth-child(2)[class^=highlight] {
+    padding: 0.4em;
+    -webkit-flex: 1;
+    flex: 1;
+    overflow: auto;
+}
+
+/* input area */
+div.nbinput > :nth-child(2)[class^=highlight] {
+    border: 1px solid #cfcfcf;
+    border-radius: 2px;
+    background: #f7f7f7;
+}
+
+/* override MathJax center alignment in output cells */
+div.nboutput div[class*=MathJax] {
+    text-align: left !important;
+}
+
+/* override sphinx.ext.pngmath center alignment in output cells */
+div.nboutput div.math p {
+    text-align: left;
+}
+
+/* standard error */
+div.nboutput  > :nth-child(2).stderr {
+    background: #fdd;
+}
+
+/* ANSI colors */
+.ansi-black-fg { color: #3E424D; }
+.ansi-black-bg { background-color: #3E424D; }
+.ansi-black-intense-fg { color: #282C36; }
+.ansi-black-intense-bg { background-color: #282C36; }
+.ansi-red-fg { color: #E75C58; }
+.ansi-red-bg { background-color: #E75C58; }
+.ansi-red-intense-fg { color: #B22B31; }
+.ansi-red-intense-bg { background-color: #B22B31; }
+.ansi-green-fg { color: #00A250; }
+.ansi-green-bg { background-color: #00A250; }
+.ansi-green-intense-fg { color: #007427; }
+.ansi-green-intense-bg { background-color: #007427; }
+.ansi-yellow-fg { color: #DDB62B; }
+.ansi-yellow-bg { background-color: #DDB62B; }
+.ansi-yellow-intense-fg { color: #B27D12; }
+.ansi-yellow-intense-bg { background-color: #B27D12; }
+.ansi-blue-fg { color: #208FFB; }
+.ansi-blue-bg { background-color: #208FFB; }
+.ansi-blue-intense-fg { color: #0065CA; }
+.ansi-blue-intense-bg { background-color: #0065CA; }
+.ansi-magenta-fg { color: #D160C4; }
+.ansi-magenta-bg { background-color: #D160C4; }
+.ansi-magenta-intense-fg { color: #A03196; }
+.ansi-magenta-intense-bg { background-color: #A03196; }
+.ansi-cyan-fg { color: #60C6C8; }
+.ansi-cyan-bg { background-color: #60C6C8; }
+.ansi-cyan-intense-fg { color: #258F8F; }
+.ansi-cyan-intense-bg { background-color: #258F8F; }
+.ansi-white-fg { color: #C5C1B4; }
+.ansi-white-bg { background-color: #C5C1B4; }
+.ansi-white-intense-fg { color: #A1A6B2; }
+.ansi-white-intense-bg { background-color: #A1A6B2; }
+
+.ansi-bold { font-weight: bold; }
+
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast,
+.nboutput.nblast {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast + .nbinput {
+    margin-top: -19px;
+}
+
+/* nice headers on first paragraph of info/warning boxes */
+.admonition .first {
+    margin: -12px;
+    padding: 6px 12px;
+    margin-bottom: 12px;
+    color: #fff;
+    line-height: 1;
+    display: block;
+}
+.admonition.warning .first {
+    background: #f0b37e;
+}
+.admonition.note .first {
+    background: #6ab0de;
+}
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+</style>
+<div class="section" id="Accuracy-of-BMLiNGAM">
+<h1>Accuracy of BMLiNGAM<a class="headerlink" href="#Accuracy-of-BMLiNGAM" title="Permalink to this headline">¶</a></h1>
+<p>This notebook shows accuracy of BMLiNGAM for causal inference.</p>
+<div class="nbinput container">
+<div class="highlight-none"><div class="highlight"><pre>
+<span></span>In [1]:
+</pre></div>
+</div>
+<div class="highlight-ipython3"><div class="highlight"><pre>
+<span></span><span class="o">%</span><span class="k">matplotlib</span> inline
+<span class="o">%</span><span class="k">autosave</span> 0
+<span class="kn">import</span> <span class="nn">sys</span><span class="o">,</span> <span class="nn">os</span>
+<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">expanduser</span><span class="p">(</span><span class="s1">&#39;~/work/git/github/taku-y/bmlingam&#39;</span><span class="p">))</span>
+<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">expanduser</span><span class="p">(</span><span class="s1">&#39;~/work/git/github/pymc-devs/pymc3&#39;</span><span class="p">))</span>
+
+<span class="kn">import</span> <span class="nn">theano</span>
+<span class="n">theano</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">floatX</span> <span class="o">=</span> <span class="s1">&#39;float64&#39;</span>
+
+<span class="kn">from</span> <span class="nn">copy</span> <span class="k">import</span> <span class="n">deepcopy</span>
+<span class="kn">import</span> <span class="nn">hashlib</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+<span class="kn">import</span> <span class="nn">time</span>
+
+<span class="kn">from</span> <span class="nn">expr1</span> <span class="k">import</span> <span class="n">run_trial</span>
+<span class="kn">from</span> <span class="nn">bmlingam</span> <span class="k">import</span> <span class="n">load_pklz</span><span class="p">,</span> <span class="n">save_pklz</span>
+<span class="c1"># from bmlingam import do_mcmc_bmlingam, InferParams, MCMCParams, save_pklz, load_pklz, define_hparam_searchspace, find_best_model</span>
+<span class="c1"># from bmlingam.utils.gendata import GenDataParams, gen_artificial_data</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput container">
+<div class="container">
+</div>
+<div class="container">
+<div class="admonition warning">
+Data type cannot be displayed: application/javascript</div>
+</div>
+</div>
+<div class="nboutput container">
+<div class="container">
+</div>
+<div class="container">
+<div class="highlight"><pre>
+Autosave disabled
+</pre></div></div>
+</div>
+<div class="nboutput nblast container">
+<div class="container">
+</div>
+<div class="stderr container">
+<div class="highlight"><pre>
+/opt/conda/lib/python3.5/site-packages/matplotlib/__init__.py:1357: UserWarning:  This call to matplotlib.use() has no effect
+because the backend has already been chosen;
+matplotlib.use() must be called *before* pylab, matplotlib.pyplot,
+or matplotlib.backends is imported for the first time.
+
+  warnings.warn(_use_error_msg)
+</pre></div></div>
+</div>
+<div class="section" id="Experimental-condition">
+<h2>Experimental condition<a class="headerlink" href="#Experimental-condition" title="Permalink to this headline">¶</a></h2>
+<p>The experimental conditions are as follows.</p>
+<ul class="simple">
+<li>Parameter of artiifcial data<ul>
+<li>The number of observed samples (<code class="docutils literal"><span class="pre">n_samples</span></code>): <code class="docutils literal"><span class="pre">[100]</span></code></li>
+<li>The number of confounding factors (<code class="docutils literal"><span class="pre">n_confs</span></code> or <span class="math">\(Q\)</span>):
+<code class="docutils literal"><span class="pre">[1,</span> <span class="pre">3,</span> <span class="pre">5,</span> <span class="pre">10]</span></code></li>
+<li>Scale of total noise: <span class="math">\(c=0.25, 0.5, 1.0, 3.0\)</span>.</li>
+<li>Scale of confounding factors: <span class="math">\(c/\sqrt{Q}\)</span></li>
+<li>Distribution of observation noise (<code class="docutils literal"><span class="pre">data_noise_type</span></code>):
+<code class="docutils literal"><span class="pre">['laplace',</span> <span class="pre">'uniform']</span></code></li>
+<li>Scale of observation noise: 3</li>
+</ul>
+</li>
+<li>Hyperparameter range<ul>
+<li>Correlation coefficient of confounding factors: (<code class="docutils literal"><span class="pre">L_cov_21s</span></code>):
+<code class="docutils literal"><span class="pre">[[-.9,</span> <span class="pre">-.7,</span> <span class="pre">-.5,</span> <span class="pre">-.3,</span> <span class="pre">0,</span> <span class="pre">.3,</span> <span class="pre">.5,</span> <span class="pre">.7,</span> <span class="pre">.9]]</span></code></li>
+<li>Distribution of observation noise (<code class="docutils literal"><span class="pre">model_noise_type</span></code>):
+<code class="docutils literal"><span class="pre">['gg']</span></code></li>
+</ul>
+</li>
+</ul>
+<div class="nbinput nblast container">
+<div class="highlight-none"><div class="highlight"><pre>
+<span></span>In [2]:
+</pre></div>
+</div>
+<div class="highlight-ipython3"><div class="highlight"><pre>
+<span></span><span class="n">conds</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="p">{</span>
+            <span class="s1">&#39;totalnoise&#39;</span><span class="p">:</span> <span class="n">totalnoise</span><span class="p">,</span>
+            <span class="s1">&#39;L_cov_21s&#39;</span><span class="p">:</span> <span class="n">L_cov_21s</span><span class="p">,</span>
+            <span class="s1">&#39;n_samples&#39;</span><span class="p">:</span> <span class="n">n_samples</span><span class="p">,</span>
+            <span class="s1">&#39;n_confs&#39;</span><span class="p">:</span> <span class="n">n_confs</span><span class="p">,</span>
+            <span class="s1">&#39;data_noise_type&#39;</span><span class="p">:</span> <span class="n">data_noise_type</span><span class="p">,</span>
+            <span class="s1">&#39;model_noise_type&#39;</span><span class="p">:</span> <span class="n">model_noise_type</span>
+        <span class="p">}</span>
+        <span class="k">for</span> <span class="n">totalnoise</span> <span class="ow">in</span> <span class="p">[</span><span class="mf">0.25</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">L_cov_21s</span> <span class="ow">in</span> <span class="p">[[</span><span class="o">-.</span><span class="mi">9</span><span class="p">,</span> <span class="o">-.</span><span class="mi">7</span><span class="p">,</span> <span class="o">-.</span><span class="mi">5</span><span class="p">,</span> <span class="o">-.</span><span class="mi">3</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">.</span><span class="mi">3</span><span class="p">,</span> <span class="o">.</span><span class="mi">5</span><span class="p">,</span> <span class="o">.</span><span class="mi">7</span><span class="p">,</span> <span class="o">.</span><span class="mi">9</span><span class="p">]]</span>
+        <span class="k">for</span> <span class="n">n_samples</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">100</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">n_confs</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">10</span><span class="p">]</span> <span class="c1"># [1, 3, 5, 10]</span>
+        <span class="k">for</span> <span class="n">data_noise_type</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;laplace&#39;</span><span class="p">,</span> <span class="s1">&#39;uniform&#39;</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">model_noise_type</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;gg&#39;</span><span class="p">]</span>
+    <span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="Program">
+<h2>Program<a class="headerlink" href="#Program" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="Identifier-of-trial">
+<h3>Identifier of trial<a class="headerlink" href="#Identifier-of-trial" title="Permalink to this headline">¶</a></h3>
+<p>Identifier of a trial is determined based on:</p>
+<ul class="simple">
+<li>Trial index (<code class="docutils literal"><span class="pre">ix_trial</span></code>)</li>
+<li>The number of samples (<code class="docutils literal"><span class="pre">n_samples</span></code>)</li>
+<li>The number of confounders (<code class="docutils literal"><span class="pre">n_confs</span></code>)</li>
+<li>Distribution of observation noise of artificial data
+(<code class="docutils literal"><span class="pre">data_noise_type</span></code>)</li>
+<li>Distribution of observation noise of BMLiNGAM model
+(<code class="docutils literal"><span class="pre">model_noise_type</span></code>)</li>
+<li>Correlation coefficient of confounding effect (<code class="docutils literal"><span class="pre">L_cov_21s</span></code>)</li>
+<li>Total noise scale (<code class="docutils literal"><span class="pre">totalnoise</span></code>)</li>
+</ul>
+<p>We use identifiers to store results of trials.</p>
+<div class="nbinput container">
+<div class="highlight-none"><div class="highlight"><pre>
+<span></span>In [3]:
+</pre></div>
+</div>
+<div class="highlight-ipython3"><div class="highlight"><pre>
+<span></span><span class="k">def</span> <span class="nf">make_id</span><span class="p">(</span><span class="n">ix_trial</span><span class="p">,</span> <span class="n">n_samples</span><span class="p">,</span> <span class="n">n_confs</span><span class="p">,</span> <span class="n">data_noise_type</span><span class="p">,</span> <span class="n">model_noise_type</span><span class="p">,</span> <span class="n">L_cov_21s</span><span class="p">,</span> <span class="n">totalnoise</span><span class="p">):</span>
+    <span class="n">L_cov_21s_</span> <span class="o">=</span> <span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="nb">str</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">L_cov_21s</span><span class="p">])</span>
+
+    <span class="k">return</span> <span class="n">hashlib</span><span class="o">.</span><span class="n">md5</span><span class="p">(</span>
+        <span class="nb">str</span><span class="p">((</span><span class="n">L_cov_21s_</span><span class="p">,</span> <span class="n">ix_trial</span><span class="p">,</span> <span class="n">n_samples</span><span class="p">,</span> <span class="n">n_confs</span><span class="p">,</span> <span class="n">data_noise_type</span><span class="p">,</span> <span class="n">model_noise_type</span><span class="p">,</span> <span class="n">totalnoise</span><span class="p">))</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span>
+    <span class="p">)</span><span class="o">.</span><span class="n">hexdigest</span><span class="p">()</span>
+
+<span class="c1"># Test</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">make_id</span><span class="p">(</span><span class="mi">55</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="s1">&#39;all&#39;</span><span class="p">,</span> <span class="s1">&#39;gg&#39;</span><span class="p">,</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="mf">0.3</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast container">
+<div class="container">
+</div>
+<div class="container">
+<div class="highlight"><pre>
+8eb07d5dcb68e8163a7a2a0582b59d1f
+</pre></div></div>
+</div>
+</div>
+<div class="section" id="Append-results-to-dataframe">
+<h3>Append results to dataframe<a class="headerlink" href="#Append-results-to-dataframe" title="Permalink to this headline">¶</a></h3>
+<div class="nbinput container">
+<div class="highlight-none"><div class="highlight"><pre>
+<span></span>In [4]:
+</pre></div>
+</div>
+<div class="highlight-ipython3"><div class="highlight"><pre>
+<span></span><span class="k">def</span> <span class="nf">add_result_to_df</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">result</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">df</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="n">k</span><span class="p">:</span> <span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">result</span><span class="o">.</span><span class="n">items</span><span class="p">()})</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">df</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">ignore_index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="c1"># Test</span>
+<span class="n">result1</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;col1&#39;</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span> <span class="s1">&#39;col2&#39;</span><span class="p">:</span> <span class="mi">20</span><span class="p">}</span>
+<span class="n">result2</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;col1&#39;</span><span class="p">:</span> <span class="mi">30</span><span class="p">,</span> <span class="s1">&#39;col2&#39;</span><span class="p">:</span> <span class="o">-</span><span class="mi">10</span><span class="p">}</span>
+<span class="n">df1</span> <span class="o">=</span> <span class="n">add_result_to_df</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">result1</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;--- df1 ---&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">df1</span><span class="p">)</span>
+<span class="n">df2</span> <span class="o">=</span> <span class="n">add_result_to_df</span><span class="p">(</span><span class="n">df1</span><span class="p">,</span> <span class="n">result2</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;--- df2 ---&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">df2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast container">
+<div class="container">
+</div>
+<div class="container">
+<div class="highlight"><pre>
+--- df1 ---
+   col1  col2
+0    10    20
+--- df2 ---
+   col1  col2
+0    10    20
+1    30   -10
+</pre></div></div>
+</div>
+</div>
+<div class="section" id="Save-and-load-data-frame">
+<h3>Save and load data frame<a class="headerlink" href="#Save-and-load-data-frame" title="Permalink to this headline">¶</a></h3>
+<div class="nbinput nblast container">
+<div class="highlight-none"><div class="highlight"><pre>
+<span></span>In [5]:
+</pre></div>
+</div>
+<div class="highlight-ipython3"><div class="highlight"><pre>
+<span></span><span class="k">def</span> <span class="nf">load_df</span><span class="p">(</span><span class="n">df_file</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">df_file</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">load_pklz</span><span class="p">(</span><span class="n">df_file</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">None</span>
+
+<span class="k">def</span> <span class="nf">save_df</span><span class="p">(</span><span class="n">df_file</span><span class="p">,</span> <span class="n">df</span><span class="p">):</span>
+    <span class="n">save_pklz</span><span class="p">(</span><span class="n">df_file</span><span class="p">,</span> <span class="n">df</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="Perform-experiment-over-conditions-and-trials">
+<h3>Perform experiment over conditions and trials<a class="headerlink" href="#Perform-experiment-over-conditions-and-trials" title="Permalink to this headline">¶</a></h3>
+<div class="nbinput nblast container">
+<div class="highlight-none"><div class="highlight"><pre>
+<span></span>In [6]:
+</pre></div>
+</div>
+<div class="highlight-ipython3"><div class="highlight"><pre>
+<span></span><span class="k">def</span> <span class="nf">df_exist_result_id</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">result_id</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">df</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">result_id</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;result_id&#39;</span><span class="p">])</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="kc">False</span>
+
+<span class="k">def</span> <span class="nf">run_expr</span><span class="p">(</span><span class="n">conds</span><span class="p">,</span> <span class="n">n_trials_per_cond</span><span class="o">=</span><span class="mi">50</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Perform evaluation of BMLiNGAM given a set of experimental conditions.</span>
+
+<span class="sd">    For each condition, several trials are executed.</span>
+<span class="sd">    In a trial, BMLiNGAM is applied to causal inference for artificial data.</span>
+<span class="sd">    The average accuracy is computed for each condition.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Filename of dataframe</span>
+    <span class="n">data_dir</span> <span class="o">=</span> <span class="s1">&#39;.&#39;</span>
+    <span class="n">df_file</span> <span class="o">=</span> <span class="n">data_dir</span> <span class="o">+</span> <span class="s1">&#39;/20160822-eval-bml-results.pklz&#39;</span>
+
+    <span class="c1"># Load results computed in previous</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">load_df</span><span class="p">(</span><span class="n">df_file</span><span class="p">)</span>
+
+    <span class="c1"># Loop over experimental conditions</span>
+    <span class="n">n_skip</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">cond</span> <span class="ow">in</span> <span class="n">conds</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">cond</span><span class="p">)</span>
+
+        <span class="c1"># Loop over trials</span>
+        <span class="k">for</span> <span class="n">ix_trial</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_trials_per_cond</span><span class="p">):</span>
+            <span class="c1"># Identifier of a trial for (cond, ix_trial)</span>
+            <span class="n">result_id</span> <span class="o">=</span> <span class="n">make_id</span><span class="p">(</span><span class="n">ix_trial</span><span class="p">,</span> <span class="o">**</span><span class="n">cond</span><span class="p">)</span>
+
+            <span class="c1"># Check if the result has been already stored in the data frame</span>
+            <span class="k">if</span> <span class="n">df_exist_result_id</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">result_id</span><span class="p">):</span>
+                <span class="n">n_skip</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="c1"># `result` is a dict including results of trials.</span>
+                <span class="c1"># `ix_trial` is used as the random seed of the corresponding trial.</span>
+                <span class="n">result</span> <span class="o">=</span> <span class="n">run_trial</span><span class="p">(</span><span class="n">ix_trial</span><span class="p">,</span> <span class="n">cond</span><span class="p">)</span>
+                <span class="n">result</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s1">&#39;result_id&#39;</span><span class="p">:</span> <span class="n">result_id</span><span class="p">})</span>
+
+                <span class="n">df</span> <span class="o">=</span> <span class="n">add_result_to_df</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">result</span><span class="p">)</span>
+                <span class="n">save_df</span><span class="p">(</span><span class="n">df_file</span><span class="p">,</span> <span class="n">df</span><span class="p">)</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Number of skipped trials = </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">n_skip</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">df</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="Run-program">
+<h2>Run program<a class="headerlink" href="#Run-program" title="Permalink to this headline">¶</a></h2>
+<div class="nbinput container">
+<div class="highlight-none"><div class="highlight"><pre>
+<span></span>In [7]:
+</pre></div>
+</div>
+<div class="highlight-ipython3"><div class="highlight"><pre>
+<span></span><span class="n">df</span> <span class="o">=</span> <span class="n">run_expr</span><span class="p">(</span><span class="n">conds</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast container">
+<div class="container">
+</div>
+<div class="container">
+<div class="highlight"><pre>
+{&#39;totalnoise&#39;: 0.25, &#39;L_cov_21s&#39;: [-0.9, -0.7, -0.5, -0.3, 0, 0.3, 0.5, 0.7, 0.9], &#39;n_confs&#39;: 1, &#39;model_noise_type&#39;: &#39;gg&#39;, &#39;data_noise_type&#39;: &#39;laplace&#39;, &#39;n_samples&#39;: 100}
+{&#39;totalnoise&#39;: 0.25, &#39;L_cov_21s&#39;: [-0.9, -0.7, -0.5, -0.3, 0, 0.3, 0.5, 0.7, 0.9], &#39;n_confs&#39;: 1, &#39;model_noise_type&#39;: &#39;gg&#39;, &#39;data_noise_type&#39;: &#39;uniform&#39;, &#39;n_samples&#39;: 100}
+{&#39;totalnoise&#39;: 0.25, &#39;L_cov_21s&#39;: [-0.9, -0.7, -0.5, -0.3, 0, 0.3, 0.5, 0.7, 0.9], &#39;n_confs&#39;: 3, &#39;model_noise_type&#39;: &#39;gg&#39;, &#39;data_noise_type&#39;: &#39;laplace&#39;, &#39;n_samples&#39;: 100}
+{&#39;totalnoise&#39;: 0.25, &#39;L_cov_21s&#39;: [-0.9, -0.7, -0.5, -0.3, 0, 0.3, 0.5, 0.7, 0.9], &#39;n_confs&#39;: 3, &#39;model_noise_type&#39;: &#39;gg&#39;, &#39;data_noise_type&#39;: &#39;uniform&#39;, &#39;n_samples&#39;: 100}
+{&#39;totalnoise&#39;: 0.25, &#39;L_cov_21s&#39;: [-0.9, -0.7, -0.5, -0.3, 0, 0.3, 0.5, 0.7, 0.9], &#39;n_confs&#39;: 5, &#39;model_noise_type&#39;: &#39;gg&#39;, &#39;data_noise_type&#39;: &#39;laplace&#39;, &#39;n_samples&#39;: 100}
+{&#39;totalnoise&#39;: 0.25, &#39;L_cov_21s&#39;: [-0.9, -0.7, -0.5, -0.3, 0, 0.3, 0.5, 0.7, 0.9], &#39;n_confs&#39;: 5, &#39;model_noise_type&#39;: &#39;gg&#39;, &#39;data_noise_type&#39;: &#39;uniform&#39;, &#39;n_samples&#39;: 100}
+{&#39;totalnoise&#39;: 0.25, &#39;L_cov_21s&#39;: [-0.9, -0.7, -0.5, -0.3, 0, 0.3, 0.5, 0.7, 0.9], &#39;n_confs&#39;: 10, &#39;model_noise_type&#39;: &#39;gg&#39;, &#39;data_noise_type&#39;: &#39;laplace&#39;, &#39;n_samples&#39;: 100}
+{&#39;totalnoise&#39;: 0.25, &#39;L_cov_21s&#39;: [-0.9, -0.7, -0.5, -0.3, 0, 0.3, 0.5, 0.7, 0.9], &#39;n_confs&#39;: 10, &#39;model_noise_type&#39;: &#39;gg&#39;, &#39;data_noise_type&#39;: &#39;uniform&#39;, &#39;n_samples&#39;: 100}
+{&#39;totalnoise&#39;: 0.5, &#39;L_cov_21s&#39;: [-0.9, -0.7, -0.5, -0.3, 0, 0.3, 0.5, 0.7, 0.9], &#39;n_confs&#39;: 1, &#39;model_noise_type&#39;: &#39;gg&#39;, &#39;data_noise_type&#39;: &#39;laplace&#39;, &#39;n_samples&#39;: 100}
+{&#39;totalnoise&#39;: 0.5, &#39;L_cov_21s&#39;: [-0.9, -0.7, -0.5, -0.3, 0, 0.3, 0.5, 0.7, 0.9], &#39;n_confs&#39;: 1, &#39;model_noise_type&#39;: &#39;gg&#39;, &#39;data_noise_type&#39;: &#39;uniform&#39;, &#39;n_samples&#39;: 100}
+{&#39;totalnoise&#39;: 0.5, &#39;L_cov_21s&#39;: [-0.9, -0.7, -0.5, -0.3, 0, 0.3, 0.5, 0.7, 0.9], &#39;n_confs&#39;: 3, &#39;model_noise_type&#39;: &#39;gg&#39;, &#39;data_noise_type&#39;: &#39;laplace&#39;, &#39;n_samples&#39;: 100}
+{&#39;totalnoise&#39;: 0.5, &#39;L_cov_21s&#39;: [-0.9, -0.7, -0.5, -0.3, 0, 0.3, 0.5, 0.7, 0.9], &#39;n_confs&#39;: 3, &#39;model_noise_type&#39;: &#39;gg&#39;, &#39;data_noise_type&#39;: &#39;uniform&#39;, &#39;n_samples&#39;: 100}
+{&#39;totalnoise&#39;: 0.5, &#39;L_cov_21s&#39;: [-0.9, -0.7, -0.5, -0.3, 0, 0.3, 0.5, 0.7, 0.9], &#39;n_confs&#39;: 5, &#39;model_noise_type&#39;: &#39;gg&#39;, &#39;data_noise_type&#39;: &#39;laplace&#39;, &#39;n_samples&#39;: 100}
+{&#39;totalnoise&#39;: 0.5, &#39;L_cov_21s&#39;: [-0.9, -0.7, -0.5, -0.3, 0, 0.3, 0.5, 0.7, 0.9], &#39;n_confs&#39;: 5, &#39;model_noise_type&#39;: &#39;gg&#39;, &#39;data_noise_type&#39;: &#39;uniform&#39;, &#39;n_samples&#39;: 100}
+{&#39;totalnoise&#39;: 0.5, &#39;L_cov_21s&#39;: [-0.9, -0.7, -0.5, -0.3, 0, 0.3, 0.5, 0.7, 0.9], &#39;n_confs&#39;: 10, &#39;model_noise_type&#39;: &#39;gg&#39;, &#39;data_noise_type&#39;: &#39;laplace&#39;, &#39;n_samples&#39;: 100}
+{&#39;totalnoise&#39;: 0.5, &#39;L_cov_21s&#39;: [-0.9, -0.7, -0.5, -0.3, 0, 0.3, 0.5, 0.7, 0.9], &#39;n_confs&#39;: 10, &#39;model_noise_type&#39;: &#39;gg&#39;, &#39;data_noise_type&#39;: &#39;uniform&#39;, &#39;n_samples&#39;: 100}
+{&#39;totalnoise&#39;: 1.0, &#39;L_cov_21s&#39;: [-0.9, -0.7, -0.5, -0.3, 0, 0.3, 0.5, 0.7, 0.9], &#39;n_confs&#39;: 1, &#39;model_noise_type&#39;: &#39;gg&#39;, &#39;data_noise_type&#39;: &#39;laplace&#39;, &#39;n_samples&#39;: 100}
+{&#39;totalnoise&#39;: 1.0, &#39;L_cov_21s&#39;: [-0.9, -0.7, -0.5, -0.3, 0, 0.3, 0.5, 0.7, 0.9], &#39;n_confs&#39;: 1, &#39;model_noise_type&#39;: &#39;gg&#39;, &#39;data_noise_type&#39;: &#39;uniform&#39;, &#39;n_samples&#39;: 100}
+{&#39;totalnoise&#39;: 1.0, &#39;L_cov_21s&#39;: [-0.9, -0.7, -0.5, -0.3, 0, 0.3, 0.5, 0.7, 0.9], &#39;n_confs&#39;: 3, &#39;model_noise_type&#39;: &#39;gg&#39;, &#39;data_noise_type&#39;: &#39;laplace&#39;, &#39;n_samples&#39;: 100}
+{&#39;totalnoise&#39;: 1.0, &#39;L_cov_21s&#39;: [-0.9, -0.7, -0.5, -0.3, 0, 0.3, 0.5, 0.7, 0.9], &#39;n_confs&#39;: 3, &#39;model_noise_type&#39;: &#39;gg&#39;, &#39;data_noise_type&#39;: &#39;uniform&#39;, &#39;n_samples&#39;: 100}
+{&#39;totalnoise&#39;: 1.0, &#39;L_cov_21s&#39;: [-0.9, -0.7, -0.5, -0.3, 0, 0.3, 0.5, 0.7, 0.9], &#39;n_confs&#39;: 5, &#39;model_noise_type&#39;: &#39;gg&#39;, &#39;data_noise_type&#39;: &#39;laplace&#39;, &#39;n_samples&#39;: 100}
+{&#39;totalnoise&#39;: 1.0, &#39;L_cov_21s&#39;: [-0.9, -0.7, -0.5, -0.3, 0, 0.3, 0.5, 0.7, 0.9], &#39;n_confs&#39;: 5, &#39;model_noise_type&#39;: &#39;gg&#39;, &#39;data_noise_type&#39;: &#39;uniform&#39;, &#39;n_samples&#39;: 100}
+{&#39;totalnoise&#39;: 1.0, &#39;L_cov_21s&#39;: [-0.9, -0.7, -0.5, -0.3, 0, 0.3, 0.5, 0.7, 0.9], &#39;n_confs&#39;: 10, &#39;model_noise_type&#39;: &#39;gg&#39;, &#39;data_noise_type&#39;: &#39;laplace&#39;, &#39;n_samples&#39;: 100}
+{&#39;totalnoise&#39;: 1.0, &#39;L_cov_21s&#39;: [-0.9, -0.7, -0.5, -0.3, 0, 0.3, 0.5, 0.7, 0.9], &#39;n_confs&#39;: 10, &#39;model_noise_type&#39;: &#39;gg&#39;, &#39;data_noise_type&#39;: &#39;uniform&#39;, &#39;n_samples&#39;: 100}
+{&#39;totalnoise&#39;: 3.0, &#39;L_cov_21s&#39;: [-0.9, -0.7, -0.5, -0.3, 0, 0.3, 0.5, 0.7, 0.9], &#39;n_confs&#39;: 1, &#39;model_noise_type&#39;: &#39;gg&#39;, &#39;data_noise_type&#39;: &#39;laplace&#39;, &#39;n_samples&#39;: 100}
+{&#39;totalnoise&#39;: 3.0, &#39;L_cov_21s&#39;: [-0.9, -0.7, -0.5, -0.3, 0, 0.3, 0.5, 0.7, 0.9], &#39;n_confs&#39;: 1, &#39;model_noise_type&#39;: &#39;gg&#39;, &#39;data_noise_type&#39;: &#39;uniform&#39;, &#39;n_samples&#39;: 100}
+{&#39;totalnoise&#39;: 3.0, &#39;L_cov_21s&#39;: [-0.9, -0.7, -0.5, -0.3, 0, 0.3, 0.5, 0.7, 0.9], &#39;n_confs&#39;: 3, &#39;model_noise_type&#39;: &#39;gg&#39;, &#39;data_noise_type&#39;: &#39;laplace&#39;, &#39;n_samples&#39;: 100}
+{&#39;totalnoise&#39;: 3.0, &#39;L_cov_21s&#39;: [-0.9, -0.7, -0.5, -0.3, 0, 0.3, 0.5, 0.7, 0.9], &#39;n_confs&#39;: 3, &#39;model_noise_type&#39;: &#39;gg&#39;, &#39;data_noise_type&#39;: &#39;uniform&#39;, &#39;n_samples&#39;: 100}
+{&#39;totalnoise&#39;: 3.0, &#39;L_cov_21s&#39;: [-0.9, -0.7, -0.5, -0.3, 0, 0.3, 0.5, 0.7, 0.9], &#39;n_confs&#39;: 5, &#39;model_noise_type&#39;: &#39;gg&#39;, &#39;data_noise_type&#39;: &#39;laplace&#39;, &#39;n_samples&#39;: 100}
+{&#39;totalnoise&#39;: 3.0, &#39;L_cov_21s&#39;: [-0.9, -0.7, -0.5, -0.3, 0, 0.3, 0.5, 0.7, 0.9], &#39;n_confs&#39;: 5, &#39;model_noise_type&#39;: &#39;gg&#39;, &#39;data_noise_type&#39;: &#39;uniform&#39;, &#39;n_samples&#39;: 100}
+{&#39;totalnoise&#39;: 3.0, &#39;L_cov_21s&#39;: [-0.9, -0.7, -0.5, -0.3, 0, 0.3, 0.5, 0.7, 0.9], &#39;n_confs&#39;: 10, &#39;model_noise_type&#39;: &#39;gg&#39;, &#39;data_noise_type&#39;: &#39;laplace&#39;, &#39;n_samples&#39;: 100}
+{&#39;totalnoise&#39;: 3.0, &#39;L_cov_21s&#39;: [-0.9, -0.7, -0.5, -0.3, 0, 0.3, 0.5, 0.7, 0.9], &#39;n_confs&#39;: 10, &#39;model_noise_type&#39;: &#39;gg&#39;, &#39;data_noise_type&#39;: &#39;uniform&#39;, &#39;n_samples&#39;: 100}
+Number of skipped trials = 1600
+</pre></div></div>
+</div>
+</div>
+<div class="section" id="Result-table">
+<h2>Result table<a class="headerlink" href="#Result-table" title="Permalink to this headline">¶</a></h2>
+<div class="nbinput container">
+<div class="highlight-none"><div class="highlight"><pre>
+<span></span>In [8]:
+</pre></div>
+</div>
+<div class="highlight-ipython3"><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+
+<span class="n">df_file</span> <span class="o">=</span> <span class="s1">&#39;./20160822-eval-bml-results.pklz&#39;</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">load_pklz</span><span class="p">(</span><span class="n">df_file</span><span class="p">)</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span>
+    <span class="p">{</span>
+        <span class="s1">&#39;2log(bf)&#39;</span><span class="p">:</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;log_bf&#39;</span><span class="p">],</span>
+        <span class="s1">&#39;correct rate&#39;</span><span class="p">:</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;correct_rate&#39;</span><span class="p">],</span>
+        <span class="s1">&#39;totalnoise&#39;</span><span class="p">:</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;totalnoise&#39;</span><span class="p">],</span>
+        <span class="s1">&#39;data noise type&#39;</span><span class="p">:</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;data_noise_type&#39;</span><span class="p">],</span>
+        <span class="s1">&#39;n_confs&#39;</span><span class="p">:</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;n_confs&#39;</span><span class="p">]</span>
+    <span class="p">},</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span>
+<span class="p">)</span>
+<span class="n">sg</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s1">&#39;data noise type&#39;</span><span class="p">,</span> <span class="s1">&#39;n_confs&#39;</span><span class="p">,</span> <span class="s1">&#39;totalnoise&#39;</span><span class="p">])</span>
+<span class="n">sg1</span> <span class="o">=</span> <span class="n">sg</span><span class="p">[</span><span class="s1">&#39;correct rate&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+<span class="n">sg2</span> <span class="o">=</span> <span class="n">sg</span><span class="p">[</span><span class="s1">&#39;2log(bf)&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+
+<span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span>
+    <span class="p">{</span>
+        <span class="s1">&#39;correct_rate&#39;</span><span class="p">:</span> <span class="n">sg1</span><span class="p">,</span>
+        <span class="s1">&#39;2log(bf)&#39;</span><span class="p">:</span> <span class="n">sg2</span><span class="p">,</span>
+    <span class="p">},</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast container">
+<div class="highlight-none"><div class="highlight"><pre>
+<span></span>Out[8]:
+</pre></div>
+</div>
+<div class="container">
+<div>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th></th>
+      <th></th>
+      <th>2log(bf)</th>
+      <th>correct_rate</th>
+    </tr>
+    <tr>
+      <th>data noise type</th>
+      <th>n_confs</th>
+      <th>totalnoise</th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th rowspan="16" valign="top">laplace</th>
+      <th rowspan="4" valign="top">1</th>
+      <th>0.25</th>
+      <td>10.658543</td>
+      <td>0.84</td>
+    </tr>
+    <tr>
+      <th>0.50</th>
+      <td>9.956851</td>
+      <td>0.76</td>
+    </tr>
+    <tr>
+      <th>1.00</th>
+      <td>8.132585</td>
+      <td>0.78</td>
+    </tr>
+    <tr>
+      <th>3.00</th>
+      <td>6.067567</td>
+      <td>0.44</td>
+    </tr>
+    <tr>
+      <th rowspan="4" valign="top">3</th>
+      <th>0.25</th>
+      <td>9.701838</td>
+      <td>0.82</td>
+    </tr>
+    <tr>
+      <th>0.50</th>
+      <td>8.965892</td>
+      <td>0.80</td>
+    </tr>
+    <tr>
+      <th>1.00</th>
+      <td>6.592364</td>
+      <td>0.64</td>
+    </tr>
+    <tr>
+      <th>3.00</th>
+      <td>5.585870</td>
+      <td>0.38</td>
+    </tr>
+    <tr>
+      <th rowspan="4" valign="top">5</th>
+      <th>0.25</th>
+      <td>9.973692</td>
+      <td>0.88</td>
+    </tr>
+    <tr>
+      <th>0.50</th>
+      <td>9.525252</td>
+      <td>0.80</td>
+    </tr>
+    <tr>
+      <th>1.00</th>
+      <td>7.731706</td>
+      <td>0.70</td>
+    </tr>
+    <tr>
+      <th>3.00</th>
+      <td>6.341696</td>
+      <td>0.60</td>
+    </tr>
+    <tr>
+      <th rowspan="4" valign="top">10</th>
+      <th>0.25</th>
+      <td>10.690053</td>
+      <td>0.86</td>
+    </tr>
+    <tr>
+      <th>0.50</th>
+      <td>10.349471</td>
+      <td>0.86</td>
+    </tr>
+    <tr>
+      <th>1.00</th>
+      <td>8.007714</td>
+      <td>0.74</td>
+    </tr>
+    <tr>
+      <th>3.00</th>
+      <td>5.491167</td>
+      <td>0.52</td>
+    </tr>
+    <tr>
+      <th rowspan="16" valign="top">uniform</th>
+      <th rowspan="4" valign="top">1</th>
+      <th>0.25</th>
+      <td>11.557302</td>
+      <td>0.88</td>
+    </tr>
+    <tr>
+      <th>0.50</th>
+      <td>10.521002</td>
+      <td>0.76</td>
+    </tr>
+    <tr>
+      <th>1.00</th>
+      <td>7.951135</td>
+      <td>0.68</td>
+    </tr>
+    <tr>
+      <th>3.00</th>
+      <td>5.253098</td>
+      <td>0.48</td>
+    </tr>
+    <tr>
+      <th rowspan="4" valign="top">3</th>
+      <th>0.25</th>
+      <td>12.815920</td>
+      <td>0.90</td>
+    </tr>
+    <tr>
+      <th>0.50</th>
+      <td>11.660920</td>
+      <td>0.86</td>
+    </tr>
+    <tr>
+      <th>1.00</th>
+      <td>7.951725</td>
+      <td>0.74</td>
+    </tr>
+    <tr>
+      <th>3.00</th>
+      <td>6.008483</td>
+      <td>0.56</td>
+    </tr>
+    <tr>
+      <th rowspan="4" valign="top">5</th>
+      <th>0.25</th>
+      <td>11.016579</td>
+      <td>0.86</td>
+    </tr>
+    <tr>
+      <th>0.50</th>
+      <td>10.214459</td>
+      <td>0.78</td>
+    </tr>
+    <tr>
+      <th>1.00</th>
+      <td>6.845886</td>
+      <td>0.66</td>
+    </tr>
+    <tr>
+      <th>3.00</th>
+      <td>5.512882</td>
+      <td>0.52</td>
+    </tr>
+    <tr>
+      <th rowspan="4" valign="top">10</th>
+      <th>0.25</th>
+      <td>11.683218</td>
+      <td>0.88</td>
+    </tr>
+    <tr>
+      <th>0.50</th>
+      <td>10.147768</td>
+      <td>0.82</td>
+    </tr>
+    <tr>
+      <th>1.00</th>
+      <td>7.335032</td>
+      <td>0.62</td>
+    </tr>
+    <tr>
+      <th>3.00</th>
+      <td>6.205580</td>
+      <td>0.50</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+</div>
+<div class="section" id="Bayes-factor-and-accuracy">
+<h2>Bayes factor and accuracy<a class="headerlink" href="#Bayes-factor-and-accuracy" title="Permalink to this headline">¶</a></h2>
+<div class="nbinput container">
+<div class="highlight-none"><div class="highlight"><pre>
+<span></span>In [9]:
+</pre></div>
+</div>
+<div class="highlight-ipython3"><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+
+<span class="k">def</span> <span class="nf">count</span><span class="p">(</span><span class="n">x</span><span class="p">):</span> <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">))</span>
+<span class="n">data_dir</span> <span class="o">=</span> <span class="s1">&#39;.&#39;</span>
+<span class="n">df_file</span> <span class="o">=</span> <span class="n">data_dir</span> <span class="o">+</span> <span class="s1">&#39;/20160822-eval-bml-results.pklz&#39;</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">load_pklz</span><span class="p">(</span><span class="n">df_file</span><span class="p">)</span>
+
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span>
+    <span class="p">{</span>
+        <span class="s1">&#39;2log(bf)&#39;</span><span class="p">:</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;log_bf&#39;</span><span class="p">],</span>
+        <span class="s1">&#39;correct rate&#39;</span><span class="p">:</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;correct_rate&#39;</span><span class="p">],</span>
+        <span class="s1">&#39;count&#39;</span><span class="p">:</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;correct_rate&#39;</span><span class="p">],</span>
+        <span class="s1">&#39;totalnoise&#39;</span><span class="p">:</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;totalnoise&#39;</span><span class="p">],</span>
+        <span class="s1">&#39;data noise type&#39;</span><span class="p">:</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;data_noise_type&#39;</span><span class="p">]</span>
+    <span class="p">},</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span>
+<span class="p">)</span>
+
+<span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">pivot_table</span><span class="p">(</span><span class="n">values</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;correct rate&#39;</span><span class="p">,</span> <span class="s1">&#39;count&#39;</span><span class="p">],</span>
+                    <span class="n">index</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;totalnoise&#39;</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">cut</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;2log(bf)&#39;</span><span class="p">],</span> <span class="p">[</span><span class="mf">0.</span><span class="p">,</span> <span class="mf">2.</span><span class="p">,</span> <span class="mf">6.</span><span class="p">,</span> <span class="mf">10.</span><span class="p">,</span> <span class="mf">100.</span><span class="p">])],</span>
+                    <span class="n">columns</span><span class="o">=</span><span class="s1">&#39;data noise type&#39;</span><span class="p">,</span>
+                    <span class="n">aggfunc</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;correct rate&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">,</span> <span class="s1">&#39;count&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">})</span>
+<span class="n">df</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast container">
+<div class="highlight-none"><div class="highlight"><pre>
+<span></span>Out[9]:
+</pre></div>
+</div>
+<div class="container">
+<div>
+<table border="1" class="dataframe">
+  <thead>
+    <tr>
+      <th></th>
+      <th></th>
+      <th colspan="2" halign="left">count</th>
+      <th colspan="2" halign="left">correct rate</th>
+    </tr>
+    <tr>
+      <th></th>
+      <th>data noise type</th>
+      <th>laplace</th>
+      <th>uniform</th>
+      <th>laplace</th>
+      <th>uniform</th>
+    </tr>
+    <tr>
+      <th>totalnoise</th>
+      <th>2log(bf)</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th rowspan="4" valign="top">0.25</th>
+      <th>(0, 2]</th>
+      <td>21.0</td>
+      <td>18.0</td>
+      <td>0.636364</td>
+      <td>0.642857</td>
+    </tr>
+    <tr>
+      <th>(2, 6]</th>
+      <td>26.0</td>
+      <td>31.0</td>
+      <td>0.722222</td>
+      <td>0.794872</td>
+    </tr>
+    <tr>
+      <th>(6, 10]</th>
+      <td>37.0</td>
+      <td>20.0</td>
+      <td>0.822222</td>
+      <td>0.869565</td>
+    </tr>
+    <tr>
+      <th>(10, 100]</th>
+      <td>86.0</td>
+      <td>107.0</td>
+      <td>1.000000</td>
+      <td>0.972727</td>
+    </tr>
+    <tr>
+      <th rowspan="4" valign="top">0.50</th>
+      <th>(0, 2]</th>
+      <td>13.0</td>
+      <td>16.0</td>
+      <td>0.481481</td>
+      <td>0.533333</td>
+    </tr>
+    <tr>
+      <th>(2, 6]</th>
+      <td>37.0</td>
+      <td>27.0</td>
+      <td>0.711538</td>
+      <td>0.613636</td>
+    </tr>
+    <tr>
+      <th>(6, 10]</th>
+      <td>37.0</td>
+      <td>24.0</td>
+      <td>0.840909</td>
+      <td>0.800000</td>
+    </tr>
+    <tr>
+      <th>(10, 100]</th>
+      <td>74.0</td>
+      <td>94.0</td>
+      <td>0.961039</td>
+      <td>0.979167</td>
+    </tr>
+    <tr>
+      <th rowspan="4" valign="top">1.00</th>
+      <th>(0, 2]</th>
+      <td>21.0</td>
+      <td>18.0</td>
+      <td>0.567568</td>
+      <td>0.600000</td>
+    </tr>
+    <tr>
+      <th>(2, 6]</th>
+      <td>36.0</td>
+      <td>39.0</td>
+      <td>0.631579</td>
+      <td>0.520000</td>
+    </tr>
+    <tr>
+      <th>(6, 10]</th>
+      <td>27.0</td>
+      <td>34.0</td>
+      <td>0.600000</td>
+      <td>0.723404</td>
+    </tr>
+    <tr>
+      <th>(10, 100]</th>
+      <td>59.0</td>
+      <td>44.0</td>
+      <td>0.967213</td>
+      <td>0.916667</td>
+    </tr>
+    <tr>
+      <th rowspan="4" valign="top">3.00</th>
+      <th>(0, 2]</th>
+      <td>28.0</td>
+      <td>30.0</td>
+      <td>0.509091</td>
+      <td>0.600000</td>
+    </tr>
+    <tr>
+      <th>(2, 6]</th>
+      <td>34.0</td>
+      <td>36.0</td>
+      <td>0.465753</td>
+      <td>0.486486</td>
+    </tr>
+    <tr>
+      <th>(6, 10]</th>
+      <td>17.0</td>
+      <td>20.0</td>
+      <td>0.515152</td>
+      <td>0.500000</td>
+    </tr>
+    <tr>
+      <th>(10, 100]</th>
+      <td>18.0</td>
+      <td>17.0</td>
+      <td>0.461538</td>
+      <td>0.472222</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<div class="nbinput nblast container">
+<div class="highlight-none"><div class="highlight"><pre>
+<span></span>In [ ]:
+</pre></div>
+</div>
+<div class="highlight-ipython3"><div class="highlight"><pre>
+<span></span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016, Taku Yoshioka and Shohei Shimizu.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../../../',
+            VERSION:'0.1.4',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../../../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../../../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

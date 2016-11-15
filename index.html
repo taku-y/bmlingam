@@ -86,7 +86,7 @@
                 <ul>
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tutorial.html">Tutorial</a></li>
-<li class="toctree-l1"><a class="reference internal" href="accuracy.html">Accuracy of BMLiNGAM on artificial dataset</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notebook/expr/20160915/20160822-eval-bml.html">Accuracy of BMLiNGAM</a></li>
 <li class="toctree-l1"><a class="reference internal" href="model.html">Model</a></li>
 <li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
 <li class="toctree-l1"><a class="reference internal" href="api.html">API</a></li>
@@ -135,7 +135,41 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="bmlingam">
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast,
+.nboutput.nblast {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast + .nbinput {
+    margin-top: -19px;
+}
+
+/* nice headers on first paragraph of info/warning boxes */
+.admonition .first {
+    margin: -12px;
+    padding: 6px 12px;
+    margin-bottom: 12px;
+    color: #fff;
+    line-height: 1;
+    display: block;
+}
+.admonition.warning .first {
+    background: #f0b37e;
+}
+.admonition.note .first {
+    background: #6ab0de;
+}
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+</style>
+<div class="section" id="bmlingam">
 <h1>BMLiNGAM<a class="headerlink" href="#bmlingam" title="Permalink to this headline">¶</a></h1>
 <p>BMLiNGAM is a Python software for causal inference between pairs of variables. The estimation method of this software is based on a Bayesian mixed LiNGAM model, proposed in the paper of Shimizu and Bollen (2014).</p>
 <p>This software is provided as command-line tools. The inference is performed on data given as a CSV file. In addition, the posterior distribution of the regression coefficient, relating two variables in the data, can also be estimated by MCMC.</p>
@@ -149,7 +183,14 @@
 <li class="toctree-l2"><a class="reference internal" href="tutorial.html#posterior-distribution-of-regression-coefficient">Posterior distribution of regression coefficient</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="accuracy.html">Accuracy of BMLiNGAM on artificial dataset</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notebook/expr/20160915/20160822-eval-bml.html">Accuracy of BMLiNGAM</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="notebook/expr/20160915/20160822-eval-bml.html#Experimental-condition">Experimental condition</a></li>
+<li class="toctree-l2"><a class="reference internal" href="notebook/expr/20160915/20160822-eval-bml.html#Program">Program</a></li>
+<li class="toctree-l2"><a class="reference internal" href="notebook/expr/20160915/20160822-eval-bml.html#Run-program">Run program</a></li>
+<li class="toctree-l2"><a class="reference internal" href="notebook/expr/20160915/20160822-eval-bml.html#Result-table">Result table</a></li>
+<li class="toctree-l2"><a class="reference internal" href="notebook/expr/20160915/20160822-eval-bml.html#Bayes-factor-and-accuracy">Bayes factor and accuracy</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="model.html">Model</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="model.html#posterior-probability-of-models">Posterior probability of models</a></li>
 <li class="toctree-l2"><a class="reference internal" href="model.html#standardization">Standardization</a></li>
@@ -158,6 +199,8 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
 <li class="toctree-l1"><a class="reference internal" href="api.html">API</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="api.html#causal-inference">Causal inference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#estimation-of-regression-coefficient">Estimation of regression coefficient</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api.html#artificial-data">Artificial data</a></li>
 </ul>
 </li>
@@ -183,7 +226,7 @@
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2015, Taku Yoshioka and Shohei Shimizu.
+        &copy; Copyright 2016, Taku Yoshioka and Shohei Shimizu.
 
     </p>
   </div>

@@ -34,7 +34,7 @@
               href="genindex.html"/>
         <link rel="search" title="Search" href="search.html"/>
     <link rel="top" title="bmlingam 0.1.4 documentation" href="index.html"/>
-        <link rel="next" title="Accuracy of BMLiNGAM on artificial dataset" href="accuracy.html"/>
+        <link rel="next" title="Accuracy of BMLiNGAM" href="notebook/expr/20160915/20160822-eval-bml.html"/>
         <link rel="prev" title="Installation" href="installation.html"/> 
 
   
@@ -95,7 +95,7 @@
 <li class="toctree-l2"><a class="reference internal" href="#posterior-distribution-of-regression-coefficient">Posterior distribution of regression coefficient</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="accuracy.html">Accuracy of BMLiNGAM on artificial dataset</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notebook/expr/20160915/20160822-eval-bml.html">Accuracy of BMLiNGAM</a></li>
 <li class="toctree-l1"><a class="reference internal" href="model.html">Model</a></li>
 <li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
 <li class="toctree-l1"><a class="reference internal" href="api.html">API</a></li>
@@ -144,7 +144,41 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="tutorial">
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast,
+.nboutput.nblast {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast + .nbinput {
+    margin-top: -19px;
+}
+
+/* nice headers on first paragraph of info/warning boxes */
+.admonition .first {
+    margin: -12px;
+    padding: 6px 12px;
+    margin-bottom: 12px;
+    color: #fff;
+    line-height: 1;
+    display: block;
+}
+.admonition.warning .first {
+    background: #f0b37e;
+}
+.admonition.note .first {
+    background: #6ab0de;
+}
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+</style>
+<div class="section" id="tutorial">
 <h1>Tutorial<a class="headerlink" href="#tutorial" title="Permalink to this headline">¶</a></h1>
 <p>You can download history of the commands used in the following tutorial: <a class="reference download internal" href="_downloads/commands.txt" download=""><code class="xref download docutils literal"><span class="pre">commands.txt</span></code></a>. In the tutorial, you will create an artificial data <code class="code docutils literal"><span class="pre">sampledata.csv</span></code>. If you want to analyze your data, replace <code class="code docutils literal"><span class="pre">sampledata.csv</span></code> by the file name of your data in the arguments of the commands.</p>
 <div class="section" id="data-format">
@@ -555,7 +589,7 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="accuracy.html" class="btn btn-neutral float-right" title="Accuracy of BMLiNGAM on artificial dataset" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="notebook/expr/20160915/20160822-eval-bml.html" class="btn btn-neutral float-right" title="Accuracy of BMLiNGAM" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="installation.html" class="btn btn-neutral" title="Installation" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
@@ -567,7 +601,7 @@
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2015, Taku Yoshioka and Shohei Shimizu.
+        &copy; Copyright 2016, Taku Yoshioka and Shohei Shimizu.
 
     </p>
   </div>
