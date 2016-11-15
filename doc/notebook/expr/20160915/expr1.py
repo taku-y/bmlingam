@@ -118,7 +118,7 @@ def run_trial(ix_trial, cond):
     causality_est = hparams['causality']
     time_causal_inference = time.time() - t
 
-    # 回帰係数推定
+    # Regression coefficient
     t = time.time()
     trace = do_mcmc_bmlingam(data['xs'], hparams, mcmc_params)
     b_post = np.mean(trace['b'])

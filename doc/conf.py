@@ -55,7 +55,7 @@ master_doc = 'index'
 
 # General information about the project.
 project = u'bmlingam'
-copyright = u'2015, Taku Yoshioka and Shohei Shimizu'
+copyright = u'2016, Taku Yoshioka and Shohei Shimizu'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
