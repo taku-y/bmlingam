@@ -1,0 +1,153 @@
+# bmlingam-causality sampledata.csv --result_dir=result1
+$ bmlingam-causality sampledata.csv --result_dir=result1
+---- Algorithm parameters ----
+Number of MC samples: 10000
+Number of candidate models: 450
+
+---- Data ----
+Data loaded from sampledata.csv.
+Data contains 100 samples.
+Variable names: ['x1_src' 'x2_dst']
+
+---- Inference for variables "x1_src" and "x2_dst" ----
+Inferred  : x1_src -> x2_dst (posterior prob: 0.274, loglikelihood: -278.632)
+(best_rev): x2_dst -> x1_src (posterior prob: 0.183, loglikelihood: -279.036)
+
+Hyper parameters of the optimal model:
+Causality      : var1 -> var2
+Standardize    : True
+subtract_mu_reg: False
+fix_mu_zero    : True
+prior_var_mu   : auto
+prior_indvdl   : t
+v_indvdl_1     : 0.600000
+v_indvdl_2     : 0.400000
+df_indvdl      : 8.000000
+L_cov12/21     : 0.900000
+dist_noise     : laplace
+
+Hyper parameters of the reverse optimal model:
+Causality      : var2 -> var1
+Standardize    : True
+subtract_mu_reg: False
+fix_mu_zero    : True
+prior_var_mu   : auto
+prior_indvdl   : t
+v_indvdl_1     : 0.400000
+v_indvdl_2     : 0.600000
+df_indvdl      : 8.000000
+L_cov12/21     : 0.900000
+dist_noise     : laplace
+
+Inferred causality table was saved as result1/causality.csv.
+Optimal model was saved as result1/x1_src_x2_dst.bmlm.pklz.
+Program finished at Sun Mar  6 02:12:22 2016
+Elapsed time: 46.7 [sec]
+
+
+# bmlingam-causality --help
+$ bmlingam-causality --help
+usage: bmlingam-causality [-h] [--result_dir RESULT_DIR] [--out_optmodelfile]
+                          [--no_out_optmodelfile] [--col_names COL_NAMES]
+                          [--seed SEED] [--standardize_on] [--standardize_off]
+                          [--fix_mu_zero_on] [--fix_mu_zero_off]
+                          [--max_c MAX_C] [--n_mc_samples N_MC_SAMPLES]
+                          [--dist_noise DIST_NOISE] [--df_indvdl DF_INDVDL]
+                          [--prior_scale PRIOR_SCALE]
+                          [--prior_indvdls PRIOR_INDVDLS] [--cs CS]
+                          [--L_cov_21s L_COV_21S]
+                          [--betas_indvdl BETAS_INDVDL]
+                          [--betas_noise BETAS_NOISE]
+                          [--causalities CAUSALITIES]
+                          [--sampling_mode SAMPLING_MODE]
+                          csv_file
+
+positional arguments:
+  csv_file              CSV file of data.
+
+optional arguments:
+  -h, --help            show this help message and exit
+  --result_dir RESULT_DIR
+                        Directory where result files are saved. Default is
+                        current directory.
+  --out_optmodelfile    If this option is choosen (default), optimal model
+                        files will be created.
+  --no_out_optmodelfile
+                        If this option is choosen, optimal model files will
+                        not be created.
+  --col_names COL_NAMES
+                        Names of column, specified as 'name1,name2,...' (space
+                        not allowed). If set this value 'auto', column names
+                        will be automatically determined as 'x0,x1,...'. If
+                        csv file have column names (the 1st row of the file),
+                        they will be overwritten.
+  --seed SEED           Specify the seed of random number generator used in MC
+                        sampling. Default is 0.
+  --standardize_on      If this option is choosen (default), data is
+                        standardized to mean 0 and variance 1 before causal
+                        inference.
+  --standardize_off     If this option is choosen, data is not standardized.
+  --fix_mu_zero_on      If this option is choosen (default), common
+                        interception parameter mu_1,2 will be treated as 0
+                        (constant), not estimated.
+  --fix_mu_zero_off     If this option is choosen, common interception
+                        parameter mu_1,2 will be included in models as
+                        stochastic variables.
+  --max_c MAX_C         Scale constant on tau_cmmn. Default is 1.0.
+  --n_mc_samples N_MC_SAMPLES
+                        The number of Monte Carlo sampling in calculation of
+                        marginal likelihood values of models. Default is
+                        10000.
+  --dist_noise DIST_NOISE
+                        Noise distribution. 'laplace' or 'gg' (Generalized
+                        Gaussian). Default is laplace.
+  --df_indvdl DF_INDVDL
+                        Degrees of freedom of T distribution for the prior of
+                        individual specific effects. Default is 8.0.
+  --prior_scale PRIOR_SCALE
+                        Prior distribution on noise variance. 'log_normal' or
+                        'tr_normal' (truncated normal distribution). Default
+                        is log_normal.
+  --prior_indvdls PRIOR_INDVDLS
+                        Distribution of individual effects in the model. This
+                        argument can be 't', 'gauss' or 'gg'. If you want to
+                        include multiple distributions, set this argument as
+                        't,gauss', then the program will apply both of t and
+                        Gaussian distributions to candidate models. Default is
+                        t.
+  --cs CS               Scales of stds of the individual specific effects.
+                        Default is '0,.2,.4,.6,.8'.
+  --L_cov_21s L_COV_21S
+                        List of correlations of individual specific effects.
+                        Default is '-0.9,-0.7,-0.5,-0.3,0,.3,.5,.7,.9'.
+  --betas_indvdl BETAS_INDVDL
+                        Shape parameter values of generalized Gaussian
+                        distributions for individual specific effects. When
+                        prior_indvdls includes 'gg', all of the beta values
+                        will be tested. .5 and 1. correspond to Laplace and
+                        Gaussian distributions, respectively. Default is
+                        '.25,.5,.75,1.'.
+  --betas_noise BETAS_NOISE
+                        Shape parameter values of generalized Gaussian
+                        distributions for observation noise. When dist_noise
+                        includes 'gg', all of the beta values will be tested.
+                        .5 and 1. correspond to Laplace and Gaussian
+                        distributions, respectively. Default is
+                        '.25,.5,.75,1.'.
+  --causalities CAUSALITIES
+                        Causalities to be tested. If set to 'x1->x2' or
+                        'x2->x1', causality is not inferred and other
+                        hyperparameters are searched. Default is 'x1->x2,
+                        x2->x1'.
+  --sampling_mode SAMPLING_MODE
+                        Specify sampling mode for numerical integration via
+                        MC. Options are 'normal', 'cache', 'cache_mp2',
+                        'cache_mp4' or 'cache_mp8'. 'normal' means naive MC
+                        sampling: generate random values at each
+                        hyperparameter set. When specified 'chache', random
+                        values are generated only at the beginning of the
+                        program and applied to marginal likelihood calculation
+                        with difference hyperparameter sets. Multiprocessing
+                        is supported with the option 'cache_mp[2, 4, 8]',
+                        using 2, 4 or 8 cores.
+

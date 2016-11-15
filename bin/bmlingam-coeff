@@ -1,0 +1,20 @@
+#!/usr/bin/env python
+
+"""Script for estimation of regression coefficient.
+"""
+
+# Author: Taku Yoshioka
+# License: MIT
+
+import time
+
+from bmlingam.commands.bmlingam_coeff import estimate_coeff_posterior, \
+                                             parse_args_bmlingam_coeff
+
+params = parse_args_bmlingam_coeff()
+
+t_start = time.time()
+estimate_coeff_posterior(**params)
+
+print('Program finished at %s' % time.strftime("%c"))
+print('Elapsed time: %.1f [sec]' % (time.time() - t_start))

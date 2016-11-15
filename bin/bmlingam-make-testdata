@@ -1,0 +1,18 @@
+#!/usr/bin/env python
+
+"""Script for making artificial data for testing.
+"""
+
+# Author: Taku Yoshioka
+# License: MIT
+
+import time
+
+from bmlingam.commands.bmlingam_make_testdata \
+    import make_testdata, parse_args_bmlingam_make_testdata
+
+params = parse_args_bmlingam_make_testdata()
+
+make_testdata(**params)
+
+print('Program finished at %s' % time.strftime("%c"))

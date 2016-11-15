@@ -1,0 +1,21 @@
+#!/usr/bin/env python
+
+"""Script for causal inference by finding the best bmlingam model.
+"""
+
+# Author: Taku Yoshioka
+# License: MIT
+
+import time
+
+from bmlingam.commands.bmlingam_causality \
+    import bmlingam_causality as bmlingam_causality_
+from bmlingam.commands.bmlingam_causality import parse_args_bmlingam_causality
+
+params = parse_args_bmlingam_causality()
+
+t_start = time.time()
+bmlingam_causality_(**params)
+
+print('Program finished at %s' % time.strftime("%c"))
+print('Elapsed time: %.1f [sec]\n' % (time.time() - t_start))
