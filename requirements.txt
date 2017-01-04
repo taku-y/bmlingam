@@ -1,3 +1,4 @@
 pymc3>=3.0.rc2
 parse
-
+matplotlib>=1.5.3
+pandas
