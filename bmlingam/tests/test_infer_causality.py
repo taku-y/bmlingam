@@ -8,7 +8,8 @@ import os
 import tempfile
 
 from bmlingam.commands.bmlingam_causality import infer_causality, \
-                                                 parse_args_bmlingam_causality
+                                                 parse_args_bmlingam_causality, \
+                                                 load_data
 from bmlingam.utils.gendata import gen_artificial_data, GenDataParams
 
 def _gen_artificial_data_csv(csv_file, gen_data_params):
@@ -31,10 +32,22 @@ def test_infer_causality():
         _, csv_file = tempfile.mkstemp()
         _gen_artificial_data_csv(csv_file, gen_data_params=GenDataParams())
 
-        # Do inference
-        params = parse_args_bmlingam_causality(
+        # Parse args
+        params_ = parse_args_bmlingam_causality(
             [csv_file, '--result_dir', '', '--no_out_optmodelfile']
         )
+
+        # Load data
+        data = load_data(csv_file, params_['col_names']) # Pandas dataframe
+        xs = np.array(data.ix[:, :2])
+
+        # Do inference
+        params = {
+            'xs': xs,
+            'infer_params': params_['infer_params'],
+            'varnames': data.columns.values[:2],
+            'verbose': 1
+        }
         infer_causality(**params)
 
     finally:
