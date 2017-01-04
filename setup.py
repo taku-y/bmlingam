@@ -21,7 +21,7 @@ Programming Language :: Python :: 2.7
 
 setup(
     name = 'BMLiNGAM',
-    version = '0.1.4',
+    version = '0.1.5',
     description = 'Software for causal estimation.',
     long_description = '',
     classifiers = classifiers,
@@ -30,9 +30,10 @@ setup(
     url = '',
     license = 'MIT',
     platforms = ['Windows', 'Linux', 'Solaris', 'Mac OS-X', 'Unix'],
-    packages = ['bmlingam', 'bmlingam.commands', 'bmlingam.tests'], 
-    install_requires = ['numpy>=1.6.2', 'scipy>=0.11', 'matplotlib', 
-                        'pandas>=0.18', 'parse'],
+    packages = ['bmlingam', 'bmlingam.commands', 'bmlingam.tests', 
+                'bmlingam.utils'], 
+    install_requires = ['numpy>=1.6.2', 'scipy>=0.11', 'matplotlib>=1.5.3', 
+                        'pandas>=0.18', 'parse', 'pymc3>=3.0rc2'],
     scripts = ['bin/bmlingam-causality', 'bin/bmlingam-coeff', 
                'bin/bmlingam-make-testdata'],
 )
