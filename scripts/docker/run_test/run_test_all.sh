@@ -4,12 +4,10 @@
 # It is assumed that /home/jovyan/work is mounted on the root directory of the
 # bmlingam repo.
 
-echo $MPLBACKEND
-
-# # 1/3 Make wheel of BMLiNGAM
+# 1/3 Make wheel of BMLiNGAM
 sh scripts/docker/make_wheel.sh
 
-# # 2/3 Install BMLiNGAM
+# 2/3 Install BMLiNGAM
 cd dist
 WHEEL=`ls .`
 echo $WHEEL
