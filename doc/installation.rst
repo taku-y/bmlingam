@@ -15,13 +15,13 @@ BMLiNGAM will be installed in the Python directory. So ensure that the following
 
 To install BMLiNGAM, download the following wheel archive in any directory:
 
-- :download:`BMLiNGAM-0.1.4-py2-none-any.whl <../dist/BMLiNGAM-0.1.4-py2-none-any.whl>`
+- :download:`BMLiNGAM-0.1.5-py2.py3-none-any.whl <../dist/BMLiNGAM-0.1.5-py2.py3-none-any.whl>`
 
 Then, use pip (installed associated with Anaconda): 
 
 .. code-block:: console
 
-    $ pip install BMLiNGAM-0.1-py2-none-any.whl
+    $ pip install BMLiNGAM-0.1.5-py2.py3-none-any.whl
 
 The following packages, required by BMLiNGAM, will also be automatically installed from `PyPi <https://pypi.python.org/pypi>`_ public package index: 
 

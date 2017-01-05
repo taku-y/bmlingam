@@ -30,10 +30,10 @@ sys.path.insert(0, os.path.abspath('..'))
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
 extensions = [
-    'sphinxcontrib.bibtex', 
+    'sphinxcontrib.bibtex',
     'sphinx.ext.todo',
-    'sphinx.ext.mathjax', 
-    'sphinx.ext.graphviz', 
+    'sphinx.ext.mathjax',
+    'sphinx.ext.graphviz',
     'sphinx.ext.autodoc',
     'numpydoc',
     'nbsphinx'
