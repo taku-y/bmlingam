@@ -143,7 +143,7 @@
       <li class="wy-breadcrumbs-aside">
         
           
-            <a href="_sources/api.txt" rel="nofollow"> View page source</a>
+            <a href="_sources/api.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -248,7 +248,7 @@ The default value is <code class="code docutils literal"><span class="pre">x1-&g
 The default value is <code class="code docutils literal"><span class="pre">False</span></code>.</li>
 <li><strong>fix_mu_zero</strong> (<em>bool</em>) &#8211; If <code class="code docutils literal"><span class="pre">True</span></code> (default), the common interception
 is fixed to 0.</li>
-<li><strong>prior_var_mu</strong> (<em>'auto' (str literal) or float</em>) &#8211; Set prior variance of common interceptions.
+<li><strong>prior_var_mu</strong> (<em>'auto'</em><em> (</em><em>str literal</em><em>) or </em><em>float</em>) &#8211; Set prior variance of common interceptions.
 The default value is <code class="code docutils literal"><span class="pre">auto</span></code>.</li>
 <li><strong>max_c</strong> (<em>float</em>) &#8211; Scale constant on tau_cmmn.
 The default value is <code class="code docutils literal"><span class="pre">1.0</span></code>.</li>
@@ -369,7 +369,7 @@ models whose causations are opposite to the optimal model.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>xs</strong> (<em>numpy.ndarray, shape=(n_samples, 2)</em>) &#8211; Pairs of observed values.</li>
+<li><strong>xs</strong> (<em>numpy.ndarray</em><em>, </em><em>shape=</em><em>(</em><em>n_samples</em><em>, </em><em>2</em><em>)</em><em></em>) &#8211; Pairs of observed values.</li>
 <li><strong>hparamss</strong> (<em>list of dict</em>) &#8211; List of model parameters which defines search space.
 This is created with <a class="reference internal" href="#bmlingam.define_hparam_searchspace" title="bmlingam.define_hparam_searchspace"><code class="xref py py-func docutils literal"><span class="pre">bmlingam.define_hparam_searchspace()</span></code></a>.</li>
 <li><strong>sampling_mode</strong> (<em>str</em>) &#8211; Specify the way to perform Monte Carlo sampling.</li>
@@ -435,7 +435,7 @@ The default value is <code class="code docutils literal"><span class="pre">2</sp
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>xs</strong> (<em>numpy.ndarray, shape=(n_samples, 2)</em>) &#8211; Data array.</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>xs</strong> (<em>numpy.ndarray</em><em>, </em><em>shape=</em><em>(</em><em>n_samples</em><em>, </em><em>2</em><em>)</em><em></em>) &#8211; Data array.</td>
 </tr>
 </tbody>
 </table>
@@ -514,16 +514,16 @@ these random variables are specified with the following parameters.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>b21_dist</strong> (<em>str or float</em>) &#8211; Distribution of <span class="math">\(b_{21}\)</span>. If <code class="code docutils literal"><span class="pre">b21_dist</span></code> is 
+<li><strong>b21_dist</strong> (<em>str</em><em> or </em><em>float</em>) &#8211; Distribution of <span class="math">\(b_{21}\)</span>. If <code class="code docutils literal"><span class="pre">b21_dist</span></code> is 
 <code class="code docutils literal"><span class="pre">'r2interval'</span></code>, <span class="math">\(b21\)</span> is drawn from a mixture 
 of two uniform distributions <span class="math">\([-1.5, -0.5]\)</span> and 
 <span class="math">\([0.5, 1.5]\)</span>, as appeared in the paper. If a float 
 value is given, <span class="math">\(b_{21}\)</span> is set to that value.</li>
-<li><strong>mu1_dist</strong> (<em>str or float</em>) &#8211; Distribution of <span class="math">\(\mu_{1}\)</span>. If <code class="code docutils literal"><span class="pre">randn</span></code>, 
+<li><strong>mu1_dist</strong> (<em>str</em><em> or </em><em>float</em>) &#8211; Distribution of <span class="math">\(\mu_{1}\)</span>. If <code class="code docutils literal"><span class="pre">randn</span></code>, 
 <span class="math">\(mu_{1}\)</span> is drawn from the standard normal 
 distribution. If a float value is given, <span class="math">\(\mu_{1}\)</span> 
 is set to that value.</li>
-<li><strong>mu2_dist</strong> (<em>str or float</em>) &#8211; Same with <code class="code docutils literal"><span class="pre">mu1_dist</span></code>.</li>
+<li><strong>mu2_dist</strong> (<em>str</em><em> or </em><em>float</em>) &#8211; Same with <code class="code docutils literal"><span class="pre">mu1_dist</span></code>.</li>
 </ul>
 </td>
 </tr>
@@ -543,14 +543,14 @@ The parameters related to the confounders are as below.</p>
 <li><strong>f1_scale</strong> (<em>float</em>) &#8211; Scaling constant for the confound term in <code class="code docutils literal"><span class="pre">x_{1}</span></code>. 
 <code class="code docutils literal"><span class="pre">f1_coef=[1,</span> <span class="pre">1,</span> <span class="pre">1],</span> <span class="pre">f1_scale=1/3.0</span></code> is equivalent to
 <code class="code docutils literal"><span class="pre">f1_coef=[1/3.0,</span> <span class="pre">1/3.0,</span> <span class="pre">1/3.0],</span> <span class="pre">f1_scale=1</span></code>.</li>
-<li><strong>f1_coef</strong> (<em>list of (str or float)</em>) &#8211; List of distributions or constants of weights of 
+<li><strong>f1_coef</strong> (<em>list of</em><em> (</em><em>str</em><em> or </em><em>float</em><em>)</em><em></em>) &#8211; List of distributions or constants of weights of 
 confounders. The length of the list is the number of 
 confounders in the weighted sum. If <code class="code docutils literal"><span class="pre">f1_coef[q]</span></code> is 
 <code class="code docutils literal"><span class="pre">r2intervals</span></code>, the uniform mixture distribution, 
 used for <span class="math">\(b_{21}\)</span>, is also used to draw a value of 
 the <span class="math">\(q\)</span>-th weight. If a float value is given, the 
 weight is set to that value.</li>
-<li><strong>conf_dist</strong> (<em>list of (list of strs)</em>) &#8211; List of possible distributions for confound factors. 
+<li><strong>conf_dist</strong> (<em>list of</em><em> (</em><em>list of strs</em><em>)</em><em></em>) &#8211; List of possible distributions for confound factors. 
 The length of the list, <code class="code docutils literal"><span class="pre">len(conf_dist)</span></code>, is equal 
 to the number of confounders. For example, if 
 <code class="code docutils literal"><span class="pre">conf_dist</span> <span class="pre">=</span> <span class="pre">[['laplace'],</span> <span class="pre">['exp',</span> <span class="pre">'uniform</span></code>]]`, 
@@ -560,7 +560,7 @@ drawn from either the exponential or uniform distributions
 with 50% probability. <code class="code docutils literal"><span class="pre">'all'</span></code> denotes that all 
 distributions in <code class="code docutils literal"><span class="pre">usr_distrib()</span></code> are possible.</li>
 <li><strong>f2_scale</strong> (<em>float</em>) &#8211; Same with <code class="code docutils literal"><span class="pre">f1_scale</span></code>.</li>
-<li><strong>f2_coef</strong> (<em>list of (str or float)</em>) &#8211; Same with <code class="code docutils literal"><span class="pre">f1_coef</span></code>.</li>
+<li><strong>f2_coef</strong> (<em>list of</em><em> (</em><em>str</em><em> or </em><em>float</em><em>)</em><em></em>) &#8211; Same with <code class="code docutils literal"><span class="pre">f1_coef</span></code>.</li>
 </ul>
 </td>
 </tr>

@@ -124,7 +124,7 @@
       <li class="wy-breadcrumbs-aside">
         
           
-            <a href="../../../_sources/notebook/tests/.ipynb_checkpoints/test_cli-checkpoint.txt" rel="nofollow"> View page source</a>
+            <a href="../../../_sources/notebook/tests/.ipynb_checkpoints/test_cli-checkpoint.ipynb.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -140,13 +140,15 @@
 
 /* remove conflicting styling from Sphinx themes */
 div.nbinput,
-div.nbinput > div,
-div.nbinput div[class^=highlight],
-div.nbinput div[class^=highlight] pre,
+div.nbinput div.prompt,
+div.nbinput div.input_area,
+div.nbinput div[class*=highlight],
+div.nbinput div[class*=highlight] pre,
 div.nboutput,
-div.nboutput > div,
-div.nboutput div[class^=highlight],
-div.nboutput div[class^=highlight] pre {
+div.nbinput div.prompt,
+div.nbinput div.output_area,
+div.nboutput div[class*=highlight],
+div.nboutput div[class*=highlight] pre {
     background: none;
     border: none;
     padding: 0 0;
@@ -155,7 +157,7 @@ div.nboutput div[class^=highlight] pre {
 }
 
 /* avoid gaps between output lines */
-div.nboutput div[class^=highlight] pre {
+div.nboutput div[class*=highlight] pre {
     line-height: normal;
 }
 
@@ -166,6 +168,13 @@ div.nboutput {
     display: flex;
     align-items: flex-start;
     margin: 0;
+    width: 100%;
+}
+@media (max-width: 540px) {
+    div.nbinput,
+    div.nboutput {
+        flex-direction: column;
+    }
 }
 
 /* input container */
@@ -179,38 +188,52 @@ div.nblast {
 }
 
 /* input prompt */
-div.nbinput > :first-child pre {
+div.nbinput div.prompt pre {
     color: #303F9F;
 }
 
 /* output prompt */
-div.nboutput > :first-child pre {
+div.nboutput div.prompt pre {
     color: #D84315;
 }
 
 /* all prompts */
-div.nbinput > :first-child[class^=highlight],
-div.nboutput > :first-child[class^=highlight],
-div.nboutput > :first-child {
-    min-width: 9ex;
+div.nbinput div.prompt,
+div.nboutput div.prompt {
+    min-width: 8ex;
     padding-top: 0.4em;
     padding-right: 0.4em;
     text-align: right;
     flex: 0;
 }
+@media (max-width: 540px) {
+    div.nbinput div.prompt,
+    div.nboutput div.prompt {
+        text-align: left;
+        padding: 0.4em;
+    }
+    div.nboutput div.prompt.empty {
+        padding: 0;
+    }
+}
 
 /* input/output area */
-div.nbinput > :nth-child(2)[class^=highlight],
-div.nboutput > :nth-child(2),
-div.nboutput > :nth-child(2)[class^=highlight] {
+div.nbinput div.input_area,
+div.nboutput div.output_area {
     padding: 0.4em;
     -webkit-flex: 1;
     flex: 1;
     overflow: auto;
 }
+@media (max-width: 540px) {
+    div.nbinput div.input_area,
+    div.nboutput div.output_area {
+        width: 100%;
+    }
+}
 
 /* input area */
-div.nbinput > :nth-child(2)[class^=highlight] {
+div.nbinput div.input_area {
     border: 1px solid #cfcfcf;
     border-radius: 2px;
     background: #f7f7f7;
@@ -227,7 +250,7 @@ div.nboutput div.math p {
 }
 
 /* standard error */
-div.nboutput  > :nth-child(2).stderr {
+div.nboutput div.output_area.stderr {
     background: #fdd;
 }
 
@@ -299,12 +322,12 @@ div.nboutput  > :nth-child(2).stderr {
     margin-right: 4px;  /* make room for the exclamation icon */
 }
 </style>
-<div class="nbinput container">
-<div class="highlight-none"><div class="highlight"><pre>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
 <span></span>In [2]:
 </pre></div>
 </div>
-<div class="highlight-ipython3"><div class="highlight"><pre>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
 <span></span><span class="o">%</span><span class="k">autosave</span> 0
 <span class="o">%</span><span class="k">matplotlib</span> inline
 <span class="kn">import</span> <span class="nn">os</span><span class="o">,</span> <span class="nn">sys</span>
@@ -317,18 +340,20 @@ div.nboutput  > :nth-child(2).stderr {
 </pre></div>
 </div>
 </div>
-<div class="nboutput container">
-<div class="container">
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
 </div>
-<div class="container">
-<div class="admonition warning">
-Data type cannot be displayed: application/javascript</div>
+<div class="output_area docutils container">
+<div id="d2c4ba45-4cf7-484a-83b4-d4f7c3a62175"></div>
+<script type="text/javascript">
+var element = document.getElementById('d2c4ba45-4cf7-484a-83b4-d4f7c3a62175');
+IPython.notebook.set_autosave_interval(0)
+</script></div>
 </div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
 </div>
-<div class="nboutput container">
-<div class="container">
-</div>
-<div class="container">
+<div class="output_area docutils container">
 <div class="highlight"><pre>
 Autosave disabled
 Temporary files for test_cli()
@@ -387,27 +412,27 @@ Posterior mean       : 0.707533
 True True
 </pre></div></div>
 </div>
-<div class="nboutput container">
-<div class="container">
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
 </div>
-<div class="container">
+<div class="output_area docutils container">
 <img alt="../../../_images/notebook_tests_.ipynb_checkpoints_test_cli-checkpoint_0_2.png" src="../../../_images/notebook_tests_.ipynb_checkpoints_test_cli-checkpoint_0_2.png" />
 </div>
 </div>
-<div class="nboutput nblast container">
-<div class="container">
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
 </div>
-<div class="container">
+<div class="output_area docutils container">
 <div class="highlight"><pre>
 Posterior samples was saved as /tmp/tmptoxmvoxd.
 </pre></div></div>
 </div>
-<div class="nbinput nblast container">
-<div class="highlight-none"><div class="highlight"><pre>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="highlight-ipython3"><div class="highlight"><pre>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
 <span></span>
 </pre></div>
 </div>

@@ -124,7 +124,7 @@
       <li class="wy-breadcrumbs-aside">
         
           
-            <a href="../../../../_sources/notebook/expr/20160915/.ipynb_checkpoints/20160902-eval-bml-checkpoint.txt" rel="nofollow"> View page source</a>
+            <a href="../../../../_sources/notebook/expr/20160915/.ipynb_checkpoints/20160902-eval-bml-checkpoint.ipynb.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -140,13 +140,15 @@
 
 /* remove conflicting styling from Sphinx themes */
 div.nbinput,
-div.nbinput > div,
-div.nbinput div[class^=highlight],
-div.nbinput div[class^=highlight] pre,
+div.nbinput div.prompt,
+div.nbinput div.input_area,
+div.nbinput div[class*=highlight],
+div.nbinput div[class*=highlight] pre,
 div.nboutput,
-div.nboutput > div,
-div.nboutput div[class^=highlight],
-div.nboutput div[class^=highlight] pre {
+div.nbinput div.prompt,
+div.nbinput div.output_area,
+div.nboutput div[class*=highlight],
+div.nboutput div[class*=highlight] pre {
     background: none;
     border: none;
     padding: 0 0;
@@ -155,7 +157,7 @@ div.nboutput div[class^=highlight] pre {
 }
 
 /* avoid gaps between output lines */
-div.nboutput div[class^=highlight] pre {
+div.nboutput div[class*=highlight] pre {
     line-height: normal;
 }
 
@@ -166,6 +168,13 @@ div.nboutput {
     display: flex;
     align-items: flex-start;
     margin: 0;
+    width: 100%;
+}
+@media (max-width: 540px) {
+    div.nbinput,
+    div.nboutput {
+        flex-direction: column;
+    }
 }
 
 /* input container */
@@ -179,38 +188,52 @@ div.nblast {
 }
 
 /* input prompt */
-div.nbinput > :first-child pre {
+div.nbinput div.prompt pre {
     color: #303F9F;
 }
 
 /* output prompt */
-div.nboutput > :first-child pre {
+div.nboutput div.prompt pre {
     color: #D84315;
 }
 
 /* all prompts */
-div.nbinput > :first-child[class^=highlight],
-div.nboutput > :first-child[class^=highlight],
-div.nboutput > :first-child {
-    min-width: 9ex;
+div.nbinput div.prompt,
+div.nboutput div.prompt {
+    min-width: 8ex;
     padding-top: 0.4em;
     padding-right: 0.4em;
     text-align: right;
     flex: 0;
 }
+@media (max-width: 540px) {
+    div.nbinput div.prompt,
+    div.nboutput div.prompt {
+        text-align: left;
+        padding: 0.4em;
+    }
+    div.nboutput div.prompt.empty {
+        padding: 0;
+    }
+}
 
 /* input/output area */
-div.nbinput > :nth-child(2)[class^=highlight],
-div.nboutput > :nth-child(2),
-div.nboutput > :nth-child(2)[class^=highlight] {
+div.nbinput div.input_area,
+div.nboutput div.output_area {
     padding: 0.4em;
     -webkit-flex: 1;
     flex: 1;
     overflow: auto;
 }
+@media (max-width: 540px) {
+    div.nbinput div.input_area,
+    div.nboutput div.output_area {
+        width: 100%;
+    }
+}
 
 /* input area */
-div.nbinput > :nth-child(2)[class^=highlight] {
+div.nbinput div.input_area {
     border: 1px solid #cfcfcf;
     border-radius: 2px;
     background: #f7f7f7;
@@ -227,7 +250,7 @@ div.nboutput div.math p {
 }
 
 /* standard error */
-div.nboutput  > :nth-child(2).stderr {
+div.nboutput div.output_area.stderr {
     background: #fdd;
 }
 
@@ -304,12 +327,12 @@ div.nboutput  > :nth-child(2).stderr {
 <p>このノートブックでは, 回帰係数が一様分布U(-1.5,
 1.5)から生成される場合に,
 ベイズファクターによって因果の効果が小さい場合を判断できるかどうかを確認します.</p>
-<div class="nbinput container">
-<div class="highlight-none"><div class="highlight"><pre>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
 <span></span>In [1]:
 </pre></div>
 </div>
-<div class="highlight-ipython3"><div class="highlight"><pre>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
 <span></span><span class="o">%</span><span class="k">matplotlib</span> inline
 <span class="o">%</span><span class="k">autosave</span> 0
 <span class="kn">import</span> <span class="nn">sys</span><span class="o">,</span> <span class="nn">os</span>
@@ -328,18 +351,20 @@ div.nboutput  > :nth-child(2).stderr {
 </pre></div>
 </div>
 </div>
-<div class="nboutput container">
-<div class="container">
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
 </div>
-<div class="container">
-<div class="admonition warning">
-Data type cannot be displayed: application/javascript</div>
+<div class="output_area docutils container">
+<div id="754d29a0-8f82-4eed-a37f-5fcdbe60780a"></div>
+<script type="text/javascript">
+var element = document.getElementById('754d29a0-8f82-4eed-a37f-5fcdbe60780a');
+IPython.notebook.set_autosave_interval(0)
+</script></div>
 </div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
 </div>
-<div class="nboutput nblast container">
-<div class="container">
-</div>
-<div class="container">
+<div class="output_area docutils container">
 <div class="highlight"><pre>
 Autosave disabled
 </pre></div></div>
@@ -366,12 +391,12 @@ Autosave disabled
 </ul>
 </li>
 </ul>
-<div class="nbinput container">
-<div class="highlight-none"><div class="highlight"><pre>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
 <span></span>In [2]:
 </pre></div>
 </div>
-<div class="highlight-ipython3"><div class="highlight"><pre>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
 <span></span><span class="n">conds</span> <span class="o">=</span> <span class="p">[</span>
         <span class="p">{</span>
             <span class="s1">&#39;totalnoise&#39;</span><span class="p">:</span> <span class="n">totalnoise</span><span class="p">,</span>
@@ -395,10 +420,10 @@ Autosave disabled
 </pre></div>
 </div>
 </div>
-<div class="nboutput nblast container">
-<div class="container">
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
 </div>
-<div class="container">
+<div class="output_area docutils container">
 <div class="highlight"><pre>
 4 conditions
 </pre></div></div>
@@ -406,12 +431,12 @@ Autosave disabled
 <div class="section" id="人工データの生成">
 <h3>人工データの生成<a class="headerlink" href="#人工データの生成" title="Permalink to this headline">¶</a></h3>
 <p>実験条件に基づいて人工データを生成する関数を定義します.</p>
-<div class="nbinput nblast container">
-<div class="highlight-none"><div class="highlight"><pre>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
 <span></span>In [3]:
 </pre></div>
 </div>
-<div class="highlight-ipython3"><div class="highlight"><pre>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
 <span></span><span class="k">def</span> <span class="nf">gen_artificial_data_given_cond</span><span class="p">(</span><span class="n">ix_trial</span><span class="p">,</span> <span class="n">cond</span><span class="p">):</span>
     <span class="c1"># 実験条件に基づく人工データ生成パラメータの設定</span>
     <span class="n">n_confs</span> <span class="o">=</span> <span class="n">cond</span><span class="p">[</span><span class="s1">&#39;n_confs&#39;</span><span class="p">]</span>
@@ -453,12 +478,12 @@ Autosave disabled
 </div>
 </div>
 <p>実行例です.</p>
-<div class="nbinput container">
-<div class="highlight-none"><div class="highlight"><pre>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
 <span></span>In [4]:
 </pre></div>
 </div>
-<div class="highlight-ipython3"><div class="highlight"><pre>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
 <span></span><span class="n">data</span> <span class="o">=</span> <span class="n">gen_artificial_data_given_cond</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">conds</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
 <span class="n">xs</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;xs&#39;</span><span class="p">]</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
@@ -466,29 +491,29 @@ Autosave disabled
 </pre></div>
 </div>
 </div>
-<div class="nboutput container">
-<div class="highlight-none"><div class="highlight"><pre>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
 <span></span>Out[4]:
 </pre></div>
 </div>
-<div class="highlight-none"><div class="highlight"><pre>
+<div class="output_area highlight-none"><div class="highlight"><pre>
 <span></span>&lt;matplotlib.collections.PathCollection at 0x7f18299a3828&gt;
 </pre></div>
 </div>
 </div>
-<div class="nboutput nblast container">
-<div class="container">
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
 </div>
-<div class="container">
+<div class="output_area docutils container">
 <img alt="../../../../_images/notebook_expr_20160915_.ipynb_checkpoints_20160902-eval-bml-checkpoint_7_1.png" src="../../../../_images/notebook_expr_20160915_.ipynb_checkpoints_20160902-eval-bml-checkpoint_7_1.png" />
 </div>
 </div>
-<div class="nbinput container">
-<div class="highlight-none"><div class="highlight"><pre>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
 <span></span>In [5]:
 </pre></div>
 </div>
-<div class="highlight-ipython3"><div class="highlight"><pre>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
 <span></span><span class="n">data</span> <span class="o">=</span> <span class="n">gen_artificial_data_given_cond</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span>
     <span class="p">{</span>
         <span class="s1">&#39;totalnoise&#39;</span><span class="p">:</span> <span class="mi">3</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span>
@@ -504,20 +529,20 @@ Autosave disabled
 </pre></div>
 </div>
 </div>
-<div class="nboutput container">
-<div class="highlight-none"><div class="highlight"><pre>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
 <span></span>Out[5]:
 </pre></div>
 </div>
-<div class="highlight-none"><div class="highlight"><pre>
+<div class="output_area highlight-none"><div class="highlight"><pre>
 <span></span>&lt;matplotlib.collections.PathCollection at 0x7f18260d2160&gt;
 </pre></div>
 </div>
 </div>
-<div class="nboutput nblast container">
-<div class="container">
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
 </div>
-<div class="container">
+<div class="output_area docutils container">
 <img alt="../../../../_images/notebook_expr_20160915_.ipynb_checkpoints_20160902-eval-bml-checkpoint_8_1.png" src="../../../../_images/notebook_expr_20160915_.ipynb_checkpoints_20160902-eval-bml-checkpoint_8_1.png" />
 </div>
 </div>
@@ -527,12 +552,12 @@ Autosave disabled
 <p>トライアルとは,
 生成された1つの人工データに対する因果推論と精度評価の処理を指します.</p>
 <p>一つの実験条件に対し, トライアルを100回実行します.</p>
-<div class="nbinput nblast container">
-<div class="highlight-none"><div class="highlight"><pre>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
 <span></span>In [6]:
 </pre></div>
 </div>
-<div class="highlight-ipython3"><div class="highlight"><pre>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
 <span></span><span class="n">n_trials_per_cond</span> <span class="o">=</span> <span class="mi">100</span>
 </pre></div>
 </div>
@@ -540,12 +565,12 @@ Autosave disabled
 </div>
 <div class="section" id="実験条件パラメータの基準値">
 <h3>実験条件パラメータの基準値<a class="headerlink" href="#実験条件パラメータの基準値" title="Permalink to this headline">¶</a></h3>
-<div class="nbinput nblast container">
-<div class="highlight-none"><div class="highlight"><pre>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
 <span></span>In [7]:
 </pre></div>
 </div>
-<div class="highlight-ipython3"><div class="highlight"><pre>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
 <span></span><span class="c1"># 因果推論パラメータ</span>
 <span class="n">infer_params</span> <span class="o">=</span> <span class="n">InferParams</span><span class="p">(</span>
     <span class="n">seed</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
@@ -594,12 +619,12 @@ Autosave disabled
 <li>回帰係数分布 (<code class="docutils literal"><span class="pre">b21_dist</span></code>)</li>
 </ul>
 <p>トライアル識別子は推定結果をデータフレームに格納するときに使用されます.</p>
-<div class="nbinput container">
-<div class="highlight-none"><div class="highlight"><pre>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
 <span></span>In [8]:
 </pre></div>
 </div>
-<div class="highlight-ipython3"><div class="highlight"><pre>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
 <span></span><span class="k">def</span> <span class="nf">make_id</span><span class="p">(</span><span class="n">ix_trial</span><span class="p">,</span> <span class="n">n_samples</span><span class="p">,</span> <span class="n">n_confs</span><span class="p">,</span> <span class="n">data_noise_type</span><span class="p">,</span> <span class="n">model_noise_type</span><span class="p">,</span> <span class="n">L_cov_21s</span><span class="p">,</span> <span class="n">totalnoise</span><span class="p">,</span> <span class="n">b21_dist</span><span class="p">):</span>
     <span class="n">L_cov_21s_</span> <span class="o">=</span> <span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="nb">str</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">L_cov_21s</span><span class="p">])</span>
 
@@ -613,10 +638,10 @@ Autosave disabled
 </pre></div>
 </div>
 </div>
-<div class="nboutput nblast container">
-<div class="container">
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
 </div>
-<div class="container">
+<div class="output_area docutils container">
 <div class="highlight"><pre>
 d26da9a587adc5cfd064ab8cb23940d2
 d26da9a587adc5cfd064ab8cb23940d2
@@ -629,12 +654,12 @@ d26da9a587adc5cfd064ab8cb23940d2
 <li>トライアル結果をデータフレームに追加します.</li>
 <li>引数<code class="docutils literal"><span class="pre">df</span></code>が<code class="docutils literal"><span class="pre">None</span></code>の場合, 新たにデータフレームを作成します.</li>
 </ul>
-<div class="nbinput container">
-<div class="highlight-none"><div class="highlight"><pre>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
 <span></span>In [9]:
 </pre></div>
 </div>
-<div class="highlight-ipython3"><div class="highlight"><pre>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
 <span></span><span class="k">def</span> <span class="nf">add_result_to_df</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">result</span><span class="p">):</span>
     <span class="k">if</span> <span class="n">df</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="n">k</span><span class="p">:</span> <span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">result</span><span class="o">.</span><span class="n">items</span><span class="p">()})</span>
@@ -653,10 +678,10 @@ d26da9a587adc5cfd064ab8cb23940d2
 </pre></div>
 </div>
 </div>
-<div class="nboutput nblast container">
-<div class="container">
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
 </div>
-<div class="container">
+<div class="output_area docutils container">
 <div class="highlight"><pre>
 --- df1 ---
    col1  col2
@@ -673,12 +698,12 @@ d26da9a587adc5cfd064ab8cb23940d2
 <ul class="simple">
 <li>計算済みの結果に対して再計算しないために使用します.</li>
 </ul>
-<div class="nbinput nblast container">
-<div class="highlight-none"><div class="highlight"><pre>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
 <span></span>In [10]:
 </pre></div>
 </div>
-<div class="highlight-ipython3"><div class="highlight"><pre>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
 <span></span><span class="k">def</span> <span class="nf">df_exist_result_id</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">result_id</span><span class="p">):</span>
     <span class="k">if</span> <span class="n">df</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">result_id</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;result_id&#39;</span><span class="p">])</span>
@@ -694,12 +719,12 @@ d26da9a587adc5cfd064ab8cb23940d2
 <li>データフレームをセーブ・ロードする関数を定義します.</li>
 <li>ファイルが存在しなければ<code class="docutils literal"><span class="pre">None</span></code>を返します.</li>
 </ul>
-<div class="nbinput nblast container">
-<div class="highlight-none"><div class="highlight"><pre>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
 <span></span>In [11]:
 </pre></div>
 </div>
-<div class="highlight-ipython3"><div class="highlight"><pre>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
 <span></span><span class="k">def</span> <span class="nf">load_df</span><span class="p">(</span><span class="n">df_file</span><span class="p">):</span>
     <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">df_file</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">load_pklz</span><span class="p">(</span><span class="n">df_file</span><span class="p">)</span>
@@ -716,12 +741,12 @@ d26da9a587adc5cfd064ab8cb23940d2
 <h3>トライアル実行<a class="headerlink" href="#トライアル実行" title="Permalink to this headline">¶</a></h3>
 <p>トライアルインデックスと実験条件を引数としてトライアルを実行し,
 推定結果を返します.</p>
-<div class="nbinput nblast container">
-<div class="highlight-none"><div class="highlight"><pre>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
 <span></span>In [12]:
 </pre></div>
 </div>
-<div class="highlight-ipython3"><div class="highlight"><pre>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
 <span></span><span class="k">def</span> <span class="nf">_estimate_hparams</span><span class="p">(</span><span class="n">xs</span><span class="p">,</span> <span class="n">infer_params</span><span class="p">):</span>
     <span class="k">assert</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">infer_params</span><span class="p">)</span> <span class="o">==</span> <span class="n">InferParams</span><span class="p">)</span>
 
@@ -778,12 +803,12 @@ d26da9a587adc5cfd064ab8cb23940d2
 </div>
 <div class="section" id="メインプログラム">
 <h3>メインプログラム<a class="headerlink" href="#メインプログラム" title="Permalink to this headline">¶</a></h3>
-<div class="nbinput nblast container">
-<div class="highlight-none"><div class="highlight"><pre>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
 <span></span>In [13]:
 </pre></div>
 </div>
-<div class="highlight-ipython3"><div class="highlight"><pre>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
 <span></span><span class="k">def</span> <span class="nf">run_expr</span><span class="p">(</span><span class="n">conds</span><span class="p">):</span>
     <span class="c1"># データフレームファイル名</span>
     <span class="n">data_dir</span> <span class="o">=</span> <span class="s1">&#39;.&#39;</span>
@@ -824,20 +849,20 @@ d26da9a587adc5cfd064ab8cb23940d2
 </div>
 <div class="section" id="メインプログラムの実行">
 <h2>メインプログラムの実行<a class="headerlink" href="#メインプログラムの実行" title="Permalink to this headline">¶</a></h2>
-<div class="nbinput container">
-<div class="highlight-none"><div class="highlight"><pre>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
 <span></span>In [14]:
 </pre></div>
 </div>
-<div class="highlight-ipython3"><div class="highlight"><pre>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
 <span></span><span class="n">df</span> <span class="o">=</span> <span class="n">run_expr</span><span class="p">(</span><span class="n">conds</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
-<div class="nboutput nblast container">
-<div class="container">
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
 </div>
-<div class="container">
+<div class="output_area docutils container">
 <div class="highlight"><pre>
 {&#39;data_noise_type&#39;: &#39;laplace&#39;, &#39;L_cov_21s&#39;: [-0.9, -0.7, -0.5, -0.3, 0, 0.3, 0.5, 0.7, 0.9], &#39;totalnoise&#39;: 0.5, &#39;b21_dist&#39;: &#39;uniform(-1.5, 1.5)&#39;, &#39;model_noise_type&#39;: &#39;gg&#39;, &#39;n_confs&#39;: 10, &#39;n_samples&#39;: 100}
 {&#39;data_noise_type&#39;: &#39;uniform&#39;, &#39;L_cov_21s&#39;: [-0.9, -0.7, -0.5, -0.3, 0, 0.3, 0.5, 0.7, 0.9], &#39;totalnoise&#39;: 0.5, &#39;b21_dist&#39;: &#39;uniform(-1.5, 1.5)&#39;, &#39;model_noise_type&#39;: &#39;gg&#39;, &#39;n_confs&#39;: 10, &#39;n_samples&#39;: 100}
@@ -849,12 +874,12 @@ Number of skipped trials = 0
 </div>
 <div class="section" id="結果の確認">
 <h2>結果の確認<a class="headerlink" href="#結果の確認" title="Permalink to this headline">¶</a></h2>
-<div class="nbinput container">
-<div class="highlight-none"><div class="highlight"><pre>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
 <span></span>In [15]:
 </pre></div>
 </div>
-<div class="highlight-ipython3"><div class="highlight"><pre>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
 <span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 
 <span class="c1"># データフレームファイル名</span>
@@ -877,12 +902,12 @@ Number of skipped trials = 0
 </pre></div>
 </div>
 </div>
-<div class="nboutput nblast container">
-<div class="highlight-none"><div class="highlight"><pre>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
 <span></span>Out[15]:
 </pre></div>
 </div>
-<div class="container">
+<div class="output_area docutils container">
 <div>
 <table border="1" class="dataframe">
   <thead>
@@ -949,12 +974,12 @@ Number of skipped trials = 0
 回帰係数が大きい場合も小さい場合もあり,
 BFで因果効果の有無を判断するのは難しいと言えそうです.
 因果効果があるモデルと無いモデルとの比較も必要なのでしょう.</p>
-<div class="nbinput container">
-<div class="highlight-none"><div class="highlight"><pre>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
 <span></span>In [16]:
 </pre></div>
 </div>
-<div class="highlight-ipython3"><div class="highlight"><pre>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
 <span></span><span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">df</span><span class="p">[[</span><span class="s1">&#39;regcoef_true&#39;</span><span class="p">,</span> <span class="s1">&#39;log_bf&#39;</span><span class="p">,</span> <span class="s1">&#39;totalnoise&#39;</span><span class="p">,</span> <span class="s1">&#39;correct_rate&#39;</span><span class="p">]])</span>
 <span class="n">ixs1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">data</span><span class="p">[:,</span> <span class="mi">3</span><span class="p">]</span> <span class="o">==</span> <span class="mf">1.0</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
 <span class="n">ixs2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">data</span><span class="p">[:,</span> <span class="mi">3</span><span class="p">]</span> <span class="o">==</span> <span class="mf">0.0</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
@@ -966,20 +991,20 @@ BFで因果効果の有無を判断するのは難しいと言えそうです.
 </pre></div>
 </div>
 </div>
-<div class="nboutput container">
-<div class="highlight-none"><div class="highlight"><pre>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
 <span></span>Out[16]:
 </pre></div>
 </div>
-<div class="highlight-none"><div class="highlight"><pre>
+<div class="output_area highlight-none"><div class="highlight"><pre>
 <span></span>&lt;matplotlib.legend.Legend at 0x7f1737208b38&gt;
 </pre></div>
 </div>
 </div>
-<div class="nboutput nblast container">
-<div class="container">
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
 </div>
-<div class="container">
+<div class="output_area docutils container">
 <img alt="../../../../_images/notebook_expr_20160915_.ipynb_checkpoints_20160902-eval-bml-checkpoint_31_1.png" src="../../../../_images/notebook_expr_20160915_.ipynb_checkpoints_20160902-eval-bml-checkpoint_31_1.png" />
 </div>
 </div>
@@ -991,12 +1016,12 @@ BFで因果効果の有無を判断するのは難しいと言えそうです.
 真値が小さい場合は因果方向予測の正解（赤）と不正解（青）に関わらず事後分布平均が小さくなっています.
 一方, 正解の場合には回帰係数が小さく,
 不正解の場合には回帰係数が小さく推定される傾向があるようです.</p>
-<div class="nbinput container">
-<div class="highlight-none"><div class="highlight"><pre>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
 <span></span>In [17]:
 </pre></div>
 </div>
-<div class="highlight-ipython3"><div class="highlight"><pre>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
 <span></span><span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">df</span><span class="p">[[</span><span class="s1">&#39;regcoef_true&#39;</span><span class="p">,</span> <span class="s1">&#39;regcoef_est&#39;</span><span class="p">,</span> <span class="s1">&#39;correct_rate&#39;</span><span class="p">]])</span>
 <span class="n">ixs1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">data</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
 <span class="n">ixs2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">data</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
@@ -1014,31 +1039,31 @@ BFで因果効果の有無を判断するのは難しいと言えそうです.
 </pre></div>
 </div>
 </div>
-<div class="nboutput container">
-<div class="highlight-none"><div class="highlight"><pre>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
 <span></span>Out[17]:
 </pre></div>
 </div>
-<div class="highlight-none"><div class="highlight"><pre>
+<div class="output_area highlight-none"><div class="highlight"><pre>
 <span></span>&lt;matplotlib.text.Text at 0x7f1737616470&gt;
 </pre></div>
 </div>
 </div>
-<div class="nboutput nblast container">
-<div class="container">
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
 </div>
-<div class="container">
+<div class="output_area docutils container">
 <img alt="../../../../_images/notebook_expr_20160915_.ipynb_checkpoints_20160902-eval-bml-checkpoint_33_1.png" src="../../../../_images/notebook_expr_20160915_.ipynb_checkpoints_20160902-eval-bml-checkpoint_33_1.png" />
 </div>
 </div>
 <div class="section" id="EPSで出力">
 <h3>EPSで出力<a class="headerlink" href="#EPSで出力" title="Permalink to this headline">¶</a></h3>
-<div class="nbinput container">
-<div class="highlight-none"><div class="highlight"><pre>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
 <span></span>In [18]:
 </pre></div>
 </div>
-<div class="highlight-ipython3"><div class="highlight"><pre>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
 <span></span><span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">df</span><span class="p">[[</span><span class="s1">&#39;regcoef_true&#39;</span><span class="p">,</span> <span class="s1">&#39;regcoef_est&#39;</span><span class="p">,</span> <span class="s1">&#39;correct_rate&#39;</span><span class="p">]])</span>
 <span class="n">ixs1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">data</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
 <span class="n">ixs2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">data</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
@@ -1057,19 +1082,19 @@ BFで因果効果の有無を判断するのは難しいと言えそうです.
 </pre></div>
 </div>
 </div>
-<div class="nboutput nblast container">
-<div class="container">
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
 </div>
-<div class="container">
+<div class="output_area docutils container">
 <img alt="../../../../_images/notebook_expr_20160915_.ipynb_checkpoints_20160902-eval-bml-checkpoint_35_0.png" src="../../../../_images/notebook_expr_20160915_.ipynb_checkpoints_20160902-eval-bml-checkpoint_35_0.png" />
 </div>
 </div>
-<div class="nbinput container">
-<div class="highlight-none"><div class="highlight"><pre>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
 <span></span>In [19]:
 </pre></div>
 </div>
-<div class="highlight-ipython3"><div class="highlight"><pre>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
 <span></span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">ixs2</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">data</span><span class="p">[</span><span class="n">ixs2</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Incorrect&#39;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="o">-</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="p">[</span><span class="o">-</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span>
@@ -1083,10 +1108,10 @@ BFで因果効果の有無を判断するのは難しいと言えそうです.
 </pre></div>
 </div>
 </div>
-<div class="nboutput nblast container">
-<div class="container">
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
 </div>
-<div class="container">
+<div class="output_area docutils container">
 <img alt="../../../../_images/notebook_expr_20160915_.ipynb_checkpoints_20160902-eval-bml-checkpoint_36_0.png" src="../../../../_images/notebook_expr_20160915_.ipynb_checkpoints_20160902-eval-bml-checkpoint_36_0.png" />
 </div>
 </div>
