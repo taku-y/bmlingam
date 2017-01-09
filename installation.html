@@ -172,7 +172,7 @@
 </style>
 <div class="section" id="installation">
 <h1>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h1>
-<p>BMLiNGAM is written in Python 2.7. If you are not familiar with Python, we recommend to use <a class="reference external" href="https://store.continuum.io/cshop/anaconda/">Anaconda</a>, a distribution of Python environment with various packages provided by <a class="reference external" href="http://continuum.io">Continuum Analytics</a>, for making installation of Python easier.</p>
+<p>BMLiNGAM runs on Python 2.7 or 3.5. If you are not familiar with Python, we recommend to use <a class="reference external" href="https://store.continuum.io/cshop/anaconda/">Anaconda</a>, a distribution of Python environment with various packages provided by <a class="reference external" href="http://continuum.io">Continuum Analytics</a>, for making installation of Python easier.</p>
 <p>BMLiNGAM will be installed in the Python directory. So ensure that the following environmental variables are appropriately set:</p>
 <div class="highlight-console"><div class="highlight"><pre><span></span><span class="go">export ANACONDA_DIR=$HOME/anaconda # where anaconda is installed</span>
 <span class="go">export PATH=$ANACONDA_DIR:$PATH</span>
@@ -180,23 +180,15 @@
 <span class="go">export PYTHONPATH=$ANACONDA_DIR:$PATH</span>
 </pre></div>
 </div>
-<p><a class="reference external" href="https://git-scm.com">git</a> is also required to install <a class="reference external" href="https://pymc-devs.github.io/pymc3/">PyMC3</a>, a Python package used by BMLiNGAM.</p>
 <p>To install BMLiNGAM, download the following wheel archive in any directory:</p>
 <ul class="simple">
 <li><a class="reference download internal" href="_downloads/BMLiNGAM-0.1.5-py2.py3-none-any.whl" download=""><code class="xref download docutils literal"><span class="pre">BMLiNGAM-0.1.5-py2.py3-none-any.whl</span></code></a></li>
 </ul>
 <p>Then, use pip (installed associated with Anaconda):</p>
-<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> pip install BMLiNGAM-0.1-py2-none-any.whl
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> pip install BMLiNGAM-0.1.5-py2.py3-none-any.whl
 </pre></div>
 </div>
-<p>The following packages, required by BMLiNGAM, will also be automatically installed from <a class="reference external" href="https://pypi.python.org/pypi">PyPi</a> public package index:</p>
-<ul class="simple">
-<li>numpy&gt;=1.6.2</li>
-<li>scipy&gt;=0.11</li>
-<li>matplotlib</li>
-<li>pandas</li>
-</ul>
-<p>BMLiNGAM also requires <a class="reference external" href="https://pymc-devs.github.io/pymc3/">PyMC3</a>. Since it is not registered on PyPi, you need to install manually by following the instruction in the website.</p>
+<p>The required modules for BMLiNGAM are automatically downloaded and imported.</p>
 <p>To uninstall BMLiNGAM:</p>
 <div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> pip uninstall bmlingam
 </pre></div>
