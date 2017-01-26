@@ -6,11 +6,13 @@
 # License: MIT
 
 import argparse
+from nose.tools import nottest
 import numpy as np
 
 from bmlingam.utils import eval_, wrap_list
 from bmlingam.utils.gendata import gen_artificial_data, GenDataParams
 
+@nottest
 def parse_args_bmlingam_make_testdata(args=None):
     parser = argparse.ArgumentParser()
 
@@ -146,6 +148,7 @@ def parse_args_bmlingam_make_testdata(args=None):
         )
     }
 
+@nottest
 def make_testdata(csv_file, gen_data_params):
     """Create CSV file including artificial data. 
     """

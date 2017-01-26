@@ -23,7 +23,8 @@ def _run_bmlingam_causality(data_file, model_file):
     params = parse_args_bmlingam_causality(
         [data_file, '--result_dir', '', '--out_optmodelfile', 
          '--optmodel_files', ["{}".format(model_file)], 
-         '--n_mc_samples', '100']
+         '--n_mc_samples', '100',
+         '--sampling_mode', 'cache_mp4']
     )
     bmlingam_causality(**params)
 

@@ -34,7 +34,8 @@ def test_infer_causality():
 
         # Parse args
         params_ = parse_args_bmlingam_causality(
-            [csv_file, '--result_dir', '', '--no_out_optmodelfile']
+            [csv_file, '--result_dir', '', '--no_out_optmodelfile', 
+             '--sampling_mode', 'cache_mp4']
         )
 
         # Load data

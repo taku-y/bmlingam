@@ -409,7 +409,7 @@ def get_pm3_model_bmlingam(xs, hparams, verbose, force_mu_indvdl_zero=False):
         [(std_x[0] * max_c)**2, (std_x[1] * max_c)**2]).astype(floatX)
 
     # ---- "Model" block ----
-    with Model(verbose=verbose) as model_bmlingam:
+    with Model() as model_bmlingam:
         # Individual specific effects (mu1s_, mu2s_)
         prior_indvdl = hparams['prior_indvdl']
         L_cov = _get_L_cov(hparams['L_cov_21'], floatX, Uniform, tt)

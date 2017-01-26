@@ -23,5 +23,6 @@ cd ..
 
 # 3/3 Run test
 pip install --user nose
-~/.local/bin/nosetests bmlingam.tests.test_utils
-~/.local/bin/nosetests bmlingam.tests.test_infer_causality
+~/.local/bin/nosetests -v bmlingam.tests.test_utils
+~/.local/bin/nosetests -v bmlingam.tests.test_infer_causality
+~/.local/bin/nosetests -v bmlingam.tests.test_cli
