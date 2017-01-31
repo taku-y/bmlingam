@@ -121,9 +121,9 @@ def parse_args_bmlingam_make_testdata(args=None):
                                 """ % str(default.e2_dist))
 
     parser.add_argument('--random_seed', 
-                        default=None, type=int, 
+                        default=1, type=int, 
                         help="""Seed of the random number generator. 
-                                Default is None. """)
+                                Default is 1. """)
 
     args_ = parser.parse_args(args)
 
