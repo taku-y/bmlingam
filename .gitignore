@@ -16,6 +16,9 @@ doc/_static/*
 build
 dist
 BMLiNGAM.egg-info
+log.txt
+sampledata.csv
 
 __pycache__
+tmp/*
 

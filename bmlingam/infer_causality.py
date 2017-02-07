@@ -12,6 +12,53 @@ from bmlingam import define_hparam_searchspace, InferParams, \
 
 def infer_causality(xs, infer_params, varnames=None, verbose=1):
     """Infer causality based on samples given pair of columns in data.
+
+    :param xs: Sample vectors.
+    :type xs: numpy.ndarray, shape=(n_samples, 2)
+    :param infer_params: Inference parameters.
+    :type infer_params: bmlingam.InferParams
+    :param varnames: List of variable names.
+    :type varnames: list of str, len(varnames)=2
+    :param int verbose: Verbose level.
+
+    The return value is a dicrionary containing the following values:
+
+    .. code:: python
+
+        {
+            # Variable names given as input arguments
+            # str
+            'x1_name': x1_name, 
+            'x2_name': x2_name,
+
+            # Sample vectors 
+            # numpy.ndarray, shape=(n_samples, 2)
+            'xs': xs,
+
+            # Inferred causality
+            # [1, 2] (list of int): (var1 -> var2)
+            # [2, 1] (list of int): (var2 -> var1)
+            'causality': causality, 
+
+            # Inferred causality as a string
+            # str
+            'causality_str': ('%s -> %s' % (src, dst)),
+
+            # Posterior probability of the selected model
+            # float
+            'post_prob': post_prob,
+
+            # Hyperparameters of the selected model
+            'hparams': hparams_best,
+
+            # Posterior probability of the reverse optimal model
+            # float
+            'post_prob_rev': post_prob_rev,
+
+            # Hyperparameters of the reverse optimal model
+            'hparams_rev': hparams_rev
+        }
+
     """
     assert(type(infer_params) == InferParams)
 

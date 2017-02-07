@@ -2,7 +2,7 @@ API
 -------------------------------------------------------------------------------
 
 .. contents::
-    :depth: 2
+    :depth: 3
 
 
 Causal inference
@@ -16,9 +16,9 @@ bmlingam.define_hparam_searchspace
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 .. autofunction:: bmlingam.define_hparam_searchspace
 
-bmlingam.find_best_model
+bmlingam.infer_causality
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-.. autofunction:: bmlingam.find_best_model
+.. autofunction:: bmlingam.infer_causality
 
 
 Estimation of regression coefficient
