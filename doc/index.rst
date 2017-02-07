@@ -20,4 +20,5 @@ This document describes installation, usage of this sofrware, and the interpreta
     model
     license
     api
+    experiment
     citation
