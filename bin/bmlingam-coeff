@@ -8,13 +8,13 @@
 
 import time
 
-from bmlingam.commands.bmlingam_coeff import estimate_coeff_posterior, \
+from bmlingam.commands.bmlingam_coeff import bmlingam_coeff, \
                                              parse_args_bmlingam_coeff
 
 params = parse_args_bmlingam_coeff()
 
 t_start = time.time()
-estimate_coeff_posterior(**params)
+bmlingam_coeff(**params)
 
 print('Program finished at %s' % time.strftime("%c"))
 print('Elapsed time: %.1f [sec]' % (time.time() - t_start))
