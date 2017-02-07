@@ -8,3 +8,7 @@ popd
 pushd ./docker/build_doc
 docker build -t bml_build_doc .
 popd
+
+pushd ./docker/run_tutorial
+docker build -t bml_run_tutorial .
+popd
