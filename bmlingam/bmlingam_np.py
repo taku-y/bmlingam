@@ -304,8 +304,8 @@ def _comp_exp_nakami_xis_givenMgammatheta(
         logp = lambda e: ll_gg(e, hparams['beta_noise'])
     else:
         raise ValueError(
-            "Invalid value of hparams['beta_noise']: %s" % 
-            hparams['beta_noise'])
+            "Invalid value of hparams['dist_noise']: %s" % 
+            hparams['dist_noise'])
 
     if hparams['subtract_mu_reg']:
         if M_id == 1:
